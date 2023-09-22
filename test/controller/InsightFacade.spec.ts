@@ -25,7 +25,7 @@ describe("InsightFacade", function () {
 	before(function () {
 		// This block runs once and loads the datasets.
 		sections = getContentFromArchives("pair.zip");
-		sections2 = getContentFromArchives("small.zip");
+		// sections2 = getContentFromArchives("small.zip");
 
 		// Just in case there is anything hanging around from a previous run of the test suite
 		clearDisk();
@@ -118,74 +118,74 @@ describe("InsightFacade", function () {
 			});
 
 		it("should reject if the dataset is not base64 encoded", function (){
-			sections = getContentFromArchivesBinary("small.zip"); // change sections to binary based content
-			const result = facade.addDataset("1", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchivesBinary("small.zip"); // change sections to binary based content
+			const result = facade.addDataset("1", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it("should reject if the dataset is invalid content (simple string)", function (){
-			sections = "invalid content";
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = "invalid content";
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should reject if the dataset is not a zip file", function() {
-			sections = getContentFromArchives("TestUtil.ts");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("TestUtil.ts");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it("should reject if the dataset is invalid file type (txt)", function (){
-			sections = getContentFromArchives("invalidFile.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("invalidFile.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should reject with a zip file thats the course directly, there is no course folder", function() {
-			sections = getContentFromArchives("AANB500.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("AANB500.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should reject if dataset is not a JSON formatted file", function() {
-			sections = getContentFromArchives("notJSONformat.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("notJSONformat.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it("should reject if the dataset has no valid section(empty result)", function (){
-			sections = getContentFromArchives("emptyResult.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("emptyResult.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should reject with a course folder that has no valid sections from pair file", function() {
-			sections = getContentFromArchives("emptyCourseFromPair.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("emptyCourseFromPair.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should succesfully add dataset with one section having an empty string field", function() {
-			sections = getContentFromArchives("hasvalidemptystringsection.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("hasvalidemptystringsection.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.have.members(["ubc"]);
 		});
 
 		it ("should reject with a content that is missing a sfield, the id field", function() {
-			sections = getContentFromArchives("missingSfieldID.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("missingSfieldID.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it ("should reject with a content that is missing a mfield, the avg field", function() {
-			sections = getContentFromArchives("missingMfieldAvg.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("missingMfieldAvg.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it("should reject if the dataset is NOT located within a folder called courses", function (){
-			sections = getContentFromArchives("notCourses.zip");
-			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			sections2 = getContentFromArchives("notCourses.zip");
+			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
@@ -282,12 +282,12 @@ describe("InsightFacade", function () {
 
 		it("should correctly list the full datasets when more than one datasets are added",
 			async function () {
-				let sections1: string;
+				// let sections1: string;
 				// let sections2: string;
-				sections1 = getContentFromArchives("pair.zip");
+				sections2 = getContentFromArchives("pair.zip");
 				// sections2 = getContentFromArchives("pair.zip");
 				await facade.addDataset("ubc1", sections, InsightDatasetKind.Sections);
-				await facade.addDataset("ubc2", sections1, InsightDatasetKind.Sections);
+				await facade.addDataset("ubc2", sections2, InsightDatasetKind.Sections);
 
 				const result = facade.listDatasets();
 				return expect(result).to.eventually.be.deep.equal([
