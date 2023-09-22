@@ -1,0 +1,227 @@
+{
+	"title": "useIS",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "jackes, robert"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_instructor"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		}
+	]
+}

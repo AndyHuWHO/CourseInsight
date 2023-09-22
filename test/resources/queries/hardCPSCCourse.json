@@ -1,0 +1,790 @@
+{
+	"title": "hardCPSCCourse",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"IS": {
+						"sections_dept": "cpsc"
+					}
+				},
+				{
+					"LT": {
+						"sections_avg": 70
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"sections_instructor",
+				"sections_pass",
+				"sections_fail",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "513",
+			"sections_year": 2009,
+			"sections_instructor": "mitchell, ian",
+			"sections_pass": 3,
+			"sections_fail": 1,
+			"sections_avg": 64
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "513",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 3,
+			"sections_fail": 1,
+			"sections_avg": 64
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 2012,
+			"sections_instructor": "munzner, tamara",
+			"sections_pass": 57,
+			"sections_fail": 14,
+			"sections_avg": 64.62
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2013,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 62,
+			"sections_fail": 9,
+			"sections_avg": 65.1
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2010,
+			"sections_instructor": "hu, alan",
+			"sections_pass": 29,
+			"sections_fail": 5,
+			"sections_avg": 65.26
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "422",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 26,
+			"sections_fail": 4,
+			"sections_avg": 66.13
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "422",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 26,
+			"sections_fail": 4,
+			"sections_avg": 66.13
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2007,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 79,
+			"sections_fail": 11,
+			"sections_avg": 66.34
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 163,
+			"sections_fail": 22,
+			"sections_avg": 66.76
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 2010,
+			"sections_instructor": "munzner, tamara",
+			"sections_pass": 63,
+			"sections_fail": 11,
+			"sections_avg": 66.95
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "121",
+			"sections_year": 2007,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 56,
+			"sections_fail": 11,
+			"sections_avg": 67.13
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2007,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 84,
+			"sections_fail": 11,
+			"sections_avg": 67.16
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "322",
+			"sections_year": 2011,
+			"sections_instructor": "conati, cristina",
+			"sections_pass": 60,
+			"sections_fail": 6,
+			"sections_avg": 67.48
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2007,
+			"sections_instructor": "sheffer, alla",
+			"sections_pass": 25,
+			"sections_fail": 4,
+			"sections_avg": 67.62
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2009,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 67,
+			"sections_fail": 9,
+			"sections_avg": 67.76
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2012,
+			"sections_instructor": "little, james joseph",
+			"sections_pass": 99,
+			"sections_fail": 21,
+			"sections_avg": 67.79
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2011,
+			"sections_instructor": "little, james joseph",
+			"sections_pass": 87,
+			"sections_fail": 17,
+			"sections_avg": 67.82
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "314",
+			"sections_year": 2010,
+			"sections_instructor": "van de panne, michiel",
+			"sections_pass": 17,
+			"sections_fail": 3,
+			"sections_avg": 67.85
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 104,
+			"sections_fail": 14,
+			"sections_avg": 67.86
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 2012,
+			"sections_instructor": "hutchinson, norman",
+			"sections_pass": 105,
+			"sections_fail": 17,
+			"sections_avg": 67.91
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 105,
+			"sections_fail": 17,
+			"sections_avg": 67.91
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 151,
+			"sections_fail": 18,
+			"sections_avg": 67.97
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2011,
+			"sections_instructor": "meyer, irmtraud margret",
+			"sections_pass": 82,
+			"sections_fail": 8,
+			"sections_avg": 68.07
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "210",
+			"sections_year": 2012,
+			"sections_instructor": "allen, meghan",
+			"sections_pass": 68,
+			"sections_fail": 10,
+			"sections_avg": 68.13
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 2014,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 112,
+			"sections_fail": 13,
+			"sections_avg": 68.22
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 112,
+			"sections_fail": 13,
+			"sections_avg": 68.22
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2015,
+			"sections_instructor": "manuch, jan",
+			"sections_pass": 85,
+			"sections_fail": 15,
+			"sections_avg": 68.33
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "303",
+			"sections_year": 2007,
+			"sections_instructor": "mitchell, ian",
+			"sections_pass": 14,
+			"sections_fail": 3,
+			"sections_avg": 68.35
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "303",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 14,
+			"sections_fail": 3,
+			"sections_avg": 68.35
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "340",
+			"sections_year": 2010,
+			"sections_instructor": "doucet, arnaud",
+			"sections_pass": 44,
+			"sections_fail": 4,
+			"sections_avg": 68.4
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "340",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 44,
+			"sections_fail": 4,
+			"sections_avg": 68.4
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 198,
+			"sections_fail": 21,
+			"sections_avg": 68.45
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "317",
+			"sections_year": 2011,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 44,
+			"sections_fail": 2,
+			"sections_avg": 68.54
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2013,
+			"sections_instructor": "hu, alan",
+			"sections_pass": 104,
+			"sections_fail": 11,
+			"sections_avg": 68.56
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "210",
+			"sections_year": 2010,
+			"sections_instructor": "carter, paul martin",
+			"sections_pass": 52,
+			"sections_fail": 15,
+			"sections_avg": 68.57
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "302",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 45,
+			"sections_fail": 5,
+			"sections_avg": 68.64
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "302",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 45,
+			"sections_fail": 5,
+			"sections_avg": 68.64
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "121",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 60,
+			"sections_fail": 11,
+			"sections_avg": 68.68
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "121",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 87,
+			"sections_fail": 10,
+			"sections_avg": 68.7
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "404",
+			"sections_year": 2007,
+			"sections_instructor": "lakshmanan, laks",
+			"sections_pass": 50,
+			"sections_fail": 4,
+			"sections_avg": 68.76
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 2010,
+			"sections_instructor": "darwish, mohammad mostafa",
+			"sections_pass": 88,
+			"sections_fail": 7,
+			"sections_avg": 68.77
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 59,
+			"sections_fail": 3,
+			"sections_avg": 68.77
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 156,
+			"sections_fail": 14,
+			"sections_avg": 68.77
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 2009,
+			"sections_instructor": "kirkpatrick, david",
+			"sections_pass": 44,
+			"sections_fail": 4,
+			"sections_avg": 68.77
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 44,
+			"sections_fail": 4,
+			"sections_avg": 68.77
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 2010,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 24,
+			"sections_fail": 4,
+			"sections_avg": 68.79
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 24,
+			"sections_fail": 4,
+			"sections_avg": 68.79
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 27,
+			"sections_fail": 4,
+			"sections_avg": 68.81
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 27,
+			"sections_fail": 4,
+			"sections_avg": 68.81
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "422",
+			"sections_year": 2009,
+			"sections_instructor": "conati, cristina",
+			"sections_pass": 23,
+			"sections_fail": 2,
+			"sections_avg": 68.84
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "422",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 23,
+			"sections_fail": 2,
+			"sections_avg": 68.84
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2014,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 72,
+			"sections_fail": 12,
+			"sections_avg": 68.89
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2014,
+			"sections_instructor": "",
+			"sections_pass": 47,
+			"sections_fail": 13,
+			"sections_avg": 68.9
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2010,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 78,
+			"sections_fail": 9,
+			"sections_avg": 68.94
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "322",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 47,
+			"sections_fail": 6,
+			"sections_avg": 69
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 2013,
+			"sections_instructor": "hutchinson, norman",
+			"sections_pass": 104,
+			"sections_fail": 9,
+			"sections_avg": 69.1
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "261",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 104,
+			"sections_fail": 9,
+			"sections_avg": 69.1
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 94,
+			"sections_fail": 7,
+			"sections_avg": 69.14
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2015,
+			"sections_instructor": "allen, meghan",
+			"sections_pass": 23,
+			"sections_fail": 6,
+			"sections_avg": 69.24
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "317",
+			"sections_year": 2007,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 40,
+			"sections_fail": 5,
+			"sections_avg": 69.24
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 2009,
+			"sections_instructor": "goldberg, murray",
+			"sections_pass": 62,
+			"sections_fail": 3,
+			"sections_avg": 69.25
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 2013,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 48,
+			"sections_fail": 5,
+			"sections_avg": 69.25
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "415",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 48,
+			"sections_fail": 5,
+			"sections_avg": 69.25
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "317",
+			"sections_year": 2013,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 91,
+			"sections_fail": 11,
+			"sections_avg": 69.26
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 2013,
+			"sections_instructor": "kirkpatrick, david",
+			"sections_pass": 51,
+			"sections_fail": 6,
+			"sections_avg": 69.35
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 51,
+			"sections_fail": 6,
+			"sections_avg": 69.35
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2013,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 133,
+			"sections_fail": 14,
+			"sections_avg": 69.4
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2012,
+			"sections_instructor": "hu, alan",
+			"sections_pass": 89,
+			"sections_fail": 8,
+			"sections_avg": 69.42
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "421",
+			"sections_year": 2008,
+			"sections_instructor": "",
+			"sections_pass": 16,
+			"sections_fail": 3,
+			"sections_avg": 69.47
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "421",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 16,
+			"sections_fail": 3,
+			"sections_avg": 69.47
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 2007,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 81,
+			"sections_fail": 8,
+			"sections_avg": 69.53
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "404",
+			"sections_year": 2011,
+			"sections_instructor": "knorr, edwin max",
+			"sections_pass": 42,
+			"sections_fail": 3,
+			"sections_avg": 69.58
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 2010,
+			"sections_instructor": "kirkpatrick, david",
+			"sections_pass": 33,
+			"sections_fail": 5,
+			"sections_avg": 69.58
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "420",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 33,
+			"sections_fail": 5,
+			"sections_avg": 69.58
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2009,
+			"sections_instructor": "evans, william",
+			"sections_pass": 89,
+			"sections_fail": 5,
+			"sections_avg": 69.59
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "210",
+			"sections_year": 2011,
+			"sections_instructor": "murphy, gail",
+			"sections_pass": 90,
+			"sections_fail": 9,
+			"sections_avg": 69.6
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "404",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 98,
+			"sections_fail": 8,
+			"sections_avg": 69.63
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "317",
+			"sections_year": 2012,
+			"sections_instructor": "acton, donald",
+			"sections_pass": 76,
+			"sections_fail": 3,
+			"sections_avg": 69.65
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2013,
+			"sections_instructor": "carter, paul martin",
+			"sections_pass": 138,
+			"sections_fail": 28,
+			"sections_avg": 69.7
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "121",
+			"sections_year": 2009,
+			"sections_instructor": "allen, meghan",
+			"sections_pass": 30,
+			"sections_fail": 7,
+			"sections_avg": 69.73
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "121",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 30,
+			"sections_fail": 7,
+			"sections_avg": 69.73
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "322",
+			"sections_year": 2007,
+			"sections_instructor": "carenini, giuseppe",
+			"sections_pass": 40,
+			"sections_fail": 4,
+			"sections_avg": 69.91
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2012,
+			"sections_instructor": "belleville, patrice",
+			"sections_pass": 155,
+			"sections_fail": 10,
+			"sections_avg": 69.95
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "213",
+			"sections_year": 1900,
+			"sections_instructor": "",
+			"sections_pass": 169,
+			"sections_fail": 15,
+			"sections_avg": 69.99
+		}
+	]
+}
