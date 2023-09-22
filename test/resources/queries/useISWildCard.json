@@ -1,0 +1,291 @@
+{
+	"title": "useISWildCard",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "*reid*"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_instructor"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "hers, ian;patrick, guy;zapf-gilje, reider"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "holmes, reid"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "holmes, reid"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "holmes, reid"
+		},
+		{
+			"sections_dept": "educ",
+			"sections_instructor": "reid, carrie"
+		},
+		{
+			"sections_dept": "educ",
+			"sections_instructor": "reid, carrie"
+		},
+		{
+			"sections_dept": "educ",
+			"sections_instructor": "reid, carrie"
+		},
+		{
+			"sections_dept": "educ",
+			"sections_instructor": "reid, carrie"
+		},
+		{
+			"sections_dept": "epse",
+			"sections_instructor": "reid, gavin"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "grek",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "hunu",
+			"sections_instructor": "reid, darlene"
+		},
+		{
+			"sections_dept": "latn",
+			"sections_instructor": "reid, shelley"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "nislow, corey;reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "bandiera, stelvio;grierson, david;reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "bandiera, stelvio;grierson, david;reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "reid, ronald"
+		},
+		{
+			"sections_dept": "phar",
+			"sections_instructor": "bandiera, stelvio;grierson, david;reid, ronald"
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_instructor": "reid, darlene"
+		},
+		{
+			"sections_dept": "rhsc",
+			"sections_instructor": "reid, darlene"
+		}
+	]
+}

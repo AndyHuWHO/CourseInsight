@@ -1,0 +1,2235 @@
+{
+	"title": "useISWildCard2",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_instructor": "*robert"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_instructor"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "adhe",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "adhe",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "anth",
+			"sections_instructor": "small, robert"
+		},
+		{
+			"sections_dept": "anth",
+			"sections_instructor": "small, robert"
+		},
+		{
+			"sections_dept": "anth",
+			"sections_instructor": "small, robert"
+		},
+		{
+			"sections_dept": "anth",
+			"sections_instructor": "small, robert"
+		},
+		{
+			"sections_dept": "anth",
+			"sections_instructor": "small, robert"
+		},
+		{
+			"sections_dept": "appp",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "astr",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "astr",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "astr",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "nice, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "baac",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "bahr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;lee, justin barry;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;lee, justin barry;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;lee, justin barry;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "krisinger, michael;lee, justin barry;maurus, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "cullis, pieter;molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "cullis, pieter;duong van hoa, franck;molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "cullis, pieter;molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "cullis, pieter;molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "molday, robert"
+		},
+		{
+			"sections_dept": "bioc",
+			"sections_instructor": "eltis, lindsay;molday, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "berbee, mary;couch, brett;de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "berbee, mary;couch, brett;de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "berbee, mary;couch, brett;de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "goodey, wayne;turkington, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "goodey, wayne;turkington, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "goodey, wayne;turkington, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "goodey, wayne;turkington, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "de wreede, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "biol",
+			"sections_instructor": "harris, robert"
+		},
+		{
+			"sections_dept": "busi",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "cell",
+			"sections_instructor": "loewen, christopher;nabi, ivan robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "martin, violeta;millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "civl",
+			"sections_instructor": "millar, robert"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "bunn, robert"
+		},
+		{
+			"sections_dept": "clst",
+			"sections_instructor": "bunn, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cnrs",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "cogs",
+			"sections_instructor": "fais, laurel;mole, christopher;woodham, robert"
+		},
+		{
+			"sections_dept": "cogs",
+			"sections_instructor": "ward, lawrence;woodham, robert"
+		},
+		{
+			"sections_dept": "cogs",
+			"sections_instructor": "danielson, peter;woodham, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "kelleher, angela;prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "cohr",
+			"sections_instructor": "prowse, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "crawford, david robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "goatham, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "comm",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "bridson, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "bridson, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_instructor": "woodham, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "econ",
+			"sections_instructor": "gateman, robert"
+		},
+		{
+			"sections_dept": "edst",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "edst",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "edst",
+			"sections_instructor": "vanwynsberghe, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "schober, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "schober, robert"
+		},
+		{
+			"sections_dept": "eece",
+			"sections_instructor": "schober, robert"
+		},
+		{
+			"sections_dept": "elec",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "elec",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "engl",
+			"sections_instructor": "partridge, stephen;rouse, robert"
+		},
+		{
+			"sections_dept": "epse",
+			"sections_instructor": "klassen, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "fren",
+			"sections_instructor": "miller, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "aitken, sally;guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "aitken, sally;guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "frst",
+			"sections_instructor": "guy, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "geog",
+			"sections_instructor": "galois, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "green, colin robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "green, colin robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "green, colin robert"
+		},
+		{
+			"sections_dept": "hist",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "math",
+			"sections_instructor": "masson, robert"
+		},
+		{
+			"sections_dept": "math",
+			"sections_instructor": "klinzmann, robert"
+		},
+		{
+			"sections_dept": "math",
+			"sections_instructor": "klinzmann, robert"
+		},
+		{
+			"sections_dept": "mdvl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "mdvl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "mdvl",
+			"sections_instructor": "rouse, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "rohling, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "evans, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "evans, robert"
+		},
+		{
+			"sections_dept": "mech",
+			"sections_instructor": "evans, robert"
+		},
+		{
+			"sections_dept": "medg",
+			"sections_instructor": "brown, carolyn janet;conibear, elizabeth;kay, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "mine",
+			"sections_instructor": "hall, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "girard, jonathan;taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "bennett, dwight;taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "girard, jonathan;taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "girard, jonathan;taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "musc",
+			"sections_instructor": "pritchard, robert"
+		},
+		{
+			"sections_dept": "phil",
+			"sections_instructor": "brain, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "hasinoff, michael;kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "kiefl, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "raussendorf, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "raussendorf, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "raussendorf, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "raussendorf, robert"
+		},
+		{
+			"sections_dept": "phys",
+			"sections_instructor": "raussendorf, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "poli",
+			"sections_instructor": "farkasch, robert"
+		},
+		{
+			"sections_dept": "psyc",
+			"sections_instructor": "whitwell, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "relg",
+			"sections_instructor": "cousland, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spha",
+			"sections_instructor": "jackes, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smailes, elizabeth;smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smailes, elizabeth;smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smailes, elizabeth;smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smailes, elizabeth;smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smith, robert"
+		},
+		{
+			"sections_dept": "spph",
+			"sections_instructor": "smith, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "fairholm, david;taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "surg",
+			"sections_instructor": "taylor, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "thtr",
+			"sections_instructor": "gardiner, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		},
+		{
+			"sections_dept": "wood",
+			"sections_instructor": "fuerst, robert"
+		}
+	]
+}

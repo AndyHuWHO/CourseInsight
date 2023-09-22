@@ -12,6 +12,10 @@ const persistDir = "./data";
 const getContentFromArchives = (name: string): string =>
 	fs.readFileSync("test/resources/archives/" + name).toString("base64");
 
+
+const getContentFromArchivesBinary = (name: string): string =>
+	fs.readFileSync("test/resources/archives/" + name).toString("binary");
+
 /**
  * Removes all files within the persistDir.
  */
@@ -19,4 +23,4 @@ function clearDisk(): void {
 	fs.removeSync(persistDir);
 }
 
-export {getContentFromArchives, clearDisk};
+export {getContentFromArchives, clearDisk, getContentFromArchivesBinary};
