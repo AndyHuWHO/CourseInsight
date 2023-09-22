@@ -1,0 +1,6 @@
+{
+	"title": "invalidEmptyJSONMissingWhere",
+	"input": {},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

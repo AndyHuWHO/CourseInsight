@@ -1,0 +1,47 @@
+{
+	"title": "validComplexQueryInputValidButNotIntiuitive",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"LT": {
+						"sections_avg": 5
+					}
+				},
+				{
+					"GT": {
+						"sections_avg": 970
+					}
+				},
+				{
+					"NOT": {
+						"AND": [
+							{
+								"GT": {
+									"sections_year": 2030
+								}
+							},
+							{
+								"LT": {
+									"sections_year": 2020
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_pass",
+				"sections_fail",
+				"sections_audit",
+				"sections_year"
+			],
+			"ORDER": "sections_pass"
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}
