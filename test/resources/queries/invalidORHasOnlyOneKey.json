@@ -1,0 +1,25 @@
+{
+	"title": "invalidORHasOnlyOneKey",
+	"input": {
+		"WHERE": {
+			"OR": [
+				{
+					"GT": {
+						"ubc_avg": 90
+					}
+				},
+				{}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"ubc_dept",
+				"ubc_id",
+				"ubc_avg"
+			],
+			"ORDER": "ubc_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

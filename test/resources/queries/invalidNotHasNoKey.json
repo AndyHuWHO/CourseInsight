@@ -1,0 +1,34 @@
+{
+	"title": "invalidNotHasNoKey",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"GT": {
+						"sections_avg": 60
+					}
+				},
+				{
+					"GT": {
+						"sections_year": 2003
+					}
+				},
+				{
+					"NOT": {}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_avg",
+				"sections_pass",
+				"sections_fail",
+				"sections_audit",
+				"sections_year"
+			],
+			"ORDER": "sections_pass"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

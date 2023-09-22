@@ -20,10 +20,12 @@ describe("InsightFacade", function () {
 
 	// Declare datasets used in tests. You should add more datasets like this!
 	let sections: string;
+	let sections2: string;
 
 	before(function () {
 		// This block runs once and loads the datasets.
 		sections = getContentFromArchives("pair.zip");
+		sections2 = getContentFromArchives("small.zip");
 
 		// Just in case there is anything hanging around from a previous run of the test suite
 		clearDisk();
@@ -106,6 +108,7 @@ describe("InsightFacade", function () {
 				const result2 = facade2.addDataset("2", sections, InsightDatasetKind.Sections);
 				return expect(result2).to.eventually.have.members(["1","2"]);
 			});
+
 		it("should reject because dataset with the same ID already exists",
 			async function () {
 				const result1 = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
@@ -113,13 +116,21 @@ describe("InsightFacade", function () {
 				const result2 = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 				return expect(result2).to.eventually.be.rejectedWith(InsightError);
 			});
+
 		it("should reject if the dataset is not base64 encoded", function (){
 			sections = getContentFromArchivesBinary("small.zip"); // change sections to binary based content
 			const result = facade.addDataset("1", sections, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
+
 		it("should reject if the dataset is invalid content (simple string)", function (){
 			sections = "invalid content";
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
+		it ("should reject if the dataset is not a zip file", function() {
+			sections = getContentFromArchives("TestUtil.ts");
 			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
@@ -129,8 +140,45 @@ describe("InsightFacade", function () {
 			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
+
+		it ("should reject with a zip file thats the course directly, there is no course folder", function() {
+			sections = getContentFromArchives("AANB500.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
+		it ("should reject if dataset is not a JSON formatted file", function() {
+			sections = getContentFromArchives("notJSONformat.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
 		it("should reject if the dataset has no valid section(empty result)", function (){
 			sections = getContentFromArchives("emptyResult.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
+		it ("should reject with a course folder that has no valid sections from pair file", function() {
+			sections = getContentFromArchives("emptyCourseFromPair.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
+		it ("should succesfully add dataset with one section having an empty string field", function() {
+			sections = getContentFromArchives("hasvalidemptystringsection.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.have.members(["ubc"]);
+		});
+
+		it ("should reject with a content that is missing a sfield, the id field", function() {
+			sections = getContentFromArchives("missingSfieldID.zip");
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
+			return expect(result).to.eventually.be.rejectedWith(InsightError);
+		});
+
+		it ("should reject with a content that is missing a mfield, the avg field", function() {
+			sections = getContentFromArchives("missingMfieldAvg.zip");
 			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
@@ -145,6 +193,7 @@ describe("InsightFacade", function () {
 			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Rooms);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
+
 		// tests for removeDataset
 		it("should reject when attempting to remove a non-existing dataset", function () {
 			const nonExistingId = "nonExistingDataset";
@@ -176,6 +225,12 @@ describe("InsightFacade", function () {
 			return expect(result).to.eventually.be.equal("ubc");
 		});
 
+		it ("should successfully remove a dataset out of datasets", function() {
+			const result = facade.addDataset("ubc", sections, InsightDatasetKind.Sections)
+				.then(() => facade.addDataset("smallubc", sections2, InsightDatasetKind.Sections))
+				.then(() => facade.removeDataset("ubc"));
+			return expect(result).to.eventually.equal("ubc");
+		});
 
 		it("should handle crash before removing", async function() {
 			await facade.addDataset("ubc", sections, InsightDatasetKind.Sections);
@@ -184,10 +239,12 @@ describe("InsightFacade", function () {
 			const result = facade2.removeDataset("ubc");
 			return expect(result).to.eventually.be.equal("ubc");
 		});
+
 		it("should list an empty facade with no dataset added", function () {
 			const result = facade.listDatasets();
 			return expect(result).to.eventually.be.deep.equal([]);
 		});
+
 		// tests for listDatasets
 		it("should correctly list the full dataset when pair.zip is added",
 			async function () {
@@ -222,6 +279,7 @@ describe("InsightFacade", function () {
 					}
 				]);
 			});
+
 		it("should correctly list the full datasets when more than one datasets are added",
 			async function () {
 				let sections1: string;
