@@ -128,13 +128,13 @@ describe("InsightFacade", function () {
 		});
 
 		it("should reject if the dataset is not a zip file", function () {
-			sections2 = getContentFromArchives("TestUtil.ts");
+			sections2 = getContentFromArchives("blank.ts");
 			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
 
 		it("should reject if the dataset is invalid file type (txt)", function () {
-			sections2 = getContentFromArchives("blank.ts");
+			sections2 = getContentFromArchives("invalidFile.zip");
 			const result = facade.addDataset("ubc", sections2, InsightDatasetKind.Sections);
 			return expect(result).to.eventually.be.rejectedWith(InsightError);
 		});
