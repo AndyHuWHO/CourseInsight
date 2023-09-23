@@ -12,7 +12,6 @@ const persistDir = "./data";
 const getContentFromArchives = (name: string): string =>
 	fs.readFileSync("test/resources/archives/" + name).toString("base64");
 
-
 const getContentFromArchivesBinary = (name: string): string =>
 	fs.readFileSync("test/resources/archives/" + name).toString("binary");
 
