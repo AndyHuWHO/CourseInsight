@@ -23,6 +23,7 @@ describe("InsightFacade", function () {
 	let sections: string;
 	let sections2: string;
 	let sectionsSmall: string;
+	let sections4: string;
 
 	before(function () {
 		// This block runs once and loads the datasets.
@@ -343,7 +344,7 @@ describe("InsightFacade", function () {
 
 				assertOnResult: async (actual, expected) => {
 					// TODO add an assertion!
-					return expect(actual).to.eventually.have.deep.members(await expected);
+					expect(actual).to.eventually.have.deep.members(await expected);
 				},
 				errorValidator: (error): error is PQErrorKind =>
 					error === "ResultTooLargeError" || error === "InsightError",
