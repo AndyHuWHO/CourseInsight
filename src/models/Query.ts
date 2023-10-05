@@ -40,15 +40,12 @@ interface OptionsType {
 	ORDER?: Key;
 }
 
-type IdString = string;  // This represents [^_]+
-
-type MField = "avg" | "pass" | "fail" | "audit" | "year";
-type SField = "dept" | "id" | "instructor" | "title" | "uuid";
-
-type MKey = `"${IdString}_${MField}"`;
-type SKey = `"${IdString}_${SField}"`;
-
-type Key = MKey | SKey;
+export type IdString = string;  // This represents [^_]+
+export type MField = "avg" | "pass" | "fail" | "audit" | "year";
+export type SField = "dept" | "id" | "instructor" | "title" | "uuid";
+export type MKey = `"${IdString}_${MField}"`;
+export type SKey = `"${IdString}_${SField}"`;
+export type Key = MKey | SKey;
 
 export class Query {
 	private BODY: FilterType;

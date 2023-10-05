@@ -1,5 +1,4 @@
-import {FilterType, Query,} from "./Query";
-import {Key} from "readline";
+import {FilterType, Query,Key,MKey,SKey,MField,SField, IdString} from "./Query";
 
 export class QueryValidator {
 	public static validateQuery(query: unknown): boolean {
@@ -96,9 +95,17 @@ function validateOptions(options: object): boolean {
 	}
 	return false;
 }
+
+const idStringPattern: RegExp = /^[^_]+$/;
+const mKeyPattern: RegExp = /^"[^_]+_(avg|pass|fail|audit|year)"$/;
+const sKeyPattern: RegExp = /^"[^_]+_(dept|id|instructor|title|uuid)"$/;
 function validateColumns(columns: string[]) {
-	// !!!
-	return false;
+	for (const column of columns) {
+		if (!(mKeyPattern.test(column) || sKeyPattern.test(column))) {
+			return false;
+		}
+	}
+	return true;
 }
 function validateOrder(order: any, columns: string[]) {
 	// order must be a string
