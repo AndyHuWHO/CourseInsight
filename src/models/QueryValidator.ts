@@ -21,6 +21,7 @@ export class QueryValidator {
 		 if (Object.keys(query).length !== 2) {
 			 return false;
 		 }
+		 console.log("ready to validate body and options");
 		 // query body and options both have to be objects
 		 // if (!this.isObject(query.WHERE) || !this.isObject(query.OPTIONS)){
 			//  return  false;
@@ -48,6 +49,7 @@ export class QueryValidator {
 		}
 		// if there's only one object, check if it's a valid filter
 		if (Object.keys(where).length === 1) {
+			console.log("ready to validate filter");
 			return this.validateFilter(where);
 		}
 		return false;
@@ -71,6 +73,7 @@ export class QueryValidator {
 		}
 		// !!!
 		if ("IS" in filter) {
+			console.log("ready to validate IS");
 			return this.validateSComparison(filter.IS);
 		}
 		if ("NOT" in filter) {
