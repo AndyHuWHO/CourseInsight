@@ -1,10 +1,9 @@
 import {InsightDatasetKind} from "../controller/IInsightFacade";
 
 // represents a section
-export default class Sections {
-
-	private readonly uuid: string; 	// identifier for the section
-	private readonly id: string; 	// course identifier
+export default class Section {
+	private readonly uuid: string; // identifier for the section
+	private readonly id: string; // course identifier
 	private readonly title: string;
 	private readonly instructor: string;
 	private readonly dept: string;
@@ -14,8 +13,18 @@ export default class Sections {
 	private readonly fail: number;
 	private readonly audit: number;
 
-	constructor(uuid: string, id: string, title: string, instructor: string, dept: string,
-		year: number, avg: number, pass: number, fail: number, audit: number) {
+	constructor(
+		uuid: string,
+		id: string,
+		title: string,
+		instructor: string,
+		dept: string,
+		year: number,
+		avg: number,
+		pass: number,
+		fail: number,
+		audit: number
+	) {
 		this.uuid = uuid;
 		this.id = id;
 		this.title = title;
