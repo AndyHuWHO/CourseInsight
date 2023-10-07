@@ -13,7 +13,6 @@ import {join} from "path";
 import Section from "../models/Section";
 import fs from "fs";
 
-
 /**
  * This is the main programmatic entry point for the project.
  * Method documentation is in IInsightFacade
@@ -37,7 +36,6 @@ export default class InsightFacade implements IInsightFacade {
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
 		// does ID already exist in datasets !!!
 		try {
-
 			// Validate ID is syntactically valid
 			if (!ValidationUtil.isValidSyntaxID(id)) {
 				throw new InsightError("Invalid syntax for ID");
@@ -99,36 +97,37 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	private async loadDatasets(dataFolderPath: string): Promise<void> {
-		try{
-			// Construct the path to the data folder
-			const dataFolder = join(__dirname, "..", "data");
+		try {
 			// Load filenames using helper function
 			const filenames = await FileUtil.loadDataFolderFileNames(dataFolderPath);
 			// Sort filenames in chronological order using helper function
 			const sortedFilenames = FileUtil.sortFilenamesChronologically(filenames);
 
-			// // Extract dataset id and load it into datasetsId array using helper function
-			// this.datasetsId = sortedFilenames.map((filename: any) => FileUtil.extractDatasetIdFromFilename(filename));
-
-			// Loop through each filename, load content, parse it and create Dataset objects
-			for (const filename of sortedFilenames) {
+			const loadDatasetPromises = sortedFilenames.map(async (filename) => {
 				// Extract dataset id and load it into datasetsId array using helper function
 				const id = FileUtil.extractDatasetIdFromFilename(filename);
-				this.datasetsId.push(id);
 
 				// Load the dataset content
-				const datasetPath = join(dataFolder, filename);
+				const datasetPath = join(dataFolderPath, filename);
 				const sections: Section[] = await FileUtil.loadDatasetContent(datasetPath);
 
 				// Create Dataset object and push it to this.datasets
 				// Assuming kind is always 'Courses'
 				const newDataset = new Dataset(id, InsightDatasetKind.Sections, sections.length, sections);
-				this.datasets.push(newDataset);
-			}
 
+				return {newDataset, id};
+			});
+
+			const loadedDatasets = await Promise.all(loadDatasetPromises);
+
+			// Push the loaded datasets and ids into their respective arrays
+			loadedDatasets.forEach(({newDataset, id}) => {
+				this.datasets.push(newDataset);
+				this.datasetsId.push(id);
+			});
 		} catch (error) {
 			console.error(`Failed to load datasets: ${error}`);
-			return Promise.reject("loadDatasets failed.");
+			throw new Error("loadDatasets failed.");
 		}
 	}
 }
