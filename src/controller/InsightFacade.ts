@@ -77,7 +77,10 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public performQuery(query: unknown): Promise<InsightResult[]> {
-		return Promise.reject("Not implemented.");
+		// if(!this.queryValidator.validateQuery(query)) {
+		// 	return Promise.reject("Query not valid.");
+		// }
+		return Promise.reject("perform Not implemented.");
 	}
 
 	public listDatasets(): Promise<InsightDataset[]> {

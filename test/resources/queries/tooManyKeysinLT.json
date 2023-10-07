@@ -1,0 +1,34 @@
+{
+	"title": "tooManyKeysinLT",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"IS": {
+						"section_dept": "cpsc"
+					}
+				},
+				{
+					"LT": {
+						"section_avg": 70,
+						"section_year": 2015
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"sections_instructor",
+				"sections_pass",
+				"sections_fail",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
