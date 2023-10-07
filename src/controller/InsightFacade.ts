@@ -81,8 +81,7 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public listDatasets(): Promise<InsightDataset[]> {
-		// list data set I need to make sure I get rid of the X_" !!!
-		return Promise.reject("Not implemented.");
+		return Promise.resolve(this.datasets);
 	}
 
 	private async initializeDatasets(): Promise<void> {

@@ -145,9 +145,21 @@ async function ensureDataFolderExists(dataFolder: string): Promise<void> {
 	try {
 		await fsPromises.access(dataFolder);
 	} catch (error) {
-		await fsPromises.mkdir(dataFolder);
+		try {
+			await fsPromises.mkdir(dataFolder);
+		} catch (mkdirError) {
+			// Catching any errors on directory creation, such as if the directory already exists.
+			console.error(`Error creating directory: ${mkdirError}`);
+		}
 	}
 }
+// async function ensureDataFolderExists(dataFolder: string): Promise<void> {
+// 	try {
+// 		await fsPromises.access(dataFolder);
+// 	} catch (error) {
+// 		await fsPromises.mkdir(dataFolder);
+// 	}
+// }
 
 // REQUIRES: an array of any type
 // EFFECTS: parses relevant items within content of key and
@@ -218,7 +230,7 @@ export function sortFilenamesChronologically(filenames: string[]): string[] {
 }
 
 // REQUIRES: a file name as string ex: "1627922239000_ubc", utilizing unix time stamp format
-// EFFECTS: parses file name to retrieve dataset id name and returns it
+// EFFECTS: parses file name to retrieve dataset id name and returns dataset id name
 export function extractDatasetIdFromFilename(filename: string): string {
 	const parts = filename.split("_");
 	return parts.slice(1).join("_").replace(".json", "");

@@ -101,7 +101,10 @@ describe("InsightFacade", function () {
 		it("should successfully add multiple datasets with different id and show in array", async function () {
 			const result1 = facade.addDataset("1", sectionsSmall, InsightDatasetKind.Sections);
 			await expect(result1).to.eventually.have.members(["1"]);
+			console.log(result1);
 			const result2 = facade.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
+			console.log(result2);
+			console.log(facade.listDatasets());
 			return expect(result2).to.eventually.have.members(["1", "2"]);
 		});
 
