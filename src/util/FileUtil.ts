@@ -108,7 +108,6 @@ export async function extractSectionsFromUnZip(unzipContent: JSZip): Promise<Sec
 	}
 }
 
-// !!! check for ordering of dataset logic
 // REQUIRES: id of dataset at string and Section array
 // EFFECTS: writes Section to file ./data (persistence)
 export async function writeSectionsToFile(id: string, sections: Section[]): Promise<void> {

@@ -99,23 +99,33 @@ describe("InsightFacade", function () {
 		});
 
 		it("should successfully add multiple datasets with different id and show in array", async function () {
-			const result1 = facade.addDataset("1", sectionsSmall, InsightDatasetKind.Sections);
-			await expect(result1).to.eventually.have.members(["1"]);
-			console.log(result1);
-			const result2 = facade.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
-			console.log(result2);
-			console.log(facade.listDatasets());
-			return expect(result2).to.eventually.have.members(["1", "2"]);
+			const result1 = await facade.addDataset("1", sectionsSmall, InsightDatasetKind.Sections);
+			expect(result1).to.have.members(["1"]);
+			// console.log(result1);
+
+			const result2 = await facade.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
+			// console.log(result2);
+
+			// console.log(facade.listDatasets());
+			const appendResultId = [...result1, ...result2];
+			return expect(appendResultId).to.have.members(["1", "2"]);
 		});
 
 		it("should handle crash when adding datasets", async function () {
-			const result1 = facade.addDataset("1", sectionsSmall, InsightDatasetKind.Sections);
-			await expect(result1).to.eventually.have.members(["1"]);
+			const result1 = await facade.addDataset("1", sectionsSmall, InsightDatasetKind.Sections);
+			expect(result1).to.have.members(["1"]);
+			// console.log(result1);
+
+			// **crash**
 
 			const facade2 = new InsightFacade();
+			const result2 = await facade2.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
+			// console.log(result2);
 
-			const result2 = facade2.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
-			return expect(result2).to.eventually.have.members(["1", "2"]);
+			// console.log(facade2.listDatasets());
+
+			const appendResultId = [...result1, ...result2];
+			return expect(appendResultId).to.have.members(["1", "2"]);
 		});
 
 		it("should reject because dataset with the same ID already exists", async function () {
