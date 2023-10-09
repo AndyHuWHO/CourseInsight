@@ -105,8 +105,7 @@ export default class InsightFacade implements IInsightFacade {
 			// Remove the dataset from file ./data
 
 			// const dataFolder = join(__dirname, "..", "data");
-			// eslint-disable-next-line no-useless-escape
-			const filenameRegex = new RegExp(`_${id}\.json$`); // regex code from chatGPT
+			const filenameRegex = new RegExp(`_${id}.json$`); // regex code from chatGPT
 
 			// grab files from the ./data folder
 			const filenames = await FileUtil.loadDataFolderFileNames(this.persistDir);
