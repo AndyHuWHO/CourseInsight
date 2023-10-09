@@ -108,9 +108,17 @@ describe("InsightFacade", function () {
 			const result2 = await facade.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
 			// console.log(result2);
 
-			// console.log(facade.listDatasets());
-			const appendResultId = [...result1, ...result2];
-			return expect(appendResultId).to.have.members(["1", "2"]);
+			// console.log(result2);
+			// console.log(await facade2.listDatasets());
+			const datasetsAfterCrash = await facade.listDatasets();
+
+			// console.log(facade2.listDatasets());
+			// !!! might not be the correct way to assert, issue with crash handling
+			// const appendResultId = [...result1, ...result2];
+			return expect(datasetsAfterCrash).to.have.deep.members([
+				{id: "1", kind: "sections", numRows: 58},
+				{id: "2", kind: "sections", numRows: 58}
+			]);
 		});
 
 		it("should handle crash when adding datasets", async function () {
@@ -118,16 +126,21 @@ describe("InsightFacade", function () {
 			expect(result1).to.have.members(["1"]);
 			// console.log(result1);
 
-			// **crash**
-
 			const facade2 = new InsightFacade();
 			const result2 = await facade2.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
+			expect(result2).to.have.members(["2"]);
+
 			// console.log(result2);
+			// console.log(await facade2.listDatasets());
+			const datasetsAfterCrash = await facade2.listDatasets();
 
 			// console.log(facade2.listDatasets());
 			// !!! might not be the correct way to assert, issue with crash handling
-			const appendResultId = [...result1, ...result2];
-			return expect(appendResultId).to.have.members(["1", "2"]);
+			// const appendResultId = [...result1, ...result2];
+			return expect(datasetsAfterCrash).to.have.deep.members([
+				{id: "1", kind: "sections", numRows: 58},
+				{id: "2", kind: "sections", numRows: 58}
+			]);
 		});
 
 		it("should reject because dataset with the same ID already exists", async function () {
