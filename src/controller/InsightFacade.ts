@@ -20,28 +20,36 @@ import fs from "fs";
  */
 
 export default class InsightFacade implements IInsightFacade {
-	private datasets: InsightDataset[];
+	private persistDir = "./data";
+
+	private datasets: Dataset[];
 	private datasetsId: string[];
+	private isLoaded: boolean;
 
 	constructor() {
 		console.log("InsightFacadeImpl::init()");
 		this.datasets = [];
 		this.datasetsId = [];
-		this.initializeDatasets();
+		this.isLoaded = false; // if false = datasets are not initialized (loaded) from file
 	}
 
 	// REQUIRES: id, content, kind
 	// MODIFIES: this
 	// EFFECTS:
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
-		// does ID already exist in datasets !!!
 		try {
+			// If datasets not loaded, wait until they are
+			if (!this.isLoaded) {
+				await this.initializeDatasets();
+				this.isLoaded = true;
+			}
+
 			// Validate ID is syntactically valid
 			if (!ValidationUtil.isValidSyntaxID(id)) {
 				throw new InsightError("Invalid syntax for ID");
 			}
 
-			// Check if ID is unique
+			// Check if ID is unique/does not already belong in loaded datasets
 			if (!ValidationUtil.isUniqueId(id, this.datasetsId)) {
 				throw new InsightError("ID already exists.");
 			}
@@ -72,8 +80,59 @@ export default class InsightFacade implements IInsightFacade {
 		}
 	}
 
-	public removeDataset(id: string): Promise<string> {
-		return Promise.reject("Not implemented.");
+	public async removeDataset(id: string): Promise<string> {
+		try {
+			// If datasets not loaded, wait until they are
+			if (!this.isLoaded) {
+				await this.initializeDatasets();
+				this.isLoaded = true;
+			}
+
+			// Validate ID is syntactically valid
+			if (!ValidationUtil.isValidSyntaxID(id)) {
+				throw new InsightError("Invalid syntax for ID");
+			}
+
+			// Validate ID to remove exists in ./data file
+			if (!this.datasetsId.includes(id)) {
+				throw new NotFoundError("Id does not exist");
+			}
+
+			// Remove the dataset from internal storage
+			this.datasets = this.datasets.filter((dataset) => dataset.id !== id);
+			this.datasetsId = this.datasetsId.filter((datasetId) => datasetId !== id);
+
+			// Remove the dataset from file ./data
+
+			// const dataFolder = join(__dirname, "..", "data");
+			// eslint-disable-next-line no-useless-escape
+			const filenameRegex = new RegExp(`_${id}\.json$`); // regex code from chatGPT
+
+			// grab files from the ./data folder
+			const filenames = await FileUtil.loadDataFolderFileNames(this.persistDir);
+
+			// regex fn from chatGPT
+			// iterate over array of files and use regex to find particular file(dataset) requested to delete
+			const fileToDelete = filenames.find((filename) => filenameRegex.test(filename));
+
+			if (!fileToDelete) {
+				throw new InsightError("File corresponding to ID not found");
+			}
+
+			// attempt to delete identified file
+			await fs.promises.unlink(join(this.persistDir, fileToDelete));
+			return id;
+		} catch (error) {
+			console.error("Error removing dataset:", error);
+			// If error is of type InsightError or NotFoundError, rethrow it to keep its message
+			// from chatGPT
+			if (error instanceof InsightError || error instanceof NotFoundError) {
+				throw error;
+			} else {
+				// Otherwise, throw a generic InsightError
+				throw new InsightError("Error occurred while removing dataset.");
+			}
+		}
 	}
 
 	public performQuery(query: unknown): Promise<InsightResult[]> {
@@ -83,17 +142,42 @@ export default class InsightFacade implements IInsightFacade {
 		return Promise.reject("perform Not implemented.");
 	}
 
-	public listDatasets(): Promise<InsightDataset[]> {
-		// list data set I need to make sure I get rid of the X_" !!!
-		return Promise.reject("Not implemented.");
+	public async listDatasets(): Promise<InsightDataset[]> {
+		// console.log("printing datasets before loading");
+		// console.log(this.datasets);
+		// console.log("printing isLoaded prior to isLoaded check in listDatasets");
+		// console.log(this.isLoaded);
+
+		if (!this.isLoaded) {
+			await this.initializeDatasets();
+			this.isLoaded = true;
+		}
+		// console.log("printing isLoaded after isLoaded check in listDatasets");
+		// console.log(this.isLoaded);
+		// console.log("printing datasets after loading");
+		// console.log(this.datasets);
+
+		// create new array of InsightDataset[] with only id, kind and numRows of Dataset object
+		// literal objects that conform to structure of interface InsightDataset will be considered of that type
+		const insightDatasets: InsightDataset[] = this.datasets.map((dataset) => {
+			return {
+				id: dataset.id,
+				kind: dataset.kind,
+				numRows: dataset.numRows,
+			};
+		});
+		// console.log("printing insightDatasets");
+		// console.log(insightDatasets);  // Log the final state before returning
+		return Promise.resolve(insightDatasets);
 	}
 
 	private async initializeDatasets(): Promise<void> {
-		const dataFolderPath = join(__dirname, "..", "data");
+		// const dataFolderPath = join(__dirname, "..", "data");
 
 		// Check if the data folder exists before attempting to load datasets
-		if (fs.existsSync(dataFolderPath)) {
-			await this.loadDatasets(dataFolderPath);
+		if (fs.existsSync(this.persistDir)) {
+			// console.log("DATASET EXISTS");
+			await this.loadDatasets(this.persistDir);
 		} else {
 			console.warn("Data folder does not exist. Initializing with empty datasets.");
 		}
