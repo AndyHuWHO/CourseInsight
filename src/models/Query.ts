@@ -48,7 +48,7 @@ export type SKey = `"${IdString}_${SField}"`;
 export type Key = MKey | SKey;
 
 export class Query {
-	private BODY: FilterType;
+	private BODY: FilterType | Record<string, never>;
 	private OPTIONS: OptionsType;
 	constructor(WHERE: FilterType, OPTIONS: OptionsType) {
 		this.BODY = WHERE;
