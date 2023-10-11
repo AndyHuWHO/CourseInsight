@@ -126,8 +126,9 @@ export default class InsightFacade implements IInsightFacade {
 			// iterate over array of files and use regex to find particular file(dataset) requested to delete
 			const fileToDelete = filenames.find((filename) => filenameRegex.test(filename));
 
+			// should throw notfounderror if internal id is not found in ./data folder
 			if (!fileToDelete) {
-				throw new InsightError("File corresponding to ID not found");
+				throw new NotFoundError("File corresponding to ID not found");
 			}
 
 			// attempt to delete identified file
