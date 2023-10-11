@@ -12,6 +12,8 @@ import ValidationUtil from "../util/ValidationUtil";
 import {join} from "path";
 import Section from "../models/Section";
 import fs from "fs";
+import {QueryValidator} from "../models/QueryValidator";
+import {QueryEngine} from "../models/QueryEngine";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -25,12 +27,15 @@ export default class InsightFacade implements IInsightFacade {
 	private datasets: Dataset[];
 	private datasetsId: string[];
 	private isLoaded: boolean;
+	private queryValidator: QueryValidator;
+	private queryEngine: QueryEngine = new QueryEngine();
 
 	constructor() {
 		console.log("InsightFacadeImpl::init()");
 		this.datasets = [];
 		this.datasetsId = [];
 		this.isLoaded = false; // if false = datasets are not initialized (loaded) from file
+		this.queryValidator = new QueryValidator();
 	}
 
 	// REQUIRES: id, content, kind
@@ -135,10 +140,17 @@ export default class InsightFacade implements IInsightFacade {
 	}
 
 	public performQuery(query: unknown): Promise<InsightResult[]> {
-		// if(!this.queryValidator.validateQuery(query)) {
-		// 	return Promise.reject("Query not valid.");
-		// }
-		return Promise.reject("perform Not implemented.");
+		this.queryValidator.validateQuery(query);
+		const idString = this.queryValidator._idString;
+		const length = this.datasets.length;
+		let datasetToQuery: Dataset;
+		for (let i = 0; i < length; i++) {
+			if (this.datasets[i].id === idString) {
+				datasetToQuery = this.datasets[i];
+				return this.queryEngine.queryDataset(datasetToQuery, query);
+			}
+		}
+		 return Promise.reject("Dataset not found");
 	}
 
 	public async listDatasets(): Promise<InsightDataset[]> {
