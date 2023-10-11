@@ -117,7 +117,7 @@ describe("InsightFacade", function () {
 			// const appendResultId = [...result1, ...result2];
 			return expect(datasetsAfterCrash).to.have.deep.members([
 				{id: "1", kind: "sections", numRows: 58},
-				{id: "2", kind: "sections", numRows: 58}
+				{id: "2", kind: "sections", numRows: 58},
 			]);
 		});
 
@@ -128,7 +128,7 @@ describe("InsightFacade", function () {
 
 			const facade2 = new InsightFacade();
 			const result2 = await facade2.addDataset("2", sectionsSmall, InsightDatasetKind.Sections);
-			expect(result2).to.have.members(["2"]);
+			expect(result2).to.have.members(["1", "2"]);
 
 			// console.log(result2);
 			// console.log(await facade2.listDatasets());
@@ -139,7 +139,7 @@ describe("InsightFacade", function () {
 			// const appendResultId = [...result1, ...result2];
 			return expect(datasetsAfterCrash).to.have.deep.members([
 				{id: "1", kind: "sections", numRows: 58},
-				{id: "2", kind: "sections", numRows: 58}
+				{id: "2", kind: "sections", numRows: 58},
 			]);
 		});
 

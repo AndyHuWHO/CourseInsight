@@ -33,9 +33,13 @@ export default class InsightFacade implements IInsightFacade {
 		this.isLoaded = false; // if false = datasets are not initialized (loaded) from file
 	}
 
-	// REQUIRES: id, content, kind
+	// REQUIRES: id of the dataset being added. Follows the format /^[^_]+$/
+	// 			 content  The base64 content of the dataset. This content should be in the form of a serialized zip file.
+	// 			 kind  The kind of the dataset
 	// MODIFIES: this
-	// EFFECTS:
+	// EFFECTS: returns Promise <string[]; promise fulfill on a successful add, reject for any failures.
+	// string[] contains the ids of all currently added datasets upon a successful add.
+	// The promise should reject with an InsightError describing the error.
 	public async addDataset(id: string, content: string, kind: InsightDatasetKind): Promise<string[]> {
 		try {
 			// If datasets not loaded, wait until they are
@@ -73,13 +77,16 @@ export default class InsightFacade implements IInsightFacade {
 			this.datasets.push(newDataset);
 			this.datasetsId.push(id);
 
-			return [id];
+			return this.datasetsId;
 		} catch (error) {
 			console.error("Error adding dataset:", error);
 			throw new InsightError("Error occurred while adding dataset.");
 		}
 	}
 
+	// REQUIRES: id of the dataset to remove. Follows the format /^[^_]+$/
+	// MODIFIES: this
+	// EFFECTS: returns Promise<string>, promise should fulfill upon a successful removal, reject on any error.
 	public async removeDataset(id: string): Promise<string> {
 		try {
 			// If datasets not loaded, wait until they are
@@ -141,6 +148,8 @@ export default class InsightFacade implements IInsightFacade {
 		return Promise.reject("perform Not implemented.");
 	}
 
+	// EFFECTS: returns Promise <InsightDataset[]>, list all currently added datasets, their types, and number of rows.
+	// The promise should fulfill an array of currently added InsightDatasets, and will only fulfill.
 	public async listDatasets(): Promise<InsightDataset[]> {
 		// console.log("printing datasets before loading");
 		// console.log(this.datasets);
