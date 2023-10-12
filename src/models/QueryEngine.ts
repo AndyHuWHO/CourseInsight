@@ -22,6 +22,7 @@ export class QueryEngine{
 				return Promise.reject(new ResultTooLargeError("result too big"));
 			}
 		}
+		this.insightResults = [];
 		const filteredSections = this.filterWhere(this.sections, query["WHERE"]);
 		if (filteredSections.length > 5000) {
 			return Promise.reject(new ResultTooLargeError("exceed 5000 results"));
@@ -202,10 +203,14 @@ export class QueryEngine{
 			// for each key in columns
 			for (let key of stringColumns) {
 				// get the field name from key and value of that key from section
-				const filedName = key.split("_")[1];
-				const filedValue = section[filedName];
-				// add the key value to insightResultNEW
-				insightResultNew[filedName] = filedValue;
+				let fieldName = key.split("_")[1];
+				let fieldValue = section[fieldName];
+				if (fieldName === "uuid") {
+					insightResultNew[key] = fieldValue.toString();
+				} else {
+					// add the key value to insightResultNEW
+					insightResultNew[key] = fieldValue;
+				}
 			}
 			// after all key values are added in the for loop, push it into insightResults
 			this.insightResults.push(insightResultNew);

@@ -157,14 +157,7 @@ export default class InsightFacade implements IInsightFacade {
 		}
 		this.queryValidator.validateQuery(query);
 		const idString = this.queryValidator._idString;
-		const length = this.datasets.length;
 		let datasetToQuery: Dataset;
-		// for (let i = 0; i < length; i++) {
-		// 	if (this.datasets[i].id === idString) {
-		// 		datasetToQuery = this.datasets[i];
-		// 		return this.queryEngine.queryDataset(datasetToQuery, query);
-		// 	}
-		// }
 		for (let dataset of this.datasets) {
 			if (dataset.id === idString) {
 				datasetToQuery = dataset;
