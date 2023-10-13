@@ -74,7 +74,7 @@ export class QueryEngine{
 				andFilteredSections = filteredArray;
 			} else {
 				// if not the first filter, find the intersection of the current result with subsequent result
-				andFilteredSections = this.intersection(andFilteredSections,filteredArray);
+				andFilteredSections = this.findIntersection(andFilteredSections,filteredArray);
 			}
 		}
 		return andFilteredSections;
@@ -82,6 +82,22 @@ export class QueryEngine{
 	private intersection(arr1: Section[], arr2: Section[]) {
 		return arr1.filter((item) => arr2.includes(item));
 	}
+
+	private findIntersection(array1: Section[], array2: Section[]): Section[] {
+		const set1 = new Set(array1);
+		const intersection = array2.filter((item) => {
+			// Check if an equivalent item exists in array1 using the equals method
+			for (const element of set1) {
+				if (item.equals(element)) {
+					return true;
+				}
+			}
+			return false;
+		});
+
+		return intersection;
+	}
+
 
 	private filterOR(allSections: Section[], orOp: []): Section[] {
 		// initiate result array
