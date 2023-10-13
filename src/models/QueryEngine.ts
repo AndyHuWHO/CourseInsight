@@ -68,6 +68,10 @@ export class QueryEngine{
 		for (let item of andOp) {
 			// filteredArray gets the result of the current filter
 			let filteredArray = this.filterWhere(allSections, item);
+			// if (filteredArray.length === 0) {
+			// 	let emptyS: Section[] = [];
+			// 	return emptyS;
+			// }
 			// if this is the first filter, let final result get its result
 			if (andFilteredSections.length === 0) {
 				// get the result of the first filter in and
