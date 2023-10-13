@@ -43,8 +43,8 @@ export class QueryValidator {
 
 
 	 private validateWhere(where: any) {
-		if (!this.isObject(where)) {
-			throw new InsightError("body is not object");
+		if (!this.isObject(where) || Array.isArray(where)) {
+			throw new InsightError("Invalid Where");
 		}
 		// Empty where is valid
 		// if (Object.keys(where).length === 0) {

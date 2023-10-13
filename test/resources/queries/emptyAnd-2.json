@@ -1,0 +1,32 @@
+{
+	"title": "EmptyAnd",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"IS": {
+						"sections_dept": "jijisadfa"
+					}
+				},
+				{
+					"GT": {
+						"sections_avg": 90
+					}
+				},
+				{
+					"IS": {
+						"sections_dept": "cpsc"
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}

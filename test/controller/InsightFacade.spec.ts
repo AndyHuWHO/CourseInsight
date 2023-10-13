@@ -373,13 +373,14 @@ describe("InsightFacade", function () {
 			console.info(`After: ${this.test?.parent?.title}`);
 			clearDisk();
 		});
-
+		// tested facade2 for handle-crash and passed
+		let facade2 = new InsightFacade();
 		type PQErrorKind = "ResultTooLargeError" | "InsightError";
 
 		folderTest<unknown, Promise<InsightResult[]>, PQErrorKind>(
 			"Dynamic InsightFacade PerformQuery tests",
 			(input) => facade.performQuery(input),
-			"./test/resources/queries2",
+			"./test/resources/queries",
 			{
 				// assertOnResult: (actual, expected) => {
 				// 	// TODO add an assertion!
