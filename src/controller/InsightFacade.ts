@@ -165,7 +165,7 @@ export default class InsightFacade implements IInsightFacade {
 				return this.queryEngine.queryDataset(datasetToQuery, query);
 			}
 		}
-		return Promise.reject("Dataset not found");
+		return Promise.reject(new InsightError("Data set to query not found"));
 	}
 
 	// EFFECTS: returns Promise <InsightDataset[]>, list all currently added datasets, their types, and number of rows.

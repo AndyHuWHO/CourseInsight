@@ -162,7 +162,7 @@ export class QueryValidator {
 		}
 		const mKeyValue: any = Object.values(mComparison)[0];
 		if (typeof mKeyValue !== "number") {
-			throw new InsightError("mKey must be a number");
+			throw new InsightError("mValue must be a number");
 		};
 	}
 
