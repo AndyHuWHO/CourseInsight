@@ -147,18 +147,25 @@ export default class InsightFacade implements IInsightFacade {
 		}
 	}
 
-	public performQuery(query: unknown): Promise<InsightResult[]> {
+	public async performQuery(query: unknown): Promise<InsightResult[]> {
+		try {
+			if (!this.isLoaded) {
+				await this.initializeDatasets();
+				this.isLoaded = true;
+			}
+		} catch (error) {
+			throw new InsightError("error loading dataset from disk");
+		}
 		this.queryValidator.validateQuery(query);
 		const idString = this.queryValidator._idString;
-		const length = this.datasets.length;
 		let datasetToQuery: Dataset;
-		for (let i = 0; i < length; i++) {
-			if (this.datasets[i].id === idString) {
-				datasetToQuery = this.datasets[i];
+		for (let dataset of this.datasets) {
+			if (dataset.id === idString) {
+				datasetToQuery = dataset;
 				return this.queryEngine.queryDataset(datasetToQuery, query);
 			}
 		}
-		 return Promise.reject("Dataset not found");
+		return Promise.reject("Dataset not found");
 	}
 
 	// EFFECTS: returns Promise <InsightDataset[]>, list all currently added datasets, their types, and number of rows.
