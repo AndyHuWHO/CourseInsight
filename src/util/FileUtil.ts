@@ -178,6 +178,7 @@ function parseFileContent(content: any[]): Section[] {
 				Pass: pass,
 				Fail: fail,
 				Audit: audit,
+				Section: section,
 			} = item;
 			// check if all fields exist only and are not undefined
 			// will pass if 0, false, or an empty string (not checking for correctness here)
@@ -191,10 +192,13 @@ function parseFileContent(content: any[]): Section[] {
 				avg !== undefined &&
 				pass !== undefined &&
 				fail !== undefined &&
-				audit !== undefined
+				audit !== undefined &&
+				section !== undefined
 			) {
+				// if Section is "overall", set the year to 1900
+				const processedYear = section === "overall" ? 1900 : Number(year);
 				// if all fields are valid then new Section is instantiated and added to sections
-				sections.push(new Section(uuid, id, title, instructor, dept, Number(year), avg, pass, fail, audit));
+				sections.push(new Section(uuid, id, title, instructor, dept, processedYear, avg, pass, fail, audit));
 			}
 		} catch (err) {
 			// Log and continue if a section failed parsing
