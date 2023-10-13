@@ -83,9 +83,9 @@ export class QueryEngine{
 		}
 		return andFilteredSections;
 	}
-	private intersection(arr1: Section[], arr2: Section[]) {
-		return arr1.filter((item) => arr2.includes(item));
-	}
+	// private intersection(arr1: Section[], arr2: Section[]) {
+	// 	return arr1.filter((item) => arr2.includes(item));
+	// }
 
 	private findIntersection(array1: Section[], array2: Section[]): Section[] {
 		const set1 = new Set(array1);
@@ -139,6 +139,9 @@ export class QueryEngine{
 		}
 		if (!inputString.includes("*")) {
 			return fieldValue === inputString;
+		}
+		if (inputString === "*") {
+			return true;
 		}
 		if (inputString.startsWith("*") && !inputString.endsWith("*")) {
 			return fieldValue.endsWith(inputString.substring(1,inputString.length));

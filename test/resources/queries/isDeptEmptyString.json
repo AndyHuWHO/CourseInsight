@@ -1,0 +1,37 @@
+{
+	"title": "IsDeptEmptyString",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"GT": {
+						"sections_avg": 96
+					}
+				},
+				{
+					"AND": [
+						{
+							"IS": {
+								"sections_dept": ""
+							}
+						},
+						{
+							"GT": {
+								"sections_year": 2010
+							}
+						}
+					]
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_year",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": []
+}
