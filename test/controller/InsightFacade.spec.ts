@@ -380,7 +380,7 @@ describe("InsightFacade", function () {
 		folderTest<unknown, Promise<InsightResult[]>, PQErrorKind>(
 			"Dynamic InsightFacade PerformQuery tests",
 			(input) => facade.performQuery(input),
-			"./test/resources/queries",
+			"./test/resources/queries3",
 			{
 				// assertOnResult: (actual, expected) => {
 				// 	// TODO add an assertion!
