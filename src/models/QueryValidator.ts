@@ -218,6 +218,9 @@ export class QueryValidator {
 			throw new InsightError("Columns must be an array of strings");
 		}
 		const n = columns.length;
+		if (n === 0) {
+			throw new InsightError("Columns empty");
+		}
 		// each string in columns must be either an mKey or an sKey
 		for (let i = 0; i < n; i++) {
 			if (!(this.mKeyPattern.test(columns[i]) || this.sKeyPattern.test(columns[i]))) {
