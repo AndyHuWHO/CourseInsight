@@ -27,6 +27,7 @@ export class QueryValidator {
 		 if (Object.keys(query).length !== 2) {
 			 throw new InsightError("query have more than 2 keys");
 		 }
+		 this._idString = "";
 		 console.log("ready to validate body and options");
 		 // query body and options both have to be objects
 		 // if (!this.isObject(query.WHERE) || !this.isObject(query.OPTIONS)){
@@ -113,6 +114,7 @@ export class QueryValidator {
 		// sKey's idString has to be valid
 		const id = sKey.split("_")[0];
 		if (this._idString === "") {
+			console.log("inside validateSComparison " + id);
 			this._idString = id;
 		} else {
 			if (id !== this.idString){
@@ -154,9 +156,10 @@ export class QueryValidator {
 		// mKey's idString has to be valid
 		const id = mKey.split("_")[0];
 		if (this._idString === "") {
+			console.log("inside validateMComparison id:" + id);
 			this._idString = id;
 		} else {
-			if (id !== this.idString){
+			if (id !== this._idString){
 				throw new InsightError("mComparison has different idString");
 			};
 		}
@@ -228,6 +231,8 @@ export class QueryValidator {
 			}
 			// make sure all the idString are the same, otherwise, can't query multiple data set error
 			if (i === 0 && this._idString === "") {
+				console.log("inside validateColumns this._idString:" + this._idString);
+				console.log("inside validateColumns columns[i].split(\"_\")[0]:" + columns[i].split("_")[0]);
 				this._idString = columns[i].split("_")[0];
 			} else {
 				if (columns[i].split("_")[0] !== this._idString) {
