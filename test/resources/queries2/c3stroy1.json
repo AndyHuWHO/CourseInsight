@@ -1,0 +1,93 @@
+{
+	"title": "C3stroy1",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"IS": {
+						"sections_dept": "cpsc"
+					}
+				},
+				{
+					"IS": {
+						"sections_id": "310"
+					}
+				},
+				{
+					"GT": {
+						"sections_year": 2013
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"sections_instructor",
+				"sections_pass",
+				"sections_fail",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2015,
+			"sections_instructor": "baniassad, elisa",
+			"sections_pass": 185,
+			"sections_fail": 0,
+			"sections_avg": 77.13
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2014,
+			"sections_instructor": "palyart-lamarche, marc",
+			"sections_pass": 156,
+			"sections_fail": 0,
+			"sections_avg": 78.69
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2014,
+			"sections_instructor": "baniassad, elisa",
+			"sections_pass": 75,
+			"sections_fail": 1,
+			"sections_avg": 79.12
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2014,
+			"sections_instructor": "baniassad, elisa",
+			"sections_pass": 150,
+			"sections_fail": 0,
+			"sections_avg": 80.35
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2016,
+			"sections_instructor": "holmes, reid",
+			"sections_pass": 139,
+			"sections_fail": 3,
+			"sections_avg": 81.17
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "310",
+			"sections_year": 2015,
+			"sections_instructor": "baniassad, elisa",
+			"sections_pass": 162,
+			"sections_fail": 3,
+			"sections_avg": 81.18
+		}
+	]
+}

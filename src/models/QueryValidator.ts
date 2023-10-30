@@ -13,37 +13,37 @@ export class QueryValidator {
 
 	public validateQuery(query: unknown)  {
 		// query must be an object
-		 if (!this.isObject(query)) {
-			 throw new InsightError("query not an object");
-		 }
-		 // query must have body and options
-		 if (!("WHERE" in query)) {
-			 throw new InsightError("query missing where");
-		 }
+		if (!this.isObject(query)) {
+			throw new InsightError("query not an object");
+		}
+		// query must have body and options
+		if (!("WHERE" in query)) {
+			throw new InsightError("query missing where");
+		}
 		if (!("OPTIONS" in query)) {
 			throw new InsightError("query missing options");
 		}
-		 // query has no more than 2 keys
-		 if (Object.keys(query).length !== 2) {
-			 throw new InsightError("query have more than 2 keys");
-		 }
-		 this._idString = "";
-		 console.log("ready to validate body and options");
-		 // query body and options both have to be objects
-		 // if (!this.isObject(query.WHERE) || !this.isObject(query.OPTIONS)){
+		// query has no more than 2 keys
+		if (Object.keys(query).length !== 2) {
+			throw new InsightError("query have more than 2 keys");
+		}
+		this._idString = "";
+		console.log("ready to validate body and options");
+		// query body and options both have to be objects
+		// if (!this.isObject(query.WHERE) || !this.isObject(query.OPTIONS)){
 			//  return  false;
-		 // }
-		 // if both body and options are valid, query is valid
-		 this.validateWhere(query.WHERE);
+		// }
+		// if both body and options are valid, query is valid
+		this.validateWhere(query.WHERE);
 		this.validateOptions(query.OPTIONS);
 	}
 
-	 private isObject(value: unknown): value is object {
+	private isObject(value: unknown): value is object {
 		return typeof value === "object" && value !== null;
 	}
 
 
-	 private validateWhere(where: any) {
+	private validateWhere(where: any) {
 		if (!this.isObject(where) || Array.isArray(where)) {
 			throw new InsightError("Invalid Where");
 		}
@@ -119,7 +119,7 @@ export class QueryValidator {
 		} else {
 			if (id !== this.idString){
 				throw new InsightError("sComparison has different idString");
-			};
+			}
 		}
 
 		// validate inputString
@@ -161,12 +161,12 @@ export class QueryValidator {
 		} else {
 			if (id !== this._idString){
 				throw new InsightError("mComparison has different idString");
-			};
+			}
 		}
 		const mKeyValue: any = Object.values(mComparison)[0];
 		if (typeof mKeyValue !== "number") {
 			throw new InsightError("mValue must be a number");
-		};
+		}
 	}
 
 	private validateLogicComparison(logic: any) {
@@ -241,6 +241,7 @@ export class QueryValidator {
 			}
 		}
 	}
+
 	private validateOrder(order: any, columns: any) {
 		if (!this.isArrayOfStrings(columns)) {
 			throw new InsightError("Columns must be an array of strings");
@@ -266,6 +267,7 @@ export class QueryValidator {
 		// Check if every element in the array is a string
 		return variable.every((element) => typeof element === "string");
 	}
+
 	private get idString(): string {
 		return this._idString;
 	}

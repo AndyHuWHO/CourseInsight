@@ -30,6 +30,7 @@ export class QueryEngine{
 		this.handleOptions(filteredSections, query["OPTIONS"]);
 		return Promise.resolve(this.insightResults);
 	}
+
 	/**
 	 * Apply filters and return only the filtered sections.
 	 * @param {Section[]} allSections - the array of all sections in the dataset to query.
@@ -61,6 +62,7 @@ export class QueryEngine{
 		// if none of these filters are in where, return all
 		return allSections;
 	}
+
 	private filterAnd(allSections: Section[], andOp: []): Section[] {
 		// initiate an empty result array
 		let andFilteredSections: Section[] = [];
@@ -115,6 +117,7 @@ export class QueryEngine{
 		}
 		return orFilteredSections;
 	}
+
 	private combineUnique(arr1: Section[], arr2: Section[]) {
 		const combinedSet = new Set([...arr1, ...arr2]);
 		return Array.from(combinedSet);
@@ -132,6 +135,7 @@ export class QueryEngine{
 		}
 		return isFilteredSections;
 	}
+
 	private passSComparison(sField: string, inputString: string, section: Section) {
 		const fieldValue = section[sField];
 		if (fieldValue === null || undefined) {
@@ -162,6 +166,7 @@ export class QueryEngine{
 		notFilteredSections = this.getDifference(allSections, notFilteredSections);
 		return notFilteredSections;
 	}
+
 	private getDifference(arr1: Section[], arr2: Section[]): any[] {
 		return arr1.filter((item) => !arr2.includes(item));
 	}
@@ -191,6 +196,7 @@ export class QueryEngine{
 		}
 		return eqFilteredSections;
 	}
+
 	private filterLT(allSections: Section[], ltOp: any): Section[] {
 		let ltFilteredSections: Section[] = [];
 		const mKey: string = Object.keys(ltOp)[0];
@@ -203,6 +209,7 @@ export class QueryEngine{
 		}
 		return ltFilteredSections;
 	}
+
 	/**
 	 * Puts InsightResult into the global field insightResults in the correct order.
 	 * @param {Section[]} filteredSections - an array of sections that are filtered by the WHERE conditions.
