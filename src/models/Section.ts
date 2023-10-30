@@ -52,5 +52,6 @@ export default class Section {
             this.audit === other.audit
 		);
 	}
+
 	[key: string]: any;
 }

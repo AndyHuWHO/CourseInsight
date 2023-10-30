@@ -1,0 +1,79 @@
+{
+	"title": "C3stroy2",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"IS": {
+						"sections_instructor": "wolfman, steven"
+					}
+				},
+				{
+					"GT": {
+						"sections_year": 2013
+					}
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"sections_instructor",
+				"sections_pass",
+				"sections_fail",
+				"sections_avg"
+			],
+			"ORDER": "sections_avg"
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2014,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 72,
+			"sections_fail": 12,
+			"sections_avg": 68.89
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "320",
+			"sections_year": 2014,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 129,
+			"sections_fail": 7,
+			"sections_avg": 71.82
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "110",
+			"sections_year": 2015,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 256,
+			"sections_fail": 40,
+			"sections_avg": 74.79
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "311",
+			"sections_year": 2014,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 75,
+			"sections_fail": 4,
+			"sections_avg": 80.15
+		},
+		{
+			"sections_dept": "cpsc",
+			"sections_id": "221",
+			"sections_year": 2014,
+			"sections_instructor": "wolfman, steven",
+			"sections_pass": 110,
+			"sections_fail": 5,
+			"sections_avg": 82.45
+		}
+	]
+}
