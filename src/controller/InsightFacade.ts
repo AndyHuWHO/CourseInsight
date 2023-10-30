@@ -6,7 +6,7 @@ import {
 	InsightResult,
 	NotFoundError,
 } from "./IInsightFacade";
-import {Dataset} from "../models/Dataset";
+import {SectionDataset} from "../models/SectionDataset";
 import * as FileUtil from "../util/FileUtil";
 import ValidationUtil from "../util/ValidationUtil";
 import {join} from "path";
@@ -24,7 +24,7 @@ import {QueryEngine} from "../models/QueryEngine";
 export default class InsightFacade implements IInsightFacade {
 	private persistDir = "./data";
 
-	private datasets: Dataset[];
+	private datasets: SectionDataset[]; // !!!
 	private datasetsId: string[];
 	private isLoaded: boolean;
 	private queryValidator: QueryValidator;
@@ -77,8 +77,8 @@ export default class InsightFacade implements IInsightFacade {
 			const sections = await FileUtil.extractSectionsFromUnZip(zipContent);
 			await FileUtil.writeSectionsToFile(id, sections);
 
-			// create a new Dataset and add it to the datasets array
-			const newDataset = new Dataset(id, kind, sections.length, sections);
+			// create a new SectionDataset and add it to the datasets array
+			const newDataset = new SectionDataset(id, kind, sections.length, sections);
 			this.datasets.push(newDataset);
 			this.datasetsId.push(id);
 
@@ -158,7 +158,7 @@ export default class InsightFacade implements IInsightFacade {
 		}
 		this.queryValidator.validateQuery(query);
 		const idString = this.queryValidator._idString;
-		let datasetToQuery: Dataset;
+		let datasetToQuery: SectionDataset;
 		for (let dataset of this.datasets) {
 			if (dataset.id === idString) {
 				datasetToQuery = dataset;
@@ -185,7 +185,7 @@ export default class InsightFacade implements IInsightFacade {
 		// console.log("printing datasets after loading");
 		// console.log(this.datasets);
 
-		// create new array of InsightDataset[] with only id, kind and numRows of Dataset object
+		// create new array of InsightDataset[] with only id, kind and numRows of SectionDataset object
 		// literal objects that conform to structure of interface InsightDataset will be considered of that type
 		const insightDatasets: InsightDataset[] = this.datasets.map((dataset) => {
 			return {
@@ -226,9 +226,9 @@ export default class InsightFacade implements IInsightFacade {
 				const datasetPath = join(dataFolderPath, filename);
 				const sections: Section[] = await FileUtil.loadDatasetContent(datasetPath);
 
-				// Create Dataset object and push it to this.datasets
+				// Create SectionDataset object and push it to this.datasets
 				// Assuming kind is always 'Courses'
-				const newDataset = new Dataset(id, InsightDatasetKind.Sections, sections.length, sections);
+				const newDataset = new SectionDataset(id, InsightDatasetKind.Sections, sections.length, sections);
 
 				return {newDataset, id};
 			});

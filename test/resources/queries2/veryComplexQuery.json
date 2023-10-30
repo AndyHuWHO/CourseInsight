@@ -1,0 +1,326 @@
+{
+	"title": "very complex query",
+	"input": {
+		"WHERE": {
+			"AND": [
+				{
+					"OR": [
+						{
+							"IS": {
+								"sections_dept": "korn"
+							}
+						},
+						{
+							"IS": {
+								"sections_dept": "japn"
+							}
+						}
+					]
+				},
+				{
+					"AND": [
+						{
+							"GT": {
+								"sections_avg": 80
+							}
+						},
+						{
+							"NOT": {
+								"GT": {
+									"sections_avg": 85
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_id",
+				"sections_dept",
+				"sections_year",
+				"sections_avg"
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2009,
+			"sections_avg": 80.39
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2009,
+			"sections_avg": 80.74
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2012,
+			"sections_avg": 81.09
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2012,
+			"sections_avg": 80.24
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2008,
+			"sections_avg": 82.6
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2010,
+			"sections_avg": 80.35
+		},
+		{
+			"sections_id": "100",
+			"sections_dept": "japn",
+			"sections_year": 2013,
+			"sections_avg": 85
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "japn",
+			"sections_year": 2013,
+			"sections_avg": 82.59
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "japn",
+			"sections_year": 2013,
+			"sections_avg": 81.8
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "japn",
+			"sections_year": 2007,
+			"sections_avg": 80.6
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "japn",
+			"sections_year": 2010,
+			"sections_avg": 80.47
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "japn",
+			"sections_year": 2013,
+			"sections_avg": 80.53
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "japn",
+			"sections_year": 2014,
+			"sections_avg": 80.42
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "japn",
+			"sections_year": 2014,
+			"sections_avg": 80.5
+		},
+		{
+			"sections_id": "103",
+			"sections_dept": "japn",
+			"sections_year": 2012,
+			"sections_avg": 81.13
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 2013,
+			"sections_avg": 81.89
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 81.89
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 2007,
+			"sections_avg": 84.38
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 84.38
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 2008,
+			"sections_avg": 82.36
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 82.36
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 2010,
+			"sections_avg": 82.94
+		},
+		{
+			"sections_id": "311",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 82.94
+		},
+		{
+			"sections_id": "312",
+			"sections_dept": "japn",
+			"sections_year": 2011,
+			"sections_avg": 81.58
+		},
+		{
+			"sections_id": "312",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 81.58
+		},
+		{
+			"sections_id": "406",
+			"sections_dept": "japn",
+			"sections_year": 2008,
+			"sections_avg": 81.31
+		},
+		{
+			"sections_id": "406",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 80.03
+		},
+		{
+			"sections_id": "408",
+			"sections_dept": "japn",
+			"sections_year": 2008,
+			"sections_avg": 80.5
+		},
+		{
+			"sections_id": "408",
+			"sections_dept": "japn",
+			"sections_year": 2010,
+			"sections_avg": 84
+		},
+		{
+			"sections_id": "408",
+			"sections_dept": "japn",
+			"sections_year": 1900,
+			"sections_avg": 84
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 81.5
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "korn",
+			"sections_year": 2011,
+			"sections_avg": 81.5
+		},
+		{
+			"sections_id": "101",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 83.33
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 2010,
+			"sections_avg": 82.46
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 82.46
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 2009,
+			"sections_avg": 81.78
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 81.78
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 2011,
+			"sections_avg": 80.89
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 2007,
+			"sections_avg": 82.56
+		},
+		{
+			"sections_id": "102",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 80.2
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 2010,
+			"sections_avg": 80.39
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 80.39
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 2013,
+			"sections_avg": 82.8
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 80.31
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 2009,
+			"sections_avg": 84
+		},
+		{
+			"sections_id": "200",
+			"sections_dept": "korn",
+			"sections_year": 1900,
+			"sections_avg": 84
+		}
+	]
+}

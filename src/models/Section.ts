@@ -38,18 +38,18 @@ export default class Section {
 	}
 
 	public equals(other: Section): boolean {
-        // Compare each property
+		// Compare each property
 		return (
 			this.uuid === other.uuid &&
-            this.id === other.id &&
-            this.title === other.title &&
-            this.instructor === other.instructor &&
-            this.dept === other.dept &&
-            this.year === other.year &&
-            this.avg === other.avg &&
-            this.pass === other.pass &&
-            this.fail === other.fail &&
-            this.audit === other.audit
+			this.id === other.id &&
+			this.title === other.title &&
+			this.instructor === other.instructor &&
+			this.dept === other.dept &&
+			this.year === other.year &&
+			this.avg === other.avg &&
+			this.pass === other.pass &&
+			this.fail === other.fail &&
+			this.audit === other.audit
 		);
 	}
 

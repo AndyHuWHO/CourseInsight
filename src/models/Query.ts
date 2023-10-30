@@ -8,26 +8,23 @@
 // } from "../../src/controller/IInsightFacade";
 // import InsightFacade from "../../src/controller/InsightFacade";
 
-export type MComparatorType =
-	{LT: {[key: MKey]: number}} |
-	{GT: {[key: MKey]: number}} |
-	{EQ: {[key: MKey]: number}};
+export type MComparatorType = {LT: {[key: MKey]: number}} | {GT: {[key: MKey]: number}} | {EQ: {[key: MKey]: number}};
 
 // type SComparatorType =
 // 	{IS: {[key: string]: string};};
-export interface SComparatorType {IS: {[key: SKey]: string};}
+export interface SComparatorType {
+	IS: {[key: SKey]: string};
+}
 
 // type NegationType =
 // 	{NOT:
 // 			{FILTER: FilterType;};
 // 	};
-export interface NegationType {NOT:
-			{FILTER: FilterType;};
-	}
+export interface NegationType {
+	NOT: {FILTER: FilterType};
+}
 
-export type LogicComparisonType =
-	{AND: {FILTER_LIST: FilterType[];}} |
-	{OR: {FILTER_LIST: FilterType[];}}
+export type LogicComparisonType = {AND: {FILTER_LIST: FilterType[]}} | {OR: {FILTER_LIST: FilterType[]}};
 
 export type FilterType = MComparatorType | SComparatorType | LogicComparisonType | NegationType;
 
@@ -40,7 +37,7 @@ interface OptionsType {
 	ORDER?: Key;
 }
 
-export type IdString = string;  // This represents [^_]+
+export type IdString = string; // This represents [^_]+
 export type MField = "avg" | "pass" | "fail" | "audit" | "year";
 export type SField = "dept" | "id" | "instructor" | "title" | "uuid";
 export type MKey = `"${IdString}_${MField}"`;
