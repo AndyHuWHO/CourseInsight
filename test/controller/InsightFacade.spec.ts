@@ -13,7 +13,7 @@ import {expect, use} from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {clearDisk, getContentFromArchives, getContentFromArchivesBinary} from "../TestUtil";
 import {it} from "mocha";
-import {Dataset} from "../../src/models/Dataset";
+import {SectionDataset} from "../../src/models/SectionDataset";
 
 use(chaiAsPromised);
 
@@ -36,7 +36,7 @@ describe("InsightFacade", function () {
 		clearDisk();
 	});
 
-	describe("Add/Remove/List Dataset", function () {
+	describe("Add/Remove/List SectionDataset", function () {
 		before(function () {
 			console.info(`Before: ${this.test?.parent?.title}`);
 		});

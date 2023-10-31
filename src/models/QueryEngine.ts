@@ -1,23 +1,22 @@
 import {InsightDatasetKind, InsightError, InsightResult, ResultTooLargeError} from "../controller/IInsightFacade";
-import {Dataset} from "./Dataset";
+import {SectionDataset} from "./SectionDataset";
 import Section from "./Section";
 
-
-export class QueryEngine{
+export class QueryEngine {
 	// private idStringPattern: RegExp = /^[^_]+$/;
 	// private inputStringPattern: RegExp = /^((\*)?[^*]*(\*)?)$/;
 	// private mKeyPattern: RegExp = /^[^_]+_(avg|pass|fail|audit|year)$/;
 	// private sKeyPattern: RegExp = new RegExp(/^[^_]+_(dept|id|instructor|title|uuid)$/);
-	private insightResults: InsightResult [] = [];
+	private insightResults: InsightResult[] = [];
 	private numOfSections: number = 0;
 	private sections: Section[] = [];
-	public queryDataset (dataset: Dataset, query: any): Promise<InsightResult[]> {
+	public queryDataset(dataset: SectionDataset, query: any): Promise<InsightResult[]> {
 		if (dataset.kind !== InsightDatasetKind.Sections) {
 			throw new InsightError("wrong dataset kind for query");
 		}
 		this.numOfSections = dataset.sections.length;
 		this.sections = dataset.sections;
-		if ((Object.keys(query["WHERE"])).length === 0) {
+		if (Object.keys(query["WHERE"]).length === 0) {
 			if (this.numOfSections > 5000) {
 				return Promise.reject(new ResultTooLargeError("result too big"));
 			}
@@ -37,7 +36,7 @@ export class QueryEngine{
 	 * @param where - the body object in the query
 	 * @returns {Section[]} an array of sections filtered by the filters in WHERE.
 	 */
-	private filterWhere (allSections: Section [], where: any): Section[] {
+	private filterWhere(allSections: Section[], where: any): Section[] {
 		if ("AND" in where) {
 			return this.filterAnd(allSections, where["AND"]);
 		}
@@ -80,7 +79,7 @@ export class QueryEngine{
 				andFilteredSections = filteredArray;
 			} else {
 				// if not the first filter, find the intersection of the current result with subsequent result
-				andFilteredSections = this.findIntersection(andFilteredSections,filteredArray);
+				andFilteredSections = this.findIntersection(andFilteredSections, filteredArray);
 			}
 		}
 		return andFilteredSections;
@@ -104,7 +103,6 @@ export class QueryEngine{
 		return intersection;
 	}
 
-
 	private filterOR(allSections: Section[], orOp: []): Section[] {
 		// initiate result array
 		let orFilteredSections: Section[] = [];
@@ -113,7 +111,7 @@ export class QueryEngine{
 			// get the result of the filter
 			let filteredArray = this.filterWhere(allSections, item);
 			// combine it with current result and only leave the unique ones
-			orFilteredSections = this.combineUnique(orFilteredSections,filteredArray);
+			orFilteredSections = this.combineUnique(orFilteredSections, filteredArray);
 		}
 		return orFilteredSections;
 	}
@@ -129,7 +127,7 @@ export class QueryEngine{
 		const sField: string = sKey.split("_")[1];
 		const inputString = Object.values(isOp)[0] as string;
 		for (const section of allSections) {
-			if (this.passSComparison(sField,inputString, section)) {
+			if (this.passSComparison(sField, inputString, section)) {
 				isFilteredSections.push(section);
 			}
 		}
@@ -148,17 +146,16 @@ export class QueryEngine{
 			return true;
 		}
 		if (inputString.startsWith("*") && !inputString.endsWith("*")) {
-			return fieldValue.endsWith(inputString.substring(1,inputString.length));
+			return fieldValue.endsWith(inputString.substring(1, inputString.length));
 		}
 		if (!inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.startsWith(inputString.substring(0,inputString.length - 1));
+			return fieldValue.startsWith(inputString.substring(0, inputString.length - 1));
 		}
 		if (inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.includes(inputString.substring(1,inputString.length - 1));
+			return fieldValue.includes(inputString.substring(1, inputString.length - 1));
 		}
 		return false;
 	}
-
 
 	private filterNot(allSections: Section[], notOp: any): Section[] {
 		let notFilteredSections: Section[] = [];
@@ -215,7 +212,7 @@ export class QueryEngine{
 	 * @param {Section[]} filteredSections - an array of sections that are filtered by the WHERE conditions.
 	 * @param {object} options - the options object in the query.
 	 */
-	private handleOptions (filteredSections: Section[], options: object){
+	private handleOptions(filteredSections: Section[], options: object) {
 		if ("COLUMNS" in options) {
 			this.handleColumns(options["COLUMNS"], filteredSections);
 		}
@@ -224,10 +221,10 @@ export class QueryEngine{
 		}
 	}
 
-	private handleColumns(columns: any, filteredSections: Section[]){
+	private handleColumns(columns: any, filteredSections: Section[]) {
 		const stringColumns = columns as string[];
 		// for each section
-		for(let section of filteredSections) {
+		for (let section of filteredSections) {
 			// make a new insightResult
 			let insightResultNew: InsightResult = {};
 			// for each key in columns
@@ -247,7 +244,7 @@ export class QueryEngine{
 		}
 	}
 
-	private handleORDER(order: any){
+	private handleORDER(order: any) {
 		const orderString = order as string;
 		// Sorting based on the specified key in ascending order
 		this.insightResults.sort((a: any, b: any) => a[orderString] - b[orderString]);

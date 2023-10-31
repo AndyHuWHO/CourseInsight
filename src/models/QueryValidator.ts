@@ -8,10 +8,9 @@ export class QueryValidator {
 	private idStringPattern: RegExp = /^[^_]+$/;
 	private inputStringPattern: RegExp = /^((\*)?[^*]*(\*)?)$/;
 	private mKeyPattern: RegExp = /^[^_]+_(avg|pass|fail|audit|year)$/;
-	private sKeyPattern: RegExp = new RegExp(/^[^_]+_(dept|id|instructor|title|uuid)$/) ;
+	private sKeyPattern: RegExp = new RegExp(/^[^_]+_(dept|id|instructor|title|uuid)$/);
 
-
-	public validateQuery(query: unknown)  {
+	public validateQuery(query: unknown) {
 		// query must be an object
 		if (!this.isObject(query)) {
 			throw new InsightError("query not an object");
@@ -31,7 +30,7 @@ export class QueryValidator {
 		console.log("ready to validate body and options");
 		// query body and options both have to be objects
 		// if (!this.isObject(query.WHERE) || !this.isObject(query.OPTIONS)){
-			//  return  false;
+		//  return  false;
 		// }
 		// if both body and options are valid, query is valid
 		this.validateWhere(query.WHERE);
@@ -41,7 +40,6 @@ export class QueryValidator {
 	private isObject(value: unknown): value is object {
 		return typeof value === "object" && value !== null;
 	}
-
 
 	private validateWhere(where: any) {
 		if (!this.isObject(where) || Array.isArray(where)) {
@@ -62,7 +60,7 @@ export class QueryValidator {
 		}
 	}
 
-// known that the key in where is a valid filter key
+	// known that the key in where is a valid filter key
 	private validateFilter(filter: any) {
 		if (!this.isObject(filter)) {
 			throw new InsightError("filter must be an object");
@@ -108,7 +106,7 @@ export class QueryValidator {
 			throw new InsightError("sKey not a string");
 		}
 		// sKey has to follow the sKeyPattern
-		if (!(this.sKeyPattern.test(sKey))) {
+		if (!this.sKeyPattern.test(sKey)) {
 			throw new InsightError("invalid sKey");
 		}
 		// sKey's idString has to be valid
@@ -117,7 +115,7 @@ export class QueryValidator {
 			console.log("inside validateSComparison " + id);
 			this._idString = id;
 		} else {
-			if (id !== this.idString){
+			if (id !== this.idString) {
 				throw new InsightError("sComparison has different idString");
 			}
 		}
@@ -150,7 +148,7 @@ export class QueryValidator {
 			throw new InsightError("mKey not a string");
 		}
 		// mKey has to follow the mKeyPattern
-		if (!(this.mKeyPattern.test(mKey))) {
+		if (!this.mKeyPattern.test(mKey)) {
 			throw new InsightError("invalid mKey");
 		}
 		// mKey's idString has to be valid
@@ -159,7 +157,7 @@ export class QueryValidator {
 			console.log("inside validateMComparison id:" + id);
 			this._idString = id;
 		} else {
-			if (id !== this._idString){
+			if (id !== this._idString) {
 				throw new InsightError("mComparison has different idString");
 			}
 		}
@@ -174,14 +172,13 @@ export class QueryValidator {
 			throw new InsightError("logicComparison must be an array");
 		}
 		const logicLength = logic.length;
-		if(logicLength === 0) {
+		if (logicLength === 0) {
 			throw new InsightError("logicComparison can't be an empty array");
 		}
 		for (let item of logic) {
 			this.validateFilter(item);
 		}
 	}
-
 
 	private validateOptions(options: any) {
 		if (!this.isObject(options)) {
@@ -205,11 +202,11 @@ export class QueryValidator {
 			this.validateColumns(options.COLUMNS);
 		}
 		// if options has more keys than just columns, it must have order key. And need to validate both columns and order
-		if(optionsLength === 2) {
+		if (optionsLength === 2) {
 			// nesting this so typescript could figure out order is in options
 			if (!("ORDER" in options)) {
 				throw new InsightError("Options must only have order other than columns");
-			}else {
+			} else {
 				this.validateColumns(options.COLUMNS);
 				this.validateOrder(options.ORDER, options.COLUMNS);
 			}
@@ -232,7 +229,7 @@ export class QueryValidator {
 			// make sure all the idString are the same, otherwise, can't query multiple data set error
 			if (i === 0 && this._idString === "") {
 				console.log("inside validateColumns this._idString:" + this._idString);
-				console.log("inside validateColumns columns[i].split(\"_\")[0]:" + columns[i].split("_")[0]);
+				console.log('inside validateColumns columns[i].split("_")[0]:' + columns[i].split("_")[0]);
 				this._idString = columns[i].split("_")[0];
 			} else {
 				if (columns[i].split("_")[0] !== this._idString) {
@@ -271,6 +268,4 @@ export class QueryValidator {
 	private get idString(): string {
 		return this._idString;
 	}
-
 }
-
