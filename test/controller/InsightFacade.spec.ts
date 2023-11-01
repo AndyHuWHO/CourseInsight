@@ -13,7 +13,7 @@ import {expect, use} from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {clearDisk, getContentFromArchives, getContentFromArchivesBinary} from "../TestUtil";
 import {it} from "mocha";
-import {SectionDataset} from "../../src/models/SectionDataset";
+import {Dataset} from "../../src/models/Dataset";
 
 use(chaiAsPromised);
 

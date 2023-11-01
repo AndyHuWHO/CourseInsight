@@ -1,6 +1,7 @@
 import {InsightDatasetKind, InsightError, InsightResult, ResultTooLargeError} from "../controller/IInsightFacade";
-import {SectionDataset} from "./SectionDataset";
+import {Dataset} from "./Dataset";
 import Section from "./Section";
+import {InsightKind} from "./InsightKind";
 
 export class QueryEngine {
 	// private idStringPattern: RegExp = /^[^_]+$/;
@@ -9,13 +10,13 @@ export class QueryEngine {
 	// private sKeyPattern: RegExp = new RegExp(/^[^_]+_(dept|id|instructor|title|uuid)$/);
 	private insightResults: InsightResult[] = [];
 	private numOfSections: number = 0;
-	private sections: Section[] = [];
-	public queryDataset(dataset: SectionDataset, query: any): Promise<InsightResult[]> {
+	private sections: InsightKind[] = [];
+	public queryDataset(dataset: Dataset, query: any): Promise<InsightResult[]> {
 		if (dataset.kind !== InsightDatasetKind.Sections) {
 			throw new InsightError("wrong dataset kind for query");
 		}
-		this.numOfSections = dataset.sections.length;
-		this.sections = dataset.sections;
+		this.numOfSections = dataset.insightKindArray.length;
+		this.sections = dataset.insightKindArray;
 		if (Object.keys(query["WHERE"]).length === 0) {
 			if (this.numOfSections > 5000) {
 				return Promise.reject(new ResultTooLargeError("result too big"));
@@ -36,7 +37,7 @@ export class QueryEngine {
 	 * @param where - the body object in the query
 	 * @returns {Section[]} an array of sections filtered by the filters in WHERE.
 	 */
-	private filterWhere(allSections: Section[], where: any): Section[] {
+	private filterWhere(allSections: InsightKind[], where: any): InsightKind[] {
 		if ("AND" in where) {
 			return this.filterAnd(allSections, where["AND"]);
 		}
@@ -62,9 +63,9 @@ export class QueryEngine {
 		return allSections;
 	}
 
-	private filterAnd(allSections: Section[], andOp: []): Section[] {
+	private filterAnd(allSections: InsightKind[], andOp: []): InsightKind[] {
 		// initiate an empty result array
-		let andFilteredSections: Section[] = [];
+		let andFilteredSections: InsightKind[] = [];
 		// for each filter in and
 		for (let item of andOp) {
 			// filteredArray gets the result of the current filter
@@ -88,7 +89,7 @@ export class QueryEngine {
 	// 	return arr1.filter((item) => arr2.includes(item));
 	// }
 
-	private findIntersection(array1: Section[], array2: Section[]): Section[] {
+	private findIntersection(array1: InsightKind[], array2: InsightKind[]): InsightKind[] {
 		const set1 = new Set(array1);
 		const intersection = array2.filter((item) => {
 			// Check if an equivalent item exists in array1 using the equals method
@@ -103,9 +104,9 @@ export class QueryEngine {
 		return intersection;
 	}
 
-	private filterOR(allSections: Section[], orOp: []): Section[] {
+	private filterOR(allSections: InsightKind[], orOp: []): InsightKind[] {
 		// initiate result array
-		let orFilteredSections: Section[] = [];
+		let orFilteredSections: InsightKind[] = [];
 		// for each filter in or
 		for (let item of orOp) {
 			// get the result of the filter
@@ -116,13 +117,13 @@ export class QueryEngine {
 		return orFilteredSections;
 	}
 
-	private combineUnique(arr1: Section[], arr2: Section[]) {
+	private combineUnique(arr1: InsightKind[], arr2: InsightKind[]) {
 		const combinedSet = new Set([...arr1, ...arr2]);
 		return Array.from(combinedSet);
 	}
 
-	private filterIs(allSections: Section[], isOp: any): Section[] {
-		let isFilteredSections: Section[] = [];
+	private filterIs(allSections: InsightKind[], isOp: any): InsightKind[] {
+		let isFilteredSections: InsightKind[] = [];
 		const sKey: string = Object.keys(isOp)[0];
 		const sField: string = sKey.split("_")[1];
 		const inputString = Object.values(isOp)[0] as string;
@@ -134,7 +135,7 @@ export class QueryEngine {
 		return isFilteredSections;
 	}
 
-	private passSComparison(sField: string, inputString: string, section: Section) {
+	private passSComparison(sField: string, inputString: string, section: InsightKind) {
 		const fieldValue = section[sField];
 		if (fieldValue === null || undefined) {
 			return false;
@@ -157,19 +158,19 @@ export class QueryEngine {
 		return false;
 	}
 
-	private filterNot(allSections: Section[], notOp: any): Section[] {
-		let notFilteredSections: Section[] = [];
+	private filterNot(allSections: InsightKind[], notOp: any): InsightKind[] {
+		let notFilteredSections: InsightKind[] = [];
 		notFilteredSections = this.filterWhere(allSections, notOp);
 		notFilteredSections = this.getDifference(allSections, notFilteredSections);
 		return notFilteredSections;
 	}
 
-	private getDifference(arr1: Section[], arr2: Section[]): any[] {
+	private getDifference(arr1: InsightKind[], arr2: InsightKind[]): any[] {
 		return arr1.filter((item) => !arr2.includes(item));
 	}
 
-	private filterGT(allSections: Section[], gtOp: any): Section[] {
-		let gtFilteredSections: Section[] = [];
+	private filterGT(allSections: InsightKind[], gtOp: any): InsightKind[] {
+		let gtFilteredSections: InsightKind[] = [];
 		const mKey: string = Object.keys(gtOp)[0];
 		const mField: string = mKey.split("_")[1];
 		const numValue = Object.values(gtOp)[0] as number;
@@ -181,8 +182,8 @@ export class QueryEngine {
 		return gtFilteredSections;
 	}
 
-	private filterEQ(allSections: Section[], eqOp: any): Section[] {
-		let eqFilteredSections: Section[] = [];
+	private filterEQ(allSections: InsightKind[], eqOp: any): InsightKind[] {
+		let eqFilteredSections: InsightKind[] = [];
 		const mKey: string = Object.keys(eqOp)[0];
 		const mField: string = mKey.split("_")[1];
 		const numValue = Object.values(eqOp)[0] as number;
@@ -194,8 +195,8 @@ export class QueryEngine {
 		return eqFilteredSections;
 	}
 
-	private filterLT(allSections: Section[], ltOp: any): Section[] {
-		let ltFilteredSections: Section[] = [];
+	private filterLT(allSections: InsightKind[], ltOp: any): InsightKind[] {
+		let ltFilteredSections: InsightKind[] = [];
 		const mKey: string = Object.keys(ltOp)[0];
 		const mField: string = mKey.split("_")[1];
 		const numValue = Object.values(ltOp)[0] as number;
@@ -212,7 +213,7 @@ export class QueryEngine {
 	 * @param {Section[]} filteredSections - an array of sections that are filtered by the WHERE conditions.
 	 * @param {object} options - the options object in the query.
 	 */
-	private handleOptions(filteredSections: Section[], options: object) {
+	private handleOptions(filteredSections: InsightKind[], options: object) {
 		if ("COLUMNS" in options) {
 			this.handleColumns(options["COLUMNS"], filteredSections);
 		}
@@ -221,7 +222,7 @@ export class QueryEngine {
 		}
 	}
 
-	private handleColumns(columns: any, filteredSections: Section[]) {
+	private handleColumns(columns: any, filteredSections: InsightKind[]) {
 		const stringColumns = columns as string[];
 		// for each section
 		for (let section of filteredSections) {

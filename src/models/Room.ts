@@ -1,7 +1,7 @@
 import {InsightDatasetKind} from "../controller/IInsightFacade";
-
+import {InsightKind} from "./InsightKind";
 // represents a section
-export default class Room {
+export default class Room implements InsightKind {
 	public readonly fullName: string; // full building name
 	public readonly shortName: string; // short building name
 	public readonly number: string; // room number
