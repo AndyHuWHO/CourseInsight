@@ -1,0 +1,255 @@
+{
+	"title": "totalSeatsGroupedbyBuilding",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_shortname",
+				"rooms_fullname",
+				"totalseat"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"totalseat"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_shortname",
+				"rooms_fullname"
+			],
+			"APPLY": [
+				{
+					"totalseat": {
+						"SUM": "rooms_seats"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": false,
+	"expected": [
+		{
+			"rooms_shortname": "AUDX",
+			"rooms_fullname": "Auditorium Annex",
+			"totalseat": 41
+		},
+		{
+			"rooms_shortname": "EOSM",
+			"rooms_fullname": "Earth and Ocean Sciences - Main",
+			"totalseat": 50
+		},
+		{
+			"rooms_shortname": "MGYM",
+			"rooms_fullname": "War Memorial Gymnasium",
+			"totalseat": 65
+		},
+		{
+			"rooms_shortname": "BRKX",
+			"rooms_fullname": "Brock Hall Annex",
+			"totalseat": 94
+		},
+		{
+			"rooms_shortname": "MATX",
+			"rooms_fullname": "Mathematics Annex",
+			"totalseat": 106
+		},
+		{
+			"rooms_shortname": "FORW",
+			"rooms_fullname": "Frank Forward",
+			"totalseat": 142
+		},
+		{
+			"rooms_shortname": "AERL",
+			"rooms_fullname": "Aquatic Ecosystems Research Laboratory",
+			"totalseat": 144
+		},
+		{
+			"rooms_shortname": "IONA",
+			"rooms_fullname": "Iona Building",
+			"totalseat": 150
+		},
+		{
+			"rooms_shortname": "FRDM",
+			"rooms_fullname": "Friedman Building",
+			"totalseat": 160
+		},
+		{
+			"rooms_shortname": "UCLL",
+			"rooms_fullname": "The Leon and Thea Koerner University Centre",
+			"totalseat": 163
+		},
+		{
+			"rooms_shortname": "SPPH",
+			"rooms_fullname": "School of Population and Public Health",
+			"totalseat": 166
+		},
+		{
+			"rooms_shortname": "ANSO",
+			"rooms_fullname": "Anthropology and Sociology",
+			"totalseat": 186
+		},
+		{
+			"rooms_shortname": "SOWK",
+			"rooms_fullname": "Jack Bell Building for the School of Social Work",
+			"totalseat": 201
+		},
+		{
+			"rooms_shortname": "ALRD",
+			"rooms_fullname": "Allard Hall (LAW)",
+			"totalseat": 228
+		},
+		{
+			"rooms_shortname": "PCOH",
+			"rooms_fullname": "Ponderosa Commons: Oak House",
+			"totalseat": 240
+		},
+		{
+			"rooms_shortname": "FNH",
+			"rooms_fullname": "Food, Nutrition and Health",
+			"totalseat": 263
+		},
+		{
+			"rooms_shortname": "CEME",
+			"rooms_fullname": "Civil and Mechanical Engineering",
+			"totalseat": 289
+		},
+		{
+			"rooms_shortname": "LASR",
+			"rooms_fullname": "Frederic Lasserre",
+			"totalseat": 325
+		},
+		{
+			"rooms_shortname": "BIOL",
+			"rooms_fullname": "Biological Sciences",
+			"totalseat": 336
+		},
+		{
+			"rooms_shortname": "CHBE",
+			"rooms_fullname": "Chemical and Biological Engineering Building",
+			"totalseat": 354
+		},
+		{
+			"rooms_shortname": "CIRS",
+			"rooms_fullname": "Centre for Interactive  Research on Sustainability",
+			"totalseat": 426
+		},
+		{
+			"rooms_shortname": "WESB",
+			"rooms_fullname": "Wesbrook",
+			"totalseat": 427
+		},
+		{
+			"rooms_shortname": "DMP",
+			"rooms_fullname": "Hugh Dempster Pavilion",
+			"totalseat": 440
+		},
+		{
+			"rooms_shortname": "MATH",
+			"rooms_fullname": "Mathematics",
+			"totalseat": 495
+		},
+		{
+			"rooms_shortname": "MCLD",
+			"rooms_fullname": "MacLeod",
+			"totalseat": 503
+		},
+		{
+			"rooms_shortname": "LSK",
+			"rooms_fullname": "Leonard S. Klinck (also known as CSCI)",
+			"totalseat": 505
+		},
+		{
+			"rooms_shortname": "OSBO",
+			"rooms_fullname": "Robert F. Osborne Centre",
+			"totalseat": 521
+		},
+		{
+			"rooms_shortname": "HEBB",
+			"rooms_fullname": "Hebb",
+			"totalseat": 537
+		},
+		{
+			"rooms_shortname": "PHRM",
+			"rooms_fullname": "Pharmaceutical Sciences Building",
+			"totalseat": 538
+		},
+		{
+			"rooms_shortname": "IBLC",
+			"rooms_fullname": "Irving K Barber Learning Centre",
+			"totalseat": 568
+		},
+		{
+			"rooms_shortname": "MCML",
+			"rooms_fullname": "MacMillan",
+			"totalseat": 573
+		},
+		{
+			"rooms_shortname": "ESB",
+			"rooms_fullname": "Earth Sciences Building",
+			"totalseat": 580
+		},
+		{
+			"rooms_shortname": "GEOG",
+			"rooms_fullname": "Geography",
+			"totalseat": 619
+		},
+		{
+			"rooms_shortname": "FSC",
+			"rooms_fullname": "Forest Sciences Centre",
+			"totalseat": 621
+		},
+		{
+			"rooms_shortname": "HENN",
+			"rooms_fullname": "Hennings",
+			"totalseat": 658
+		},
+		{
+			"rooms_shortname": "ORCH",
+			"rooms_fullname": "Orchard Commons",
+			"totalseat": 662
+		},
+		{
+			"rooms_shortname": "LSC",
+			"rooms_fullname": "Life Sciences Centre",
+			"totalseat": 825
+		},
+		{
+			"rooms_shortname": "SRC",
+			"rooms_fullname": "Student Recreation Centre",
+			"totalseat": 897
+		},
+		{
+			"rooms_shortname": "CHEM",
+			"rooms_fullname": "Chemistry",
+			"totalseat": 913
+		},
+		{
+			"rooms_shortname": "SCRF",
+			"rooms_fullname": "Neville Scarfe",
+			"totalseat": 1004
+		},
+		{
+			"rooms_shortname": "WOOD",
+			"rooms_fullname": "Woodward (Instructional Resources Centre-IRC)",
+			"totalseat": 1297
+		},
+		{
+			"rooms_shortname": "SWNG",
+			"rooms_fullname": "West Mall Swing Space",
+			"totalseat": 1421
+		},
+		{
+			"rooms_shortname": "ANGU",
+			"rooms_fullname": "Henry Angus",
+			"totalseat": 1546
+		},
+		{
+			"rooms_shortname": "BUCH",
+			"rooms_fullname": "Buchanan",
+			"totalseat": 3190
+		}
+	]
+}

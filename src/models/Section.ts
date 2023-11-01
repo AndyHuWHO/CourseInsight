@@ -1,7 +1,8 @@
 import {InsightDatasetKind} from "../controller/IInsightFacade";
+import {InsightKind} from "./InsightKind";
 
 // represents a section
-export default class Section {
+export default class Section implements InsightKind{
 	public readonly uuid: string; // identifier for the section
 	public readonly id: string; // course identifier
 	public readonly title: string;

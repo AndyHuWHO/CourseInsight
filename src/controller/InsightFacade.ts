@@ -6,7 +6,7 @@ import {
 	InsightResult,
 	NotFoundError,
 } from "./IInsightFacade";
-import {SectionDataset} from "../models/SectionDataset";
+import {Dataset} from "../models/Dataset";
 import * as FileUtil from "../util/FileUtil";
 import ValidationUtil from "../util/ValidationUtil";
 import {join} from "path";
@@ -24,7 +24,7 @@ import {QueryEngine} from "../models/QueryEngine";
 export default class InsightFacade implements IInsightFacade {
 	private persistDir = "./data";
 
-	private datasets: SectionDataset[]; // !!!
+	private datasets: Dataset[]; // !!!
 	private datasetsId: string[];
 	private isLoaded: boolean;
 	private queryValidator: QueryValidator;
@@ -78,7 +78,7 @@ export default class InsightFacade implements IInsightFacade {
 			await FileUtil.writeSectionsToFile(id, sections);
 
 			// create a new SectionDataset and add it to the datasets array
-			const newDataset = new SectionDataset(id, kind, sections.length, sections);
+			const newDataset = new Dataset(id, kind, sections.length, sections);
 			this.datasets.push(newDataset);
 			this.datasetsId.push(id);
 
@@ -158,7 +158,7 @@ export default class InsightFacade implements IInsightFacade {
 		}
 		this.queryValidator.validateQuery(query);
 		const idString = this.queryValidator._idString;
-		let datasetToQuery: SectionDataset;
+		let datasetToQuery: Dataset;
 		for (let dataset of this.datasets) {
 			if (dataset.id === idString) {
 				datasetToQuery = dataset;
@@ -228,7 +228,7 @@ export default class InsightFacade implements IInsightFacade {
 
 				// Create SectionDataset object and push it to this.datasets
 				// Assuming kind is always 'Courses'
-				const newDataset = new SectionDataset(id, InsightDatasetKind.Sections, sections.length, sections);
+				const newDataset = new Dataset(id, InsightDatasetKind.Sections, sections.length, sections);
 
 				return {newDataset, id};
 			});

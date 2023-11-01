@@ -1,0 +1,28 @@
+{
+	"title": "invalidTransFormationMissingApply",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_shortname",
+				"rooms_fullname",
+				"roomCount"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"rooms_fullname",
+					"roomCount"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_shortname",
+				"rooms_fullname"
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
