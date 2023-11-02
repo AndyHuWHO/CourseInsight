@@ -41,7 +41,7 @@ describe("InsightFacade", function () {
 		clearDisk();
 	});
 
-	describe.only("Add/Remove/List RoomDataset", function () {
+	describe("Add/Remove/List RoomDataset", function () {
 		before(function () {
 			console.info(`Before: ${this.test?.parent?.title}`);
 		});
@@ -247,7 +247,7 @@ describe("InsightFacade", function () {
 			return expect(result).to.eventually.have.members(["ubcRooms"]);
 		});
 
-		it.only("should successfully add large dataset", function () {
+		it("should successfully add large dataset", function () {
 			const result = facade.addDataset("ubcRooms", rooms, InsightDatasetKind.Rooms);
 			return expect(result).to.eventually.have.members(["ubcRooms"]);
 		});

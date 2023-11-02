@@ -88,7 +88,7 @@ export default class InsightFacade implements IInsightFacade {
 				const rooms = await RoomFileUtil.extractRoomsFromUnzip(zipContent);
 				console.log("just exited extraRoomsFromUnzip");
 				// await FileUtil.writeRoomsToFile(id, rooms);
-				// newDataset = new Dataset(id, kind, rooms.length, rooms);
+				newDataset = new Dataset(id, kind, rooms.length, rooms);
 			} else {
 				throw new InsightError("Error occurred while extracting from zip");
 			}
