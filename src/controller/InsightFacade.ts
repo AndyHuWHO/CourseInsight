@@ -71,11 +71,6 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Invalid Zip Base64 content");
 			}
 
-			// // Validate kind should be InsightDataKind
-			// if (!ValidationUtil.isValidKind(kind)) {
-			// 	throw new InsightError("Invalid InsightDatasetKind");
-			// }
-
 			const zipContent = await SectionFileUtil.unZipBase64(content);
 
 			let newDataset: Dataset | undefined;
@@ -244,7 +239,6 @@ export default class InsightFacade implements IInsightFacade {
 			const sortedFilenames = PersistenceUtil.sortFilenamesChronologically(filenames);
 
 			const loadDatasetPromises = sortedFilenames.map(async (filename) => {
-
 				// extract dataset id from filename
 				const id = PersistenceUtil.extractDatasetIdFromFilename(filename);
 

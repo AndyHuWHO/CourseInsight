@@ -10,9 +10,9 @@ import {
 	findAllElementsByTag,
 	hasAllClassPairs,
 	hasClassPair,
-	getTextFromTd, getHrefFromTd
+	getTextFromTd,
+	getHrefFromTd,
 } from "./IndexFileUtil";
-
 
 // The classes that identify the building table in index.htm
 const tdBuildingClasses: string[][] = [
@@ -25,35 +25,35 @@ const tdBuildingClasses: string[][] = [
 const teamNumber = "149";
 
 export async function extractRoomsFromBuilding(unzipContent: JSZip, building: Building): Promise<Room[]> {
-    // get relative path fo the building's .htm file from its Building object
-    // assume it exists as a check was done at line 197 of IndexFileUtil.
-    // if (!building.buildingHREF) {
-    // 	console.warn(`buildingHREF found for building: ${building.shortName}`);
-    // 	continue;
-    // }
+	// get relative path fo the building's .htm file from its Building object
+	// assume it exists as a check was done at line 197 of IndexFileUtil.
+	// if (!building.buildingHREF) {
+	// 	console.warn(`buildingHREF found for building: ${building.shortName}`);
+	// 	continue;
+	// }
 	const buildingPath = building.buildingHREF;
 
 	// for (let fileName in unzipContent.files) {
 	// 	console.log(fileName);
 	// }
 
-    // find the corresponding .htm file in the unzipped content
+	// find the corresponding .htm file in the unzipped content
 	const buildingFile = unzipContent.file(buildingPath);
 	if (!buildingFile) {
 		console.warn(`building file not found for ${buildingPath}`);
-		return[]; // skip to the next building if file not found
+		return []; // skip to the next building if file not found
 	}
 
-    // convert building's .htm file to html string
+	// convert building's .htm file to html string
 	const buildingHtmlContent = await buildingFile.async("string");
 
-    // parse html string and create buildingDOMTree
+	// parse html string and create buildingDOMTree
 	const buildingDOMTree = parse(buildingHtmlContent);
 
-    // find the table with the room information based on <td> classes
+	// find the table with the room information based on <td> classes
 	const roomTable = findTableByTdClasses(buildingDOMTree, tdBuildingClasses);
 	if (!roomTable) {
-		return[]; // skip to the next building if no table is found
+		return []; // skip to the next building if no table is found
 	}
 	// console.log("printing roomTable");
 	// console.log(roomTable);
@@ -72,7 +72,6 @@ export async function extractRoomsFromBuilding(unzipContent: JSZip, building: Bu
 	console.log("finished traversing index.htm and building files, printing all the rooms");
 	console.log(rooms);
 	return rooms;
-
 }
 
 async function extractRoomsFromBuildingTable(tableNode: any, building: Building, geoloc: Geolocation): Promise<Room[]> {
@@ -111,19 +110,27 @@ async function extractRoomsFromBuildingTable(tableNode: any, building: Building,
 
 				if (!href) {
 					// !!! do i need to throw error or do i not add this room?
-					return[];
+					return [];
 					// throw new Error("href not found for building: ${fullName}");
 				}
-				const room = new Room(building.fullName, building.shortName,
-					number, building.address, geoloc.lat ?? 0,
-					geoloc.lon ?? 0, seat, type, furniture, href);
+				const room = new Room(
+					building.fullName,
+					building.shortName,
+					number,
+					building.address,
+					geoloc.lat ?? 0,
+					geoloc.lon ?? 0,
+					seat,
+					type,
+					furniture,
+					href
+				);
 				rooms.push(room);
 			}
 		}
 	}
 	return rooms;
 }
-
 
 // Helper that returns <a> tag's text as a number if found, otherwise return the first #text node's value as a number
 function getNumberFromTd(tdNode: any): number {
@@ -152,27 +159,26 @@ function getNumberFromTd(tdNode: any): number {
 	return textValue ? parseInt(textValue, 10) : 0;
 }
 
-
 interface Geolocation {
-    lat?: number;
-    lon?: number;
-    error?: string;
+	lat?: number;
+	lon?: number;
+	error?: string;
 }
 
 async function getGeolocation(address: string): Promise<Geolocation> {
-    // encode address
+	// encode address
 	const encodedAddress = encodeURIComponent(address);
-    // construct the URL
+	// construct the URL
 	const url = `http://cs310.students.cs.ubc.ca:11316/api/v1/project_team${teamNumber}/${encodedAddress}`;
-    // make get request
+	// make get request
 	const response = await fetch(url);
 
-    // throw an error if response not ok
+	// throw an error if response not ok
 	if (!response.ok) {
 		throw new InsightError("failed to fetch geolocation, invalid room");
 	}
 
-    // handle the response (chatGPT help)
+	// handle the response (chatGPT help)
 	const data: Geolocation = await response.json();
 	return data;
 }

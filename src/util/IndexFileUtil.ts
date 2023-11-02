@@ -71,8 +71,7 @@ export async function extractRoomsFromUnzip(unzipContent: JSZip): Promise<Room[]
 	const buildings = extractBuildingsFromIndexTable(buildingTable);
 	// console.log(buildings);
 
-	const roomsPromises =
-		buildings.map((building) => extractRoomsFromBuilding(unzipContent, building));
+	const roomsPromises = buildings.map((building) => extractRoomsFromBuilding(unzipContent, building));
 	const roomsArrays = await Promise.all(roomsPromises);
 
 	const rooms: Room[] = [];
@@ -200,7 +199,7 @@ export function extractBuildingsFromIndexTable(tableNode: any): Building[] {
 				// const building = new Building(fullName, shortName, address, href);
 				// buildings.push(building);
 
-				if(buildingFileNamesSet.has(href)) {
+				if (buildingFileNamesSet.has(href)) {
 					const building = new Building(fullName, shortName, address, href);
 					buildings.push(building);
 				}

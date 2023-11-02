@@ -148,7 +148,6 @@ export async function extractSectionsFromUnZip(unzipContent: JSZip): Promise<Sec
 // 	}
 // }
 
-
 // REQUIRES: an array of any type
 // EFFECTS: parses relevant items within content of key and
 //			returns an array of Section objects
@@ -199,7 +198,6 @@ function parseFileContent(content: any[]): Section[] {
 	}
 	return sections;
 }
-
 
 // REQUIRES: path to file as string
 // EFFECTS: converts JSON string in .json file to a Section object
