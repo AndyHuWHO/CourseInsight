@@ -1,0 +1,40 @@
+{
+	"title": "invalidOrderMissingDir",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "cpsc"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"minavg"
+			],
+			"ORDER": {
+				"dire": "UP",
+				"keys": [
+					"minavg"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_dept",
+				"sections_id",
+				"sections_year"
+			],
+			"APPLY": [
+				{
+					"minavg": {
+						"MIN": "sections_avg"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

@@ -1,15 +1,11 @@
-// import {FilterType, Query,Key,MKey,SKey,MField,SField, IdString} from "./Query";
-
 import {InsightError} from "../controller/IInsightFacade";
-import {isObject, isString, validateInputString, isArrayOfStrings} from "./queryValidationHelpers";
+import {isArrayOfStrings, isObject, isString, validateInputString,
+	sKeyPattern, mKeyPattern, applyKeyPattern, applyTokens}
+	from "./QueryValidatorHelpers";
 
 export class QueryValidator {
 	public _idString: string = "";
 	private applyKeyList: string[] = [];
-	private mKeyPattern: RegExp = /^[^_]+_(avg|pass|fail|audit|year|lat|lon|seats)$/;
-	private sKeyPattern: RegExp = new RegExp(
-		/^[^_]+_(dept|id|instructor|title|uuid|fullname|shortname|number|name|address|type|furniture|href)$/
-	);
 
 	public validateQuery(query: unknown) {
 		if (!isObject(query)) {
@@ -29,7 +25,6 @@ export class QueryValidator {
 		}
 		this._idString = "";
 		this.applyKeyList = [];
-		console.log("ready to validate body, options, and transformation");
 		this.validateWhere(query.WHERE);
 		if ("TRANSFORMATIONS" in query) {
 			this.validateTransformations(query.TRANSFORMATIONS);
@@ -45,7 +40,6 @@ export class QueryValidator {
 			throw new InsightError("body have more than one key");
 		}
 		if (Object.keys(where).length === 1) {
-			console.log("ready to validate filter");
 			this.validateFilter(where);
 		}
 	}
@@ -64,7 +58,6 @@ export class QueryValidator {
 			throw new InsightError("invalid filter key");
 		}
 		if ("IS" in filter) {
-			console.log("ready to validate IS");
 			this.validateSComparison(filter.IS);
 		}
 		if ("NOT" in filter) {
@@ -89,12 +82,11 @@ export class QueryValidator {
 		if (!isString(sKey)) {
 			throw new InsightError("sKey not a string");
 		}
-		if (!this.sKeyPattern.test(sKey)) {
+		if (!sKeyPattern.test(sKey)) {
 			throw new InsightError("invalid sKey");
 		}
 		const id = sKey.split("_")[0];
 		if (this._idString === "") {
-			console.log("inside validateSComparison " + id);
 			this._idString = id;
 		} else {
 			if (id !== this.idString) {
@@ -112,20 +104,15 @@ export class QueryValidator {
 		if (Object.keys(mComparison).length !== 1) {
 			throw new InsightError("mComparison does not have exactly 1 key");
 		}
-		// validate mKey
 		const mKey: string = Object.keys(mComparison)[0];
-		// sKey has to be a string
 		if (!isString(mKey)) {
 			throw new InsightError("mKey not a string");
 		}
-		// mKey has to follow the mKeyPattern
-		if (!this.mKeyPattern.test(mKey)) {
+		if (!mKeyPattern.test(mKey)) {
 			throw new InsightError("invalid mKey");
 		}
-		// mKey's idString has to be valid
 		const id = mKey.split("_")[0];
 		if (this._idString === "") {
-			console.log("inside validateMComparison id:" + id);
 			this._idString = id;
 		} else {
 			if (id !== this._idString) {
@@ -181,10 +168,12 @@ export class QueryValidator {
 			throw new InsightError("Columns empty");
 		}
 		for (let i = 0; i < n; i++) {
-			if (this.applyKeyList.length !== 0 && !this.applyKeyList.includes(columns[i])) {
-				throw new InsightError("Keys in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS is present");
+			if (this.applyKeyList.length !== 0) {
+				if (!this.applyKeyList.includes(columns[i])) {
+					throw new InsightError("Keys in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS is present");
+				}
 			} else {
-				if (!(this.mKeyPattern.test(columns[i]) || this.sKeyPattern.test(columns[i]))) {
+				if (!(mKeyPattern.test(columns[i]) || sKeyPattern.test(columns[i]))) {
 					throw new InsightError("Columns keys must a valid m or s Key");
 				}
 				if (i === 0 && this._idString === "") {
@@ -210,12 +199,13 @@ export class QueryValidator {
 			if (!isArrayOfStrings(order.keys) || !order.keys.every((key) => columns.includes(key))) {
 				throw new InsightError("Order key must appear in columns");
 			}
-		}
-		if (!isString(order)) {
-			throw new InsightError("Order must be a strings if not and object");
-		}
-		if (!columns.includes(order)) {
-			throw new InsightError("Order key must appear in columns");
+		} else {
+			if (!isString(order)) {
+				throw new InsightError("Order must be a strings if not and object");
+			}
+			if (!columns.includes(order)) {
+				throw new InsightError("Order key must appear in columns");
+			}
 		}
 	}
 
@@ -242,10 +232,67 @@ export class QueryValidator {
 	}
 
 	private validateGroup(group: any) {
-		throw new InsightError("Validation logic not implemented for Transformation");
+		if (!isArrayOfStrings(group)) {
+			throw new InsightError("Group has to be a list of keys");
+		}
+		const n = group.length;
+		for (let i = 0; i < n; i++) {
+			if (!(mKeyPattern.test(group[i]) || sKeyPattern.test(group[i]))) {
+				throw new InsightError("Group keys must a valid m or s Key");
+			}
+			if (i === 0 && this._idString === "") {
+				this._idString = group[i].split("_")[0];
+			} else {
+				if (group[i].split("_")[0] !== this._idString) {
+					throw new InsightError("Group have different idString");
+				}
+			}
+			this.applyKeyList.push(group[i]);
+		}
 	}
 
 	private validateApply(apply: any) {
-		throw new InsightError("Validation logic not implemented for Transformation");
+		if (!Array.isArray(apply)) {
+			throw new InsightError("Apply must be an array");
+		}
+		const applyLength = apply.length;
+		if (applyLength === 0) {
+			throw new InsightError("Apply can't be an empty array");
+		}
+		for (let item of apply) {
+			this.validateApplyRule(item);
+		}
+	}
+
+	private validateApplyRule(applyRule: any) {
+		if (!isObject(applyRule)) {
+			throw new InsightError("ApplyRule has to be object");
+		}
+		if (Object.keys(applyRule).length !== 1) {
+			throw new InsightError("ApplyRule must only have one key");
+		}
+		if (!applyKeyPattern.test(Object.keys(applyRule)[0])) {
+			throw new InsightError("ApplyKey has wrong pattern");
+		}
+		this.applyKeyList.push(Object.keys(applyRule)[0]);
+		this.validateApplyValue(Object.values(applyRule)[0]);
+	}
+
+	private validateApplyValue(value: unknown) {
+		if (!isObject(value)) {
+			throw new InsightError("ApplyValue has to be object");
+		}
+		if (Object.keys(value).length !== 1) {
+			throw new InsightError("There could be only one ApplyToken in an ApplyRule");
+		}
+		if (!applyTokens.includes(Object.keys(value)[0])) {
+			throw new InsightError("Invalid Apply Token");
+		}
+		if ((!mKeyPattern.test(Object.values(value)[0]) && Object.keys(value)[0] !== "COUNT")) {
+			throw new InsightError("MAX/MIN/AVG/SUM should only be requested for numeric keys.");
+		}
+		if (!(mKeyPattern.test(Object.values(value)[0]) || sKeyPattern.test(Object.values(value)[0]))) {
+			throw new InsightError("Value of ApplyToken must a valid m or s Key");
+		}
 	}
 }

@@ -1,0 +1,37 @@
+{
+	"title": "invalidApplyRule2key",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_shortname",
+				"rooms_fullname",
+				"totalseat"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"totalseat"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_fullname",
+				"rooms_shortname"
+			],
+			"APPLY": [
+				{
+					"totalseat": {
+						"COUNT": "rooms_number"
+					},
+					"totalseats": {
+						"MAX": "rooms_lat"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

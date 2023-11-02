@@ -1,0 +1,40 @@
+{
+	"title": "invalidMAXid",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "cpsc"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"yearavg"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"yearavg"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_dept",
+				"sections_id",
+				"sections_year"
+			],
+			"APPLY": [
+				{
+					"yearavg": {
+						"MAX": "sections_id"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
