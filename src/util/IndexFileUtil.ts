@@ -10,80 +10,84 @@ import Section from "../models/Section";
 import Room from "../models/Room";
 import {parse} from "parse5";
 import Building from "../models/Building";
+import {extractRoomsFromBuilding} from "./BuildingFileUitl";
 
 export default {
 	extractRoomsFromUnzip,
 };
 
+let buildingFileNamesSet: Set<string>;
+
 // The classes that identify the building table in index.htm
 const tdIndexClasses: string[][] = [
 	["views-field", "views-field-title"],
 	["views-field", "views-field-field-building-code"],
-	["views-field", "views-field-field-building-address"]
-];
-
-// The classes that identify the building table in index.htm
-const tdBuildingClasses: string[][] = [
-	["views-field", "views-field-title"],
-	["views-field", "views-field-field-building-code"],
-	["views-field", "views-field-field-building-address"]
+	["views-field", "views-field-field-building-address"],
 ];
 
 // REQUIRES: JSZip object
 // EFFECTS: extracts and parses htm files to return an array of Room objects
 export async function extractRoomsFromUnzip(unzipContent: JSZip): Promise<Room[]> {
-
-    // check if index.htm is at the root, its existence means well-formatted html
+	// check if index.htm is at the root, its existence means well-formatted html
 	const indexFile = unzipContent.file("index.htm");
 	if (!indexFile) {
 		throw new InsightError("index.html file not at the root");
 	}
 
-    // check for nested campus folder structure !!! don't need to check nested folder file structure
+	// check for nested campus folder structure !!! don't need to check nested folder file structure
 	const buildingsFolderPath = "campus/discover/buildings-and-classrooms/";
 	const buildingsFolder = unzipContent.folder(buildingsFolderPath);
 	if (!buildingsFolder) {
 		throw new InsightError("path to building folder not found");
 	}
 
-    // check if buildings-and-classrooms folder contains any .htm files. adapted code from chatGPT
-    // returns array of file paths/file objects that end with .htm
+	// check if buildings-and-classrooms folder contains any .htm files. adapted code from chatGPT
+	// returns array of file paths/file objects that end with .htm
 	// use to filter for buildings to parse in index.htm table
-	const buildingFiles =
-        buildingsFolder.filter((relativePath, file) => /\.htm$/i.test(relativePath));
+	const buildingFiles = buildingsFolder.filter((relativePath, file) => /\.htm$/i.test(relativePath));
 	if (buildingFiles.length === 0) {
 		throw new Error(`No .htm files found in ${buildingsFolderPath}`);
 	}
 
-    // parse index.htm file to find building information
-    // tells jszip to read contents of index.htm as plain text
+	// use to track when to create a new Building object
+	buildingFileNamesSet = new Set(buildingFiles.map((file) => file.name));
+	// console.log(buildingFileNamesSet);
+
+	// parse index.htm file to find building information
+	// tells jszip to read contents of index.htm as plain text
 	const indexHtmlContent = await indexFile.async("string");
-    // parse takes the HTML string and parses it creating a DOM tree
+	// parse takes the HTML string and parses it creating a DOM tree
 	const indexDOMTree = parse(indexHtmlContent);
 	// console.log(indexDOMTree);
 
-	// findTag(indexDomTree, "table")
-	// findClass(any, class)
-
-    // Find the table with the building information based on <td> classes else throw error if no table found
+	// find the table with the building information based on <td> classes else throw error if no table found
 	const buildingTable = findTableByTdClasses(indexDOMTree, tdIndexClasses);
 	if (!buildingTable) {
-		throw new InsightError("Building table not found in index.htm");
+		throw new InsightError("building table not found in index.htm");
 	}
 	// console.log(buildingTable.childNodes[1]);
 
-	// Extract building information from the table and return array of Building objects
+	// extract building information from the table and return array of Building objects
 	const buildings = extractBuildingsFromIndexTable(buildingTable);
-	console.log(buildings);
+	// console.log(buildings);
 
-    // ... process the buildings to extract rooms ...
-	const rooms: Room[] = []; // Placeholder for the extracted rooms
-    // ... rest of the code to extract rooms ...
+	const roomsPromises =
+		buildings.map((building) => extractRoomsFromBuilding(unzipContent, building));
+	const roomsArrays = await Promise.all(roomsPromises);
+
+	const rooms: Room[] = [];
+	for (const roomsInBuilding of roomsArrays) {
+		rooms.push(...roomsInBuilding);
+	}
+
+	if (rooms.length === 0) {
+		throw new InsightError("dataset has no valid rooms");
+	}
 	return rooms;
 }
 
 // Helper function to find all elements of a specific tag within a parent element (help from chatGPT)
-function findAllElementsByTag(node: any, tagName: string): any[] {
+export function findAllElementsByTag(node: any, tagName: string): any[] {
 	let elements: any[] = [];
 	const queue: any[] = [node];
 	while (queue.length > 0) {
@@ -101,16 +105,17 @@ function findAllElementsByTag(node: any, tagName: string): any[] {
 }
 
 // helper checks if given <td> element has given specific pair of classes in attrs[{name, value}] (help from chatGPT)
-function hasClassPair(td: any, classPairs: string[]): boolean {
-	return "attrs" in td && classPairs.every((cls) =>
-		td["attrs"].some((attr: {name: string; value: string;}) =>
-			attr.name === "class" && attr.value.includes(cls)
+export function hasClassPair(td: any, classPairs: string[]): boolean {
+	return (
+		"attrs" in td &&
+		classPairs.every((cls) =>
+			td["attrs"].some((attr: {name: string; value: string}) => attr.name === "class" && attr.value.includes(cls))
 		)
 	);
 }
 
 // helper checks if set of td elements collectively contain all specified pairs of classes (help from chatGPT)
-function hasAllClassPairs(tdElements: any[], classes: string[][]): boolean {
+export function hasAllClassPairs(tdElements: any[], classes: string[][]): boolean {
 	let foundPairs = new Set<number>();
 
 	for (const td of tdElements) {
@@ -129,19 +134,19 @@ function hasAllClassPairs(tdElements: any[], classes: string[][]): boolean {
 // classes = array of strings representing classes looking for in <td> elements
 // Helper function to find desired table based on <td> classes (help from chatGPT)
 // returns node representing table or null if not found
-function findTableByTdClasses(node: any, classes: string[][]): Node | null {
+export function findTableByTdClasses(node: any, classes: string[][]): any | null {
 	const queue: any[] = [node];
 	while (queue.length > 0) {
 		const element = queue.shift();
-        // check for <table>
+		// check for <table>
 		if (element && "tagName" in element && element["tagName"] === "table") {
-            // find all td nodes within parent node
+			// find all td nodes within parent node
 			const tdElements: any[] = findAllElementsByTag(element, "td");
 			// console.log(tdElements[0].childNodes);
 
-            // help from chatGPT: check if table contains at least one <td> element that has all the
-            // specified combinations of classes as defined in tdIndexClasses. If such a table is found,
-            // it returns that table element.
+			// help from chatGPT: check if table contains at least one <td> element that has all the
+			// specified combinations of classes as defined in tdIndexClasses. If such a table is found,
+			// it returns that table element.
 			if (hasAllClassPairs(tdElements, classes)) {
 				return element;
 			}
@@ -154,10 +159,10 @@ function findTableByTdClasses(node: any, classes: string[][]): Node | null {
 }
 
 // helper to extract building information from index.htm table (adapted from chatGPT)
-function extractBuildingsFromIndexTable(tableNode: any): Building[] {
+export function extractBuildingsFromIndexTable(tableNode: any): Building[] {
 	const buildings: Building[] = [];
-	// get all table row <tr> elements = each row represents a building
-	const trElements = findAllElementsByTag(tableNode, "tr"); // Find all <tr> elements within the table
+	// get all table row 'tr' elements = each row represents a building
+	const trElements = findAllElementsByTag(tableNode, "tr");
 
 	const fullNameClasses = ["views-field", "views-field-title"];
 	const shortNameClasses = ["views-field", "views-field-field-building-code"];
@@ -167,7 +172,7 @@ function extractBuildingsFromIndexTable(tableNode: any): Building[] {
 
 	// iterate though table rows
 	for (const tr of trElements) {
-		// grab all cells <td> elements  per row, each td is a building
+		// grab all cells 'td' elements per row, each td together is for one building
 		const tdElements: any[] = findAllElementsByTag(tr, "td");
 
 		if (tdElements.length >= 3 && hasAllClassPairs(tdElements, tdIndexClasses)) {
@@ -175,23 +180,30 @@ function extractBuildingsFromIndexTable(tableNode: any): Building[] {
 			const shortNameTd = tdElements.find((td) => hasClassPair(td, shortNameClasses));
 			const addressTd = tdElements.find((td) => hasClassPair(td, addressClasses));
 
-			// console.log(fullNameTd.childNodes);
-
 			if (fullNameTd && shortNameTd && addressTd) {
 				const fullName = getTextFromTd(fullNameTd);
 				const shortName = getTextFromTd(shortNameTd);
 				const address = getTextFromTd(addressTd);
 
-				const hrefTd = tdElements.find((td) => hasClassPair(td, hrefClasses1)) ||
+				const hrefTd =
+					tdElements.find((td) => hasClassPair(td, hrefClasses1)) ||
 					tdElements.find((td) => hasClassPair(td, hrefClasses2));
-				const href = hrefTd ? getHrefFromTd(hrefTd) : null;
+				let href = hrefTd ? getHrefFromTd(hrefTd) : null;
 
 				if (!href) {
 					throw new Error("href not found for building: ${fullName}");
 				}
 
-				const building = new Building(fullName, shortName, address, href);
-				buildings.push(building);
+				// Remove './' from the start of the href (regex from chatGPT)
+				href = href.replace(/^\.\//, "");
+
+				// const building = new Building(fullName, shortName, address, href);
+				// buildings.push(building);
+
+				if(buildingFileNamesSet.has(href)) {
+					const building = new Building(fullName, shortName, address, href);
+					buildings.push(building);
+				}
 			}
 		}
 	}
@@ -199,7 +211,7 @@ function extractBuildingsFromIndexTable(tableNode: any): Building[] {
 }
 
 // helper that returns <a> tag's text if found, otherwise return the first #text node's value
-function getTextFromTd(tdNode: any): string {
+export function getTextFromTd(tdNode: any): string {
 	if (!tdNode.childNodes) {
 		return "";
 	}
@@ -212,7 +224,7 @@ function getTextFromTd(tdNode: any): string {
 			// loop through child nodes of the <a> tag to find a text node
 			for (let aChild of node.childNodes) {
 				if (aChild.nodeName === "#text" && "value" in aChild) {
-					return aChild.value.trim();  // return if <a> tag's text is found
+					return aChild.value.trim(); // return if <a> tag's text is found
 				}
 			}
 		} else if (node.nodeName === "#text" && "value" in node && textValue === null) {
@@ -224,7 +236,7 @@ function getTextFromTd(tdNode: any): string {
 }
 
 // helper that returns <a> tag's text if found, otherwise return the first #text node's value
-function getHrefFromTd(tdNode: any): string | null {
+export function getHrefFromTd(tdNode: any): string | null {
 	if (!tdNode.childNodes) {
 		return null;
 	}

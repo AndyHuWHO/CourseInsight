@@ -14,8 +14,7 @@ import Section from "../models/Section";
 import fs from "fs";
 import {QueryValidator} from "../models/QueryValidator";
 import {QueryEngine} from "../models/QueryEngine";
-import * as RoomFileUtil from "../util/RoomFileUtil";
-
+import * as RoomFileUtil from "../util/IndexFileUtil";
 
 /**
  * This is the main programmatic entry point for the project.

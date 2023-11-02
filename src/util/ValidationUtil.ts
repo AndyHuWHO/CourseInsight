@@ -47,5 +47,4 @@ export default class ValidationUtil {
 	public static isUniqueId(id: string, existingIds: string[]): boolean {
 		return !existingIds.includes(id);
 	}
-
 }
