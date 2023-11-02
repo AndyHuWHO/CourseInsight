@@ -2,6 +2,7 @@
 
 import JSZip from "jszip";
 import {InsightDatasetKind} from "../controller/IInsightFacade";
+import * as parse5 from "parse5";
 
 export default class ValidationUtil {
 	// REQUIRES: string
@@ -37,7 +38,7 @@ export default class ValidationUtil {
 	public static isValidKind(kind: any): kind is InsightDatasetKind {
 		// return Object.values(InsightDatasetKind).includes(kind as InsightDatasetKind);
 		// for C0 and C1: only need sections
-		return kind === InsightDatasetKind.Sections;
+		return kind === InsightDatasetKind;
 	}
 
 	// REQUIRES: id as string and existingIds as string array
@@ -46,4 +47,5 @@ export default class ValidationUtil {
 	public static isUniqueId(id: string, existingIds: string[]): boolean {
 		return !existingIds.includes(id);
 	}
+
 }

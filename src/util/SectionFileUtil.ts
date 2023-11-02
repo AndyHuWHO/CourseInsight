@@ -7,6 +7,7 @@ import JSZip from "jszip";
 import {join} from "path";
 import {InsightError} from "../controller/IInsightFacade";
 import Section from "../models/Section";
+import Room from "../models/Room";
 
 export default {
 	unZipBase64,

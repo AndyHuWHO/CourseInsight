@@ -7,13 +7,15 @@ import {
 	NotFoundError,
 } from "./IInsightFacade";
 import {Dataset} from "../models/Dataset";
-import * as FileUtil from "../util/FileUtil";
+import * as FileUtil from "../util/SectionFileUtil";
 import ValidationUtil from "../util/ValidationUtil";
 import {join} from "path";
 import Section from "../models/Section";
 import fs from "fs";
 import {QueryValidator} from "../models/QueryValidator";
 import {QueryEngine} from "../models/QueryEngine";
+import * as RoomFileUtil from "../util/RoomFileUtil";
+
 
 /**
  * This is the main programmatic entry point for the project.
@@ -68,19 +70,38 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Invalid Zip Base64 content");
 			}
 
-			// Validate kind should be sections
-			if (!ValidationUtil.isValidKind(kind)) {
-				throw new InsightError("Invalid InsightDatasetKind");
-			}
+			// // Validate kind should be InsightDataKind
+			// if (!ValidationUtil.isValidKind(kind)) {
+			// 	throw new InsightError("Invalid InsightDatasetKind");
+			// }
 
 			const zipContent = await FileUtil.unZipBase64(content);
-			const sections = await FileUtil.extractSectionsFromUnZip(zipContent);
-			await FileUtil.writeSectionsToFile(id, sections);
 
-			// create a new SectionDataset and add it to the datasets array
-			const newDataset = new Dataset(id, kind, sections.length, sections);
-			this.datasets.push(newDataset);
-			this.datasetsId.push(id);
+			let newDataset: Dataset | undefined;
+
+			if (kind === InsightDatasetKind.Sections) {
+				const sections = await FileUtil.extractSectionsFromUnZip(zipContent);
+				await FileUtil.writeSectionsToFile(id, sections);
+				// create a new Dataset and add it to the datasets array
+				newDataset = new Dataset(id, kind, sections.length, sections);
+			} else if (kind === InsightDatasetKind.Rooms) {
+				console.log("about to enter extraRoomsFromUnzip");
+				const rooms = await RoomFileUtil.extractRoomsFromUnzip(zipContent);
+				console.log("just exited extraRoomsFromUnzip");
+				// await FileUtil.writeRoomsToFile(id, rooms);
+				// newDataset = new Dataset(id, kind, rooms.length, rooms);
+			} else {
+				throw new InsightError("Error occurred while extracting from zip");
+			}
+
+			// Only push newDataset if it's defined
+			if (newDataset) {
+				this.datasets.push(newDataset);
+				this.datasetsId.push(id);
+			} else {
+				// Handle the case when newDataset is not defined
+				throw new InsightError("Failed to create a new dataset");
+			}
 
 			return this.datasetsId;
 		} catch (error) {
