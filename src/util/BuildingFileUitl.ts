@@ -22,6 +22,13 @@ const tdBuildingClasses: string[][] = [
 	["views-field", "views-field-field-room-furniture"], // furniture: string
 ];
 
+const numberClasses = ["views-field", "views-field-field-room-number"];
+const seatClasses = ["views-field", "views-field-field-room-capacity"];
+const typeClasses = ["views-field", "views-field-field-room-type"];
+const furnitureClasses = ["views-field", "views-field-field-room-furniture"];
+const hrefClasses1 = numberClasses;
+const hrefClasses2 = ["views-field", "views-field-nothing"];
+
 const teamNumber = "149";
 
 export async function extractRoomsFromBuilding(unzipContent: JSZip, building: Building): Promise<Room[]> {
@@ -79,13 +86,6 @@ async function extractRoomsFromBuildingTable(tableNode: any, building: Building,
 	// get all table row 'tr' elements = each row represents a room
 	const trElements: any[] = findAllElementsByTag(tableNode, "tr");
 
-	const numberClasses = ["views-field", "views-field-field-room-number"];
-	const seatClasses = ["views-field", "views-field-field-room-capacity"];
-	const typeClasses = ["views-field", "views-field-field-room-type"];
-	const furnitureClasses = ["views-field", "views-field-field-room-furniture"];
-	const hrefClasses1 = numberClasses;
-	const hrefClasses2 = ["views-field", "views-field-nothing"];
-
 	// iterate through table rows
 	for (const tr of trElements) {
 		// grab all cells 'td' elements per row, each td together is for one room
@@ -111,7 +111,6 @@ async function extractRoomsFromBuildingTable(tableNode: any, building: Building,
 				if (!href) {
 					// !!! do i need to throw error or do i not add this room?
 					return [];
-					// throw new Error("href not found for building: ${fullName}");
 				}
 				const room = new Room(
 					building.fullName,
