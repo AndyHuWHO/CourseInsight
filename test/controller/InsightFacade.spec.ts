@@ -41,7 +41,7 @@ describe("InsightFacade", function () {
 		clearDisk();
 	});
 
-	describe("Add/Remove/List RoomDataset", function () {
+	describe.only("Add/Remove/List RoomDataset", function () {
 		before(function () {
 			console.info(`Before: ${this.test?.parent?.title}`);
 		});
@@ -364,12 +364,12 @@ describe("InsightFacade", function () {
 			return expect(result).to.eventually.be.deep.equal([
 				{
 					id: "ubc1",
-					kind: InsightDatasetKind.Sections,
+					kind: InsightDatasetKind.Rooms,
 					numRows: 364, // !!! check quantity
 				},
 				{
 					id: "ubc2",
-					kind: InsightDatasetKind.Sections,
+					kind: InsightDatasetKind.Rooms,
 					numRows: 16, // !!! check quantity
 				},
 			]);

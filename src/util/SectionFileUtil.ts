@@ -12,12 +12,9 @@ import Room from "../models/Room";
 export default {
 	unZipBase64,
 	extractSectionsFromUnZip,
-	writeSectionsToFile,
-	ensureDataFolderExists,
+	// writeSectionsToFile,
+	// ensureDataFolderExists,
 	parseFileContent,
-	loadDataFolderFileNames,
-	sortFilenamesChronologically,
-	extractDatasetIdFromFilename,
 };
 
 // REQUIRES: content as base64 string
@@ -107,56 +104,50 @@ export async function extractSectionsFromUnZip(unzipContent: JSZip): Promise<Sec
 
 // REQUIRES: id of dataset at string and Section array
 // EFFECTS: writes Section to file ./data (persistence)
-export async function writeSectionsToFile(id: string, sections: Section[]): Promise<void> {
-	try {
-		// constructs path to data folder
-		const persistDir = "./data";
-		// const dataFolder = join(__dirname, "..", "data");
-		await ensureDataFolderExists(persistDir);
+// export async function writeSectionsToFile(id: string, sections: Section[]): Promise<void> {
+// 	try {
+// 		// constructs path to data folder
+// 		const persistDir = "./data";
+// 		// const dataFolder = join(__dirname, "..", "data");
+// 		await ensureDataFolderExists(persistDir);
+//
+// 		// // get existing file names in the ./data folder to maintain chronological order of when dataset was added
+// 		// const curFiles = await fsPromises.readdir(dataFolder);
+// 		// // naming convention to keep track of the order/when the next data set
+// 		// const prefix = curFiles.length + 1;
+//
+// 		// Uses a timestamp as a prefix for the filename to ensure unique chronological order
+// 		// returns Unix time stamp format
+// 		const timestamp = Date.now();
+// 		// constructs full path where new JSON file is to be stored
+// 		// it appends filename for JSON file as timestamp_id.json - "1627922239000_something.json" with path from
+// 		// earlier
+// 		const outputPath = join(persistDir, `${timestamp}_${id}.json`);
+// 		// instructs file system to write a file to the path specified as outputPath
+// 		// with data serialized into JSON string from sections
+// 		// JSON string is a stringified representation of a JSON object used for transmitting the data as a string
+// 		await fsPromises.writeFile(outputPath, JSON.stringify(sections));
+// 	} catch (error) {
+// 		console.error(`Failed to write sections to file: ${error}`);
+// 		throw new InsightError("Error occurred while writing sections to file.");
+// 	}
+// }
 
-		// // get existing file names in the ./data folder to maintain chronological order of when dataset was added
-		// const curFiles = await fsPromises.readdir(dataFolder);
-		// // naming convention to keep track of the order/when the next data set
-		// const prefix = curFiles.length + 1;
-
-		// Uses a timestamp as a prefix for the filename to ensure unique chronological order
-		// returns Unix time stamp format
-		const timestamp = Date.now();
-		// constructs full path where new JSON file is to be stored
-		// it appends filename for JSON file as timestamp_id.json - "1627922239000_something.json" with path from
-		// earlier
-		const outputPath = join(persistDir, `${timestamp}_${id}.json`);
-		// instructs file system to write a file to the path specified as outputPath
-		// with data serialized into JSON string from sections
-		// JSON string is a stringified representation of a JSON object used for transmitting the data as a string
-		await fsPromises.writeFile(outputPath, JSON.stringify(sections));
-	} catch (error) {
-		console.error(`Failed to write sections to file: ${error}`);
-		throw new InsightError("Error occurred while writing sections to file.");
-	}
-}
-
-// REQUIRES: string
-// EFFECTS: checks if there is access to dataFolder, if not, creates one
-async function ensureDataFolderExists(dataFolder: string): Promise<void> {
-	try {
-		await fsPromises.access(dataFolder);
-	} catch (error) {
-		try {
-			await fsPromises.mkdir(dataFolder);
-		} catch (mkdirError) {
-			// Catching any errors on directory creation, such as if the directory already exists.
-			console.error(`Error creating directory: ${mkdirError}`);
-		}
-	}
-}
+// // REQUIRES: string
+// // EFFECTS: checks if there is access to dataFolder, if not, creates one
 // async function ensureDataFolderExists(dataFolder: string): Promise<void> {
 // 	try {
 // 		await fsPromises.access(dataFolder);
 // 	} catch (error) {
-// 		await fsPromises.mkdir(dataFolder);
+// 		try {
+// 			await fsPromises.mkdir(dataFolder);
+// 		} catch (mkdirError) {
+// 			// Catching any errors on directory creation, such as if the directory already exists.
+// 			console.error(`Error creating directory: ${mkdirError}`);
+// 		}
 // 	}
 // }
+
 
 // REQUIRES: an array of any type
 // EFFECTS: parses relevant items within content of key and
@@ -209,45 +200,18 @@ function parseFileContent(content: any[]): Section[] {
 	return sections;
 }
 
-// REQUIRES: path to data folder as string
-// EFFECTS: returns an array of strings that are filenames from the ./data folder
-export async function loadDataFolderFileNames(dataFolder: string): Promise<string[]> {
-	try {
-		return await fsPromises.readdir(dataFolder);
-	} catch (error) {
-		console.error(`Failed to read filenames from data folder: ${error}`);
-		throw error;
-	}
-}
-
-// REQUIRES: array of strings representing file names
-// EFFECTS: returns array of file names in ascending chronological order
-export function sortFilenamesChronologically(filenames: string[]): string[] {
-	return filenames.sort((a, b) => {
-		const timestampA = parseInt(a.split("_")[0], 10);
-		const timestampB = parseInt(b.split("_")[0], 10);
-		return timestampA - timestampB;
-	});
-}
-
-// REQUIRES: a file name as string ex: "1627922239000_ubc", utilizing unix time stamp format
-// EFFECTS: parses file name to retrieve dataset id name and returns dataset id name
-export function extractDatasetIdFromFilename(filename: string): string {
-	const parts = filename.split("_");
-	return parts.slice(1).join("_").replace(".json", "");
-}
 
 // REQUIRES: path to file as string
 // EFFECTS: converts JSON string in .json file to a Section object
-export async function loadDatasetContent(filePath: string): Promise<Section[]> {
+export async function loadSectionDatasetContent(filePath: string): Promise<Section[]> {
 	try {
-		// Read file content as a string
+		// read file content as a string
 		const rawData = await fsPromises.readFile(filePath, "utf-8");
 
-		// Parse the string into a JSON object
+		// parse the string into a JSON object
 		const data = JSON.parse(rawData);
 
-		// Map the object to an array of Section instances
+		// map the object to an array of Section instances
 		return data.map(
 			(sectionData: any) =>
 				new Section(

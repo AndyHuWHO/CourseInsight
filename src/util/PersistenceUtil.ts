@@ -1,27 +1,13 @@
-// This file contains functions to unzip files, parse JSON content, or perform other file-related tasks.
-
-// "use strict";
-
+// REQUIRES: id of dataset at string and Section array
+// EFFECTS: writes Section to file ./data (persistence)
+import {InsightKind} from "../models/InsightKind";
 import fs, {promises as fsPromises} from "fs";
-import JSZip from "jszip";
-import {join} from "path";
 import {InsightError} from "../controller/IInsightFacade";
-import Section from "../models/Section";
+import {join} from "path";
 import Room from "../models/Room";
 
 
-export default {
-	writeSectionsToFile: writeRoomsToFile,
-	ensureDataFolderExists,
-	loadDataFolderFileNames,
-	sortFilenamesChronologically,
-	extractDatasetIdFromFilename,
-};
-
-
-// REQUIRES: id of dataset at string and Section array
-// EFFECTS: writes room dataset to file ./data (persistence)
-export async function writeRoomsToFile(id: string, rooms: Room[]): Promise<void> {
+export async function writeInsightKindsToFile(id: string, insightKinds: InsightKind[]): Promise<void> {
 	try {
         // constructs path to data folder
 		const persistDir = "./data";
@@ -33,20 +19,28 @@ export async function writeRoomsToFile(id: string, rooms: Room[]): Promise<void>
         // // naming convention to keep track of the order/when the next data set
         // const prefix = curFiles.length + 1;
 
+        // assumption is the same kind in the array
+		let insightKind;
+		if (insightKinds[0] instanceof Room) {
+			insightKind = "Room";
+		} else {
+			insightKind = "Section";
+		}
+
         // Uses a timestamp as a prefix for the filename to ensure unique chronological order
         // returns Unix time stamp format
 		const timestamp = Date.now();
         // constructs full path where new JSON file is to be stored
         // it appends filename for JSON file as timestamp_id.json - "1627922239000_something.json" with path from
         // earlier
-		const outputPath = join(persistDir, `${timestamp}_${id}.json`);
+		const outputPath = join(persistDir, `${timestamp}_${id}_${insightKind}.json`);
         // instructs file system to write a file to the path specified as outputPath
-        // with data serialized into JSON string from sections
+        // with data serialized into JSON string from insightKinds
         // JSON string is a stringified representation of a JSON object used for transmitting the data as a string
-		await fsPromises.writeFile(outputPath, JSON.stringify(rooms));
+		await fsPromises.writeFile(outputPath, JSON.stringify(insightKinds));
 	} catch (error) {
 		console.error(`Failed to write sections to file: ${error}`);
-		throw new InsightError("Error occurred while writing sections to file.");
+		throw new InsightError("Error occurred while writing insightKinds to file.");
 	}
 }
 
@@ -88,39 +82,13 @@ export function sortFilenamesChronologically(filenames: string[]): string[] {
 
 // REQUIRES: a file name as string ex: "1627922239000_ubc", utilizing unix time stamp format
 // EFFECTS: parses file name to retrieve dataset id name and returns dataset id name
+// adapted from chatGPT
 export function extractDatasetIdFromFilename(filename: string): string {
 	const parts = filename.split("_");
-	return parts.slice(1).join("_").replace(".json", "");
-}
+    // Remove the last two parts (type and ".json"), then join the rest to get the dataset ID
+	return parts[1];
+	// return parts.slice(1, -2).join("_");
 
-// REQUIRES: path to file as string
-// EFFECTS: converts JSON string in .json file to a room object
-export async function loadRoomDatasetContent(filePath: string): Promise<Room[]> {
-	try {
-        // read file content as a string
-		const rawData = await fsPromises.readFile(filePath, "utf-8");
-
-        // parse the string into a JSON object
-		const data = JSON.parse(rawData);
-
-        // map the object to an array of Room instances
-		return data.map(
-			(roomData: any) =>
-				new Room(
-					roomData.fullName,
-					roomData.shortName,
-					roomData.number,
-					roomData.address,
-					Number(roomData.lat),
-					Number(roomData.lon),
-					Number(roomData.seats),
-					roomData.type,
-					roomData.furniture,
-					roomData.string,
-				)
-		);
-	} catch (error) {
-		console.error(`Failed to reload dataset content from ${filePath}: ${error}`);
-		throw new InsightError("Error occurred while reloading dataset content.");
-	}
+    // const parts = filename.split("_");
+    // return parts.slice(1).join("_").replace(".json", "");
 }
