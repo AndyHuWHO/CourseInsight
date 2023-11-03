@@ -2,7 +2,14 @@ import {InsightDatasetKind, InsightError, InsightResult, ResultTooLargeError} fr
 import {Dataset} from "./Dataset";
 import Section from "./Section";
 import {InsightKind} from "./InsightKind";
-import {combineUnique, findIntersection, getDifference, passSComparison, isString} from "./QueryEngineHelpers";
+import {
+	combineUnique,
+	findIntersection,
+	getDifference,
+	passSComparison,
+	isString,
+	calculateApply
+} from "./QueryEngineHelpers";
 
 export class QueryEngine {
 	private insightResults: InsightResult[] = [];
@@ -30,6 +37,9 @@ export class QueryEngine {
 		if ("TRANSFORMATIONS" in query) {
 			this.hasTrans = true;
 			this.handleTransformations(filteredSectionsOrRooms, query["TRANSFORMATIONS"]);
+			if (this.insightResults.length > 5000) {
+				return Promise.reject(new ResultTooLargeError("exceed 5000 results"));
+			}
 		}
 		this.handleOptions(filteredSectionsOrRooms, query["OPTIONS"]);
 		return Promise.resolve(this.insightResults);
@@ -163,7 +173,7 @@ export class QueryEngine {
 			let mapKey = "";
 			for(const groupKey of group) {
 				const field: string = groupKey.split("_")[1];
-				mapKey += field;
+				mapKey += sectionOrRoom[field];
 			}
 			if (groupedMap.has(mapKey)) {
 				const arrayWithMapKey = groupedMap.get(mapKey) as InsightKind[];
@@ -191,60 +201,14 @@ export class QueryEngine {
 				} else {
 					for (let item of apply) {
 						if (Object.keys(item)[0] === cKey) {
-							insightResultNew[cKey] = this.calculateApply(value, Object.values(item)[0]);
+							insightResultNew[cKey] = calculateApply(value, Object.values(item)[0]);
 							break;
 						}
 					}
 				}
 			}
+			this.insightResults.push(insightResultNew);
 		}
-	}
-
-	private calculateApply(insightKindGroup: InsightKind[], applyTokenObject: any): number {
-		const applyToken = Object.keys(applyTokenObject)[0];
-		const applyKey = Object.values(applyTokenObject)[0] as string;
-		const applyField = applyKey.split("_")[1];
-		let max = Number.NEGATIVE_INFINITY;
-		let min = Number.POSITIVE_INFINITY;
-		let sum = 0;
-		let avg = 0;
-		let count = 0;
-		let uniqueFieldValueSet = new Set();
-		switch (applyToken) {
-			case "MAX":
-				for (let item of insightKindGroup) {
-					if (item[applyField] > max) {
-						max = item[applyField];
-					}
-				}
-				return max;
-			case "MIN":
-				for (let item of insightKindGroup) {
-					if (item[applyField] < min) {
-						min = item[applyField];
-					}
-				}
-				return min;
-			case "SUM":
-				for (let item of insightKindGroup) {
-					sum += item[applyField];
-				}
-				return Number(sum.toFixed(2));
-			case "AVG":
-				for (let item of insightKindGroup) {
-					sum += item[applyField];
-					count++;
-				}
-				avg = sum / count;
-				return Number(avg.toFixed(2));
-			case "COUNT":
-				for (let item of insightKindGroup) {
-					uniqueFieldValueSet.add(item[applyField]);
-				}
-				count = uniqueFieldValueSet.size;
-				return count;
-		}
-		return 0;
 	}
 
 	private handleOptions(filteredSections: InsightKind[], options: object) {
@@ -284,7 +248,7 @@ export class QueryEngine {
 			const dNum = direction === "UP" ? 1 : -1;
 			for (const orderKey of orderKeys) {
 				this.insightResults.sort((a,b): number => {
-					if (a[orderKey] > b[orderKey] && direction === "UP"){
+					if (a[orderKey] > b[orderKey]){
 						return dNum;
 					}
 					if (a[orderKey] < b[orderKey]) {
