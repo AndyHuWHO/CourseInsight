@@ -1,0 +1,34 @@
+{
+	"title": "invalidApplyToken",
+	"input": {
+		"WHERE": {},
+		"OPTIONS": {
+			"COLUMNS": [
+				"rooms_shortname",
+				"rooms_fullname",
+				"totalseat"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"totalseat"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"rooms_fullname",
+				"rooms_shortname"
+			],
+			"APPLY": [
+				{
+					"totalseat": {
+						"COUNTS": "rooms_number"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}

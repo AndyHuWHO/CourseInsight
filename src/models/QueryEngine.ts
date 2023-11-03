@@ -2,32 +2,36 @@ import {InsightDatasetKind, InsightError, InsightResult, ResultTooLargeError} fr
 import {Dataset} from "./Dataset";
 import Section from "./Section";
 import {InsightKind} from "./InsightKind";
+import {combineUnique, findIntersection, getDifference, passSComparison, isString} from "./QueryEngineHelpers";
 
 export class QueryEngine {
-	// private idStringPattern: RegExp = /^[^_]+$/;
-	// private inputStringPattern: RegExp = /^((\*)?[^*]*(\*)?)$/;
-	// private mKeyPattern: RegExp = /^[^_]+_(avg|pass|fail|audit|year)$/;
-	// private sKeyPattern: RegExp = new RegExp(/^[^_]+_(dept|id|instructor|title|uuid)$/);
 	private insightResults: InsightResult[] = [];
-	private numOfSections: number = 0;
-	private sections: InsightKind[] = [];
+	private numOfSectionsOrRooms: number = 0;
+	private sectionsOrRooms: InsightKind[] = [];
+	private columnsArray: string[] = [];
+	private hasTrans = false;
 	public queryDataset(dataset: Dataset, query: any): Promise<InsightResult[]> {
-		if (dataset.kind !== InsightDatasetKind.Sections) {
-			throw new InsightError("wrong dataset kind for query");
-		}
-		this.numOfSections = dataset.insightKindArray.length;
-		this.sections = dataset.insightKindArray;
-		if (Object.keys(query["WHERE"]).length === 0) {
-			if (this.numOfSections > 5000) {
+		// if (dataset.kind !== InsightDatasetKind.Sections) {
+		// 	throw new InsightError("wrong dataset kind for query");
+		// }
+		this.numOfSectionsOrRooms = dataset.insightKindArray.length;
+		this.sectionsOrRooms = dataset.insightKindArray;
+		if (Object.keys(query["WHERE"]).length === 0 && !("TRANSFORMATIONS" in query)) {
+			if (this.numOfSectionsOrRooms > 5000) {
 				return Promise.reject(new ResultTooLargeError("result too big"));
 			}
 		}
 		this.insightResults = [];
-		const filteredSections = this.filterWhere(this.sections, query["WHERE"]);
-		if (filteredSections.length > 5000) {
+		this.columnsArray = query["OPTIONS"]["COLUMNS"];
+		const filteredSectionsOrRooms = this.filterWhere(this.sectionsOrRooms, query["WHERE"]);
+		if (filteredSectionsOrRooms.length > 5000  && !("TRANSFORMATIONS" in query)) {
 			return Promise.reject(new ResultTooLargeError("exceed 5000 results"));
 		}
-		this.handleOptions(filteredSections, query["OPTIONS"]);
+		if ("TRANSFORMATIONS" in query) {
+			this.hasTrans = true;
+			this.handleTransformations(filteredSectionsOrRooms, query["TRANSFORMATIONS"]);
+		}
+		this.handleOptions(filteredSectionsOrRooms, query["OPTIONS"]);
 		return Promise.resolve(this.insightResults);
 	}
 
@@ -59,67 +63,33 @@ export class QueryEngine {
 		if ("EQ" in where) {
 			return this.filterEQ(allSections, where["EQ"]);
 		}
-		// if none of these filters are in where, return all
 		return allSections;
 	}
 
 	private filterAnd(allSections: InsightKind[], andOp: []): InsightKind[] {
 		// initiate an empty result array
 		let andFilteredSections: InsightKind[] = [];
-		// for each filter in and
 		for (let item of andOp) {
-			// filteredArray gets the result of the current filter
 			let filteredArray = this.filterWhere(allSections, item);
 			if (filteredArray.length === 0) {
-				let emptyS: Section[] = [];
-				return emptyS;
+				return [];
 			}
-			// if this is the first filter, let final result get its result
 			if (andFilteredSections.length === 0) {
-				// get the result of the first filter in and
 				andFilteredSections = filteredArray;
 			} else {
-				// if not the first filter, find the intersection of the current result with subsequent result
-				andFilteredSections = this.findIntersection(andFilteredSections, filteredArray);
+				andFilteredSections = findIntersection(andFilteredSections, filteredArray);
 			}
 		}
 		return andFilteredSections;
 	}
-	// private intersection(arr1: Section[], arr2: Section[]) {
-	// 	return arr1.filter((item) => arr2.includes(item));
-	// }
-
-	private findIntersection(array1: InsightKind[], array2: InsightKind[]): InsightKind[] {
-		const set1 = new Set(array1);
-		const intersection = array2.filter((item) => {
-			// Check if an equivalent item exists in array1 using the equals method
-			for (const element of set1) {
-				if (item.equals(element)) {
-					return true;
-				}
-			}
-			return false;
-		});
-
-		return intersection;
-	}
 
 	private filterOR(allSections: InsightKind[], orOp: []): InsightKind[] {
-		// initiate result array
 		let orFilteredSections: InsightKind[] = [];
-		// for each filter in or
 		for (let item of orOp) {
-			// get the result of the filter
 			let filteredArray = this.filterWhere(allSections, item);
-			// combine it with current result and only leave the unique ones
-			orFilteredSections = this.combineUnique(orFilteredSections, filteredArray);
+			orFilteredSections = combineUnique(orFilteredSections, filteredArray);
 		}
 		return orFilteredSections;
-	}
-
-	private combineUnique(arr1: InsightKind[], arr2: InsightKind[]) {
-		const combinedSet = new Set([...arr1, ...arr2]);
-		return Array.from(combinedSet);
 	}
 
 	private filterIs(allSections: InsightKind[], isOp: any): InsightKind[] {
@@ -128,45 +98,18 @@ export class QueryEngine {
 		const sField: string = sKey.split("_")[1];
 		const inputString = Object.values(isOp)[0] as string;
 		for (const section of allSections) {
-			if (this.passSComparison(sField, inputString, section)) {
+			if (passSComparison(sField, inputString, section)) {
 				isFilteredSections.push(section);
 			}
 		}
 		return isFilteredSections;
 	}
 
-	private passSComparison(sField: string, inputString: string, section: InsightKind) {
-		const fieldValue = section[sField];
-		if (fieldValue === null || undefined) {
-			return false;
-		}
-		if (!inputString.includes("*")) {
-			return fieldValue === inputString;
-		}
-		if (inputString === "*") {
-			return true;
-		}
-		if (inputString.startsWith("*") && !inputString.endsWith("*")) {
-			return fieldValue.endsWith(inputString.substring(1, inputString.length));
-		}
-		if (!inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.startsWith(inputString.substring(0, inputString.length - 1));
-		}
-		if (inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.includes(inputString.substring(1, inputString.length - 1));
-		}
-		return false;
-	}
-
 	private filterNot(allSections: InsightKind[], notOp: any): InsightKind[] {
-		let notFilteredSections: InsightKind[] = [];
+		let notFilteredSections: InsightKind[];
 		notFilteredSections = this.filterWhere(allSections, notOp);
-		notFilteredSections = this.getDifference(allSections, notFilteredSections);
+		notFilteredSections = getDifference(allSections, notFilteredSections);
 		return notFilteredSections;
-	}
-
-	private getDifference(arr1: InsightKind[], arr2: InsightKind[]): any[] {
-		return arr1.filter((item) => !arr2.includes(item));
 	}
 
 	private filterGT(allSections: InsightKind[], gtOp: any): InsightKind[] {
@@ -208,13 +151,104 @@ export class QueryEngine {
 		return ltFilteredSections;
 	}
 
-	/**
-	 * Puts InsightResult into the global field insightResults in the correct order.
-	 * @param {Section[]} filteredSections - an array of sections that are filtered by the WHERE conditions.
-	 * @param {object} options - the options object in the query.
-	 */
+	private handleTransformations(filteredSectionsOrRooms: InsightKind[], transformations: any) {
+		const groupedResults = this.groupResults(filteredSectionsOrRooms, transformations["GROUP"]);
+		this.handleApply(groupedResults,transformations["APPLY"]);
+	}
+
+	private groupResults(filteredSectionsOrRooms: InsightKind[], group: any): Map<string, InsightKind[]> {
+		const groupedMap = new Map<string, InsightKind[]>();
+		for (const sectionOrRoom of filteredSectionsOrRooms) {
+			// make a key for each section based on the group keys
+			let mapKey = "";
+			for(const groupKey of group) {
+				const field: string = groupKey.split("_")[1];
+				mapKey += field;
+			}
+			if (groupedMap.has(mapKey)) {
+				const arrayWithMapKey = groupedMap.get(mapKey) as InsightKind[];
+				arrayWithMapKey.push(sectionOrRoom);
+				groupedMap.set(mapKey, arrayWithMapKey);
+			} else {
+				groupedMap.set(mapKey,[sectionOrRoom]);
+			}
+		}
+		return groupedMap;
+	}
+
+	private handleApply(groupedResults: Map<string, InsightKind[]>, apply: any) {
+		for (const [key, value] of groupedResults.entries()) {
+			let insightResultNew: InsightResult = {};
+			for (let cKey of this.columnsArray) {
+				if (cKey.includes("_")) {
+					let fieldName = cKey.split("_")[1];
+					let fieldValue = value[0][fieldName];
+					if (fieldName === "uuid") {
+						insightResultNew[cKey] = fieldValue.toString();
+					} else {
+						insightResultNew[cKey] = fieldValue;
+					}
+				} else {
+					for (let item of apply) {
+						if (Object.keys(item)[0] === cKey) {
+							insightResultNew[cKey] = this.calculateApply(value, Object.values(item)[0]);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private calculateApply(insightKindGroup: InsightKind[], applyTokenObject: any): number {
+		const applyToken = Object.keys(applyTokenObject)[0];
+		const applyKey = Object.values(applyTokenObject)[0] as string;
+		const applyField = applyKey.split("_")[1];
+		let max = Number.NEGATIVE_INFINITY;
+		let min = Number.POSITIVE_INFINITY;
+		let sum = 0;
+		let avg = 0;
+		let count = 0;
+		let uniqueFieldValueSet = new Set();
+		switch (applyToken) {
+			case "MAX":
+				for (let item of insightKindGroup) {
+					if (item[applyField] > max) {
+						max = item[applyField];
+					}
+				}
+				return max;
+			case "MIN":
+				for (let item of insightKindGroup) {
+					if (item[applyField] < min) {
+						min = item[applyField];
+					}
+				}
+				return min;
+			case "SUM":
+				for (let item of insightKindGroup) {
+					sum += item[applyField];
+				}
+				return Number(sum.toFixed(2));
+			case "AVG":
+				for (let item of insightKindGroup) {
+					sum += item[applyField];
+					count++;
+				}
+				avg = sum / count;
+				return Number(avg.toFixed(2));
+			case "COUNT":
+				for (let item of insightKindGroup) {
+					uniqueFieldValueSet.add(item[applyField]);
+				}
+				count = uniqueFieldValueSet.size;
+				return count;
+		}
+		return 0;
+	}
+
 	private handleOptions(filteredSections: InsightKind[], options: object) {
-		if ("COLUMNS" in options) {
+		if ("COLUMNS" in options && !this.hasTrans) {
 			this.handleColumns(options["COLUMNS"], filteredSections);
 		}
 		if ("ORDER" in options) {
@@ -224,31 +258,42 @@ export class QueryEngine {
 
 	private handleColumns(columns: any, filteredSections: InsightKind[]) {
 		const stringColumns = columns as string[];
-		// for each section
 		for (let section of filteredSections) {
-			// make a new insightResult
 			let insightResultNew: InsightResult = {};
-			// for each key in columns
 			for (let key of stringColumns) {
-				// get the field name from key and value of that key from section
 				let fieldName = key.split("_")[1];
 				let fieldValue = section[fieldName];
 				if (fieldName === "uuid") {
 					insightResultNew[key] = fieldValue.toString();
 				} else {
-					// add the key value to insightResultNEW
 					insightResultNew[key] = fieldValue;
 				}
 			}
-			// after all key values are added in the for loop, push it into insightResults
 			this.insightResults.push(insightResultNew);
 		}
 	}
 
 	private handleORDER(order: any) {
-		const orderString = order as string;
-		// Sorting based on the specified key in ascending order
-		this.insightResults.sort((a: any, b: any) => a[orderString] - b[orderString]);
-		return;
+		if (isString(order)) {
+			const orderString = order as string;
+			this.insightResults.sort((a: any, b: any) => a[orderString] - b[orderString]);
+			return;
+		} else {
+			let direction = order["dir"];
+			let orderKeys = order["keys"];
+			const dNum = direction === "UP" ? 1 : -1;
+			for (const orderKey of orderKeys) {
+				this.insightResults.sort((a,b): number => {
+					if (a[orderKey] > b[orderKey] && direction === "UP"){
+						return dNum;
+					}
+					if (a[orderKey] < b[orderKey]) {
+						return -dNum;
+					} else {
+						return 0;
+					}
+				});
+			}
+		}
 	}
 }

@@ -1,0 +1,40 @@
+{
+	"title": "invalidApplykeyUnderscore",
+	"input": {
+		"WHERE": {
+			"IS": {
+				"sections_dept": "cpsc"
+			}
+		},
+		"OPTIONS": {
+			"COLUMNS": [
+				"sections_dept",
+				"sections_id",
+				"sections_year",
+				"year_avg"
+			],
+			"ORDER": {
+				"dir": "UP",
+				"keys": [
+					"year_avg"
+				]
+			}
+		},
+		"TRANSFORMATIONS": {
+			"GROUP": [
+				"sections_dept",
+				"sections_id",
+				"sections_year"
+			],
+			"APPLY": [
+				{
+					"year_avg": {
+						"MIN": "sections_avg"
+					}
+				}
+			]
+		}
+	},
+	"errorExpected": true,
+	"expected": "InsightError"
+}
