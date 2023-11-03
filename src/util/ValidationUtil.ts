@@ -2,6 +2,7 @@
 
 import JSZip from "jszip";
 import {InsightDatasetKind} from "../controller/IInsightFacade";
+import * as parse5 from "parse5";
 
 export default class ValidationUtil {
 	// REQUIRES: string
@@ -18,7 +19,7 @@ export default class ValidationUtil {
 		try {
 			buffer = Buffer.from(content, "base64");
 		} catch (error) {
-			console.error("Invalid Base64 string:", error);
+			// console.error("Invalid Base64 string:", error);
 			return false;
 		}
 		// check if decoded buffer is valid ZIP
@@ -26,7 +27,7 @@ export default class ValidationUtil {
 			const zip = new JSZip();
 			await zip.loadAsync(buffer);
 		} catch (error) {
-			console.error("Invalid ZIP data:", error);
+			// console.error("Invalid ZIP data:", error);
 			return false;
 		}
 		return true;
@@ -37,7 +38,7 @@ export default class ValidationUtil {
 	public static isValidKind(kind: any): kind is InsightDatasetKind {
 		// return Object.values(InsightDatasetKind).includes(kind as InsightDatasetKind);
 		// for C0 and C1: only need sections
-		return kind === InsightDatasetKind.Sections;
+		return kind === InsightDatasetKind;
 	}
 
 	// REQUIRES: id as string and existingIds as string array

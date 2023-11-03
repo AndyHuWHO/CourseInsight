@@ -247,6 +247,11 @@ describe("InsightFacade", function () {
 			return expect(result).to.eventually.have.members(["ubcRooms"]);
 		});
 
+		it("should successfully add large dataset", function () {
+			const result = facade.addDataset("ubcRooms", rooms, InsightDatasetKind.Rooms);
+			return expect(result).to.eventually.have.members(["ubcRooms"]);
+		});
+
 		// tests for removeDataset
 		it("should reject when attempting to remove a non-existing dataset", function () {
 			const nonExistingId = "nonExistingDataset";
@@ -323,7 +328,7 @@ describe("InsightFacade", function () {
 				{
 					id: "ubc",
 					kind: InsightDatasetKind.Rooms,
-					numRows: 2268, // !!! check quantity
+					numRows: 364, // !!! check quantity
 				},
 			]);
 		});
@@ -342,7 +347,7 @@ describe("InsightFacade", function () {
 				{
 					id: "ubc",
 					kind: InsightDatasetKind.Rooms,
-					numRows: 2268, // !!! check quantity
+					numRows: 364, // !!! check quantity
 				},
 			]);
 		});
@@ -359,12 +364,12 @@ describe("InsightFacade", function () {
 			return expect(result).to.eventually.be.deep.equal([
 				{
 					id: "ubc1",
-					kind: InsightDatasetKind.Sections,
-					numRows: 2268, // !!! check quantity
+					kind: InsightDatasetKind.Rooms,
+					numRows: 364, // !!! check quantity
 				},
 				{
 					id: "ubc2",
-					kind: InsightDatasetKind.Sections,
+					kind: InsightDatasetKind.Rooms,
 					numRows: 16, // !!! check quantity
 				},
 			]);

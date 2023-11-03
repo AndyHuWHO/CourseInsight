@@ -7,13 +7,16 @@ import {
 	NotFoundError,
 } from "./IInsightFacade";
 import {Dataset} from "../models/Dataset";
-import * as FileUtil from "../util/FileUtil";
+import * as SectionFileUtil from "../util/SectionFileUtil";
 import ValidationUtil from "../util/ValidationUtil";
 import {join} from "path";
 import Section from "../models/Section";
 import fs from "fs";
 import {QueryValidator} from "../models/QueryValidator";
 import {QueryEngine} from "../models/QueryEngine";
+import * as IndexFileUtil from "../util/IndexFileUtil";
+import * as RoomFileUtil from "../util/RoomFileUtil";
+import * as PersistenceUtil from "../util/PersistenceUtil";
 
 /**
  * This is the main programmatic entry point for the project.
@@ -31,7 +34,7 @@ export default class InsightFacade implements IInsightFacade {
 	private queryEngine: QueryEngine = new QueryEngine();
 
 	constructor() {
-		console.log("InsightFacadeImpl::init()");
+		// console.log("InsightFacadeImpl::init()");
 		this.datasets = [];
 		this.datasetsId = [];
 		this.isLoaded = false; // if false = datasets are not initialized (loaded) from file
@@ -68,23 +71,37 @@ export default class InsightFacade implements IInsightFacade {
 				throw new InsightError("Invalid Zip Base64 content");
 			}
 
-			// Validate kind should be sections
-			if (!ValidationUtil.isValidKind(kind)) {
-				throw new InsightError("Invalid InsightDatasetKind");
+			const zipContent = await SectionFileUtil.unZipBase64(content);
+
+			let newDataset: Dataset | undefined;
+
+			if (kind === InsightDatasetKind.Sections) {
+				const sections = await SectionFileUtil.extractSectionsFromUnZip(zipContent);
+				await PersistenceUtil.writeInsightKindsToFile(id, sections);
+				// create a new Dataset and add it to the datasets array
+				newDataset = new Dataset(id, kind, sections.length, sections);
+			} else if (kind === InsightDatasetKind.Rooms) {
+				// console.log("about to enter extraRoomsFromUnzip");
+				const rooms = await IndexFileUtil.extractRoomsFromUnzip(zipContent);
+				// console.log("just exited extraRoomsFromUnzip");
+				await PersistenceUtil.writeInsightKindsToFile(id, rooms);
+				newDataset = new Dataset(id, kind, rooms.length, rooms);
+			} else {
+				throw new InsightError("Error occurred while extracting from zip");
 			}
 
-			const zipContent = await FileUtil.unZipBase64(content);
-			const sections = await FileUtil.extractSectionsFromUnZip(zipContent);
-			await FileUtil.writeSectionsToFile(id, sections);
-
-			// create a new SectionDataset and add it to the datasets array
-			const newDataset = new Dataset(id, kind, sections.length, sections);
-			this.datasets.push(newDataset);
-			this.datasetsId.push(id);
+			// Only push newDataset if it's defined
+			if (newDataset) {
+				this.datasets.push(newDataset);
+				this.datasetsId.push(id);
+			} else {
+				// Handle the case when newDataset is not defined
+				throw new InsightError("Failed to create a new dataset");
+			}
 
 			return this.datasetsId;
 		} catch (error) {
-			console.error("Error adding dataset:", error);
+			// console.error("Error adding dataset:", error);
 			throw new InsightError("Error occurred while adding dataset.");
 		}
 	}
@@ -115,12 +132,13 @@ export default class InsightFacade implements IInsightFacade {
 			this.datasetsId = this.datasetsId.filter((datasetId) => datasetId !== id);
 
 			// Remove the dataset from file ./data
-
 			// const dataFolder = join(__dirname, "..", "data");
-			const filenameRegex = new RegExp(`_${id}.json$`); // regex code from chatGPT
+			const filenameRegex = new RegExp(`_${id}_(Room|Section).json$`);
+
+			// const filenameRegex = new RegExp(`_${id}.json$`); // regex code from chatGPT
 
 			// grab files from the ./data folder
-			const filenames = await FileUtil.loadDataFolderFileNames(this.persistDir);
+			const filenames = await PersistenceUtil.loadDataFolderFileNames(this.persistDir);
 
 			// regex fn from chatGPT
 			// iterate over array of files and use regex to find particular file(dataset) requested to delete
@@ -135,7 +153,7 @@ export default class InsightFacade implements IInsightFacade {
 			await fs.promises.unlink(join(this.persistDir, fileToDelete));
 			return id;
 		} catch (error) {
-			console.error("Error removing dataset:", error);
+			// console.error("Error removing dataset:", error);
 			// If error is of type InsightError or NotFoundError, rethrow it to keep its message
 			// from chatGPT
 			if (error instanceof InsightError || error instanceof NotFoundError) {
@@ -203,6 +221,8 @@ export default class InsightFacade implements IInsightFacade {
 		// const dataFolderPath = join(__dirname, "..", "data");
 
 		// Check if the data folder exists before attempting to load datasets
+		// console.log(this.persistDir);
+		// console.log(fs.existsSync(this.persistDir));
 		if (fs.existsSync(this.persistDir)) {
 			// console.log("DATASET EXISTS");
 			await this.loadDatasets(this.persistDir);
@@ -214,21 +234,34 @@ export default class InsightFacade implements IInsightFacade {
 	private async loadDatasets(dataFolderPath: string): Promise<void> {
 		try {
 			// Load filenames using helper function
-			const filenames = await FileUtil.loadDataFolderFileNames(dataFolderPath);
+			const filenames = await PersistenceUtil.loadDataFolderFileNames(dataFolderPath);
 			// Sort filenames in chronological order using helper function
-			const sortedFilenames = FileUtil.sortFilenamesChronologically(filenames);
+			const sortedFilenames = PersistenceUtil.sortFilenamesChronologically(filenames);
 
 			const loadDatasetPromises = sortedFilenames.map(async (filename) => {
-				// Extract dataset id and load it into datasetsId array using helper function
-				const id = FileUtil.extractDatasetIdFromFilename(filename);
+				// extract dataset id from filename
+				const id = PersistenceUtil.extractDatasetIdFromFilename(filename);
+
+				// extract dataset type (Room or Section) from filename (help from chatGPT)
+				const parts = filename.split("_");
+				const type = parts[parts.length - 1].replace(".json", "");
 
 				// Load the dataset content
 				const datasetPath = join(dataFolderPath, filename);
-				const sections: Section[] = await FileUtil.loadDatasetContent(datasetPath);
+				let datasetContent;
+				let datasetKind;
+				if (type === "Room") {
+					datasetContent = await RoomFileUtil.loadRoomDatasetContent(datasetPath);
+					datasetKind = InsightDatasetKind.Rooms;
+				} else {
+					datasetContent = await SectionFileUtil.loadSectionDatasetContent(datasetPath);
+					datasetKind = InsightDatasetKind.Sections;
+				}
 
-				// Create SectionDataset object and push it to this.datasets
-				// Assuming kind is always 'Courses'
-				const newDataset = new Dataset(id, InsightDatasetKind.Sections, sections.length, sections);
+				// const sections: Section[] = await SectionFileUtil.loadDatasetContent(datasetPath);
+
+				// Create dataset object and push it to this.datasets
+				const newDataset = new Dataset(id, datasetKind, datasetContent.length, datasetContent);
 
 				return {newDataset, id};
 			});
@@ -241,7 +274,7 @@ export default class InsightFacade implements IInsightFacade {
 				this.datasetsId.push(id);
 			});
 		} catch (error) {
-			console.error(`Failed to load datasets: ${error}`);
+			// console.error(`Failed to load datasets: ${error}`);
 			throw new Error("loadDatasets failed.");
 		}
 	}
