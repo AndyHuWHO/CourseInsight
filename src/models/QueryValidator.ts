@@ -18,11 +18,8 @@ export class QueryValidator {
 		if (!isObject(query)) {
 			throw new InsightError("query must be an object");
 		}
-		if (!("WHERE" in query) || !("OPTIONS" in query)) {
-			throw new InsightError("query is missing WHERE or OPTIONS part");
-		}
-		if (Object.keys(query).length > 3) {
-			throw new InsightError("query have too many keys");
+		if (!("WHERE" in query) || !("OPTIONS" in query) || Object.keys(query).length > 3) {
+			throw new InsightError("query is missing WHERE or OPTIONS part or have more than 3 keys");
 		}
 		if (Object.keys(query).length === 3 && !("TRANSFORMATIONS" in query)) {
 			throw new InsightError("query has invalid key when a third query key should be TRANSFORMATIONS");
@@ -49,15 +46,10 @@ export class QueryValidator {
 	}
 
 	private validateFilter(filter: any) {
-		if (!isObject(filter)) {
-			throw new InsightError("filter must be an object");
+		if (!isObject(filter) || !isString(Object.keys(filter)[0])) {
+			throw new InsightError("filter must be an object and filter key must be string");
 		}
-		const filterKey = Object.keys(filter)[0];
-		if (!isString(filterKey)) {
-			throw new InsightError("filter key must be a string");
-		}
-		const filterValue = Object.values(filter)[0];
-		if (!["AND", "OR", "GT", "LT", "EQ", "IS", "NOT"].includes(filterKey)) {
+		if (!["AND", "OR", "GT", "LT", "EQ", "IS", "NOT"].includes(Object.keys(filter)[0])) {
 			throw new InsightError("invalid filter key");
 		}
 		if ("IS" in filter) {
@@ -66,11 +58,11 @@ export class QueryValidator {
 		if ("NOT" in filter) {
 			this.validateFilter(Object.values(filter)[0]);
 		}
-		if (filterKey === "AND" || filterKey === "OR") {
-			this.validateLogicComparison(filterValue);
+		if (Object.keys(filter)[0] === "AND" || Object.keys(filter)[0] === "OR") {
+			this.validateLogicComparison(Object.values(filter)[0]);
 		}
-		if (filterKey === "GT" || filterKey === "LT" || filterKey === "EQ") {
-			this.validateMComparison(filterValue);
+		if (Object.keys(filter)[0] === "GT" || Object.keys(filter)[0] === "LT" || Object.keys(filter)[0] === "EQ") {
+			this.validateMComparison(Object.values(filter)[0]);
 		}
 	}
 
@@ -82,11 +74,8 @@ export class QueryValidator {
 			throw new InsightError("sComparison does not have exactly one key");
 		}
 		const sKey: string = Object.keys(sComparison)[0] as keyof typeof sComparison;
-		if (!isString(sKey)) {
-			throw new InsightError("sKey not a string");
-		}
-		if (!sKeyPattern.test(sKey)) {
-			throw new InsightError("invalid sKey");
+		if (!isString(sKey) || !sKeyPattern.test(sKey)) {
+			throw new InsightError("sKey not a string or invalid sKey pattern");
 		}
 		const id = sKey.split("_")[0];
 		if (this._idString === "") {
@@ -108,11 +97,8 @@ export class QueryValidator {
 			throw new InsightError("mComparison does not have exactly 1 key");
 		}
 		const mKey: string = Object.keys(mComparison)[0];
-		if (!isString(mKey)) {
-			throw new InsightError("mKey not a string");
-		}
-		if (!mKeyPattern.test(mKey)) {
-			throw new InsightError("invalid mKey");
+		if (!isString(mKey) || !mKeyPattern.test(mKey)) {
+			throw new InsightError("mKey not a string or invalid mKey pattern");
 		}
 		const id = mKey.split("_")[0];
 		if (this._idString === "") {
@@ -146,11 +132,8 @@ export class QueryValidator {
 			throw new InsightError("Options must be an object");
 		}
 		const optionsLength = Object.keys(options).length;
-		if (!("COLUMNS" in options)) {
-			throw new InsightError("Options must have columns");
-		}
-		if (optionsLength > 2) {
-			throw new InsightError("Options must not have more than 2 items");
+		if (!("COLUMNS" in options) || optionsLength > 2) {
+			throw new InsightError("Options must have columns and Options must not have more than 2 items");
 		}
 		this.validateColumns(options.COLUMNS);
 		if (optionsLength === 2) {
@@ -259,11 +242,8 @@ export class QueryValidator {
 	}
 
 	private validateApply(apply: any) {
-		if (!Array.isArray(apply)) {
-			throw new InsightError("Apply must be an array");
-		}
-		if (checkForDuplicateKeys(apply)) {
-			throw new InsightError("Apply can't have duplicated keys");
+		if (!Array.isArray(apply) || checkForDuplicateKeys(apply)) {
+			throw new InsightError("Apply must be an array and Apply can't have duplicated keys");
 		}
 		for (let item of apply) {
 			this.validateApplyRule(item);
@@ -271,11 +251,8 @@ export class QueryValidator {
 	}
 
 	private validateApplyRule(applyRule: any) {
-		if (!isObject(applyRule)) {
-			throw new InsightError("ApplyRule has to be object");
-		}
-		if (Object.keys(applyRule).length !== 1) {
-			throw new InsightError("ApplyRule must only have one key");
+		if (!isObject(applyRule) || Object.keys(applyRule).length !== 1) {
+			throw new InsightError("ApplyRule has to be object and ApplyRule must only have one key");
 		}
 		if (!applyKeyPattern.test(Object.keys(applyRule)[0])) {
 			throw new InsightError("ApplyKey has wrong pattern");
@@ -285,11 +262,8 @@ export class QueryValidator {
 	}
 
 	private validateApplyValue(value: unknown) {
-		if (!isObject(value)) {
-			throw new InsightError("ApplyValue has to be object");
-		}
-		if (Object.keys(value).length !== 1) {
-			throw new InsightError("There could be only one ApplyToken in an ApplyRule");
+		if (!isObject(value) || Object.keys(value).length !== 1) {
+			throw new InsightError("ApplyValue has to be object and only one ApplyToken should be in an ApplyRule");
 		}
 		if (!applyTokens.includes(Object.keys(value)[0])) {
 			throw new InsightError("Invalid Apply Token");

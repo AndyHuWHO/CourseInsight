@@ -42,3 +42,13 @@ export function checkForDuplicateKeys(arrayOfObjects: any[]): boolean {
 	}
 	return keySet.size < arrayOfObjects.length;
 }
+
+export function setOrValidateIdString(idString: string, s: string) {
+	if (idString === "") {
+		idString = s;
+	} else {
+		if (s !== idString) {
+			throw new InsightError("mComparison has different idString");
+		}
+	}
+}
