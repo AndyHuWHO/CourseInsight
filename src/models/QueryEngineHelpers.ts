@@ -21,3 +21,30 @@ export function combineUnique(arr1: InsightKind[], arr2: InsightKind[]) {
 export function getDifference(arr1: InsightKind[], arr2: InsightKind[]): any[] {
 	return arr1.filter((item) => !arr2.includes(item));
 }
+
+export function passSComparison(sField: string, inputString: string, section: InsightKind) {
+	const fieldValue = section[sField];
+	if (fieldValue === null || undefined) {
+		return false;
+	}
+	if (!inputString.includes("*")) {
+		return fieldValue === inputString;
+	}
+	if (inputString === "*") {
+		return true;
+	}
+	if (inputString.startsWith("*") && !inputString.endsWith("*")) {
+		return fieldValue.endsWith(inputString.substring(1, inputString.length));
+	}
+	if (!inputString.startsWith("*") && inputString.endsWith("*")) {
+		return fieldValue.startsWith(inputString.substring(0, inputString.length - 1));
+	}
+	if (inputString.startsWith("*") && inputString.endsWith("*")) {
+		return fieldValue.includes(inputString.substring(1, inputString.length - 1));
+	}
+	return false;
+}
+
+export function isString(value: any): value is string {
+	return typeof value === "string";
+}

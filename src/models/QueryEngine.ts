@@ -2,29 +2,36 @@ import {InsightDatasetKind, InsightError, InsightResult, ResultTooLargeError} fr
 import {Dataset} from "./Dataset";
 import Section from "./Section";
 import {InsightKind} from "./InsightKind";
-import {combineUnique, findIntersection, getDifference} from "./QueryEngineHelpers";
+import {combineUnique, findIntersection, getDifference, passSComparison, isString} from "./QueryEngineHelpers";
 
 export class QueryEngine {
 	private insightResults: InsightResult[] = [];
-	private numOfSections: number = 0;
+	private numOfSectionsOrRooms: number = 0;
 	private sectionsOrRooms: InsightKind[] = [];
+	private columnsArray: string[] = [];
+	private hasTrans = false;
 	public queryDataset(dataset: Dataset, query: any): Promise<InsightResult[]> {
-		if (dataset.kind !== InsightDatasetKind.Sections) {
-			throw new InsightError("wrong dataset kind for query");
-		}
-		this.numOfSections = dataset.insightKindArray.length;
+		// if (dataset.kind !== InsightDatasetKind.Sections) {
+		// 	throw new InsightError("wrong dataset kind for query");
+		// }
+		this.numOfSectionsOrRooms = dataset.insightKindArray.length;
 		this.sectionsOrRooms = dataset.insightKindArray;
 		if (Object.keys(query["WHERE"]).length === 0 && !("TRANSFORMATIONS" in query)) {
-			if (this.numOfSections > 5000) {
+			if (this.numOfSectionsOrRooms > 5000) {
 				return Promise.reject(new ResultTooLargeError("result too big"));
 			}
 		}
 		this.insightResults = [];
-		const filteredSections = this.filterWhere(this.sectionsOrRooms, query["WHERE"]);
-		if (filteredSections.length > 5000) {
+		this.columnsArray = query["OPTIONS"]["COLUMNS"];
+		const filteredSectionsOrRooms = this.filterWhere(this.sectionsOrRooms, query["WHERE"]);
+		if (filteredSectionsOrRooms.length > 5000  && !("TRANSFORMATIONS" in query)) {
 			return Promise.reject(new ResultTooLargeError("exceed 5000 results"));
 		}
-		this.handleOptions(filteredSections, query["OPTIONS"]);
+		if ("TRANSFORMATIONS" in query) {
+			this.hasTrans = true;
+			this.handleTransformations(filteredSectionsOrRooms, query["TRANSFORMATIONS"]);
+		}
+		this.handleOptions(filteredSectionsOrRooms, query["OPTIONS"]);
 		return Promise.resolve(this.insightResults);
 	}
 
@@ -65,8 +72,7 @@ export class QueryEngine {
 		for (let item of andOp) {
 			let filteredArray = this.filterWhere(allSections, item);
 			if (filteredArray.length === 0) {
-				let emptyS: Section[] = [];
-				return emptyS;
+				return [];
 			}
 			if (andFilteredSections.length === 0) {
 				andFilteredSections = filteredArray;
@@ -92,38 +98,15 @@ export class QueryEngine {
 		const sField: string = sKey.split("_")[1];
 		const inputString = Object.values(isOp)[0] as string;
 		for (const section of allSections) {
-			if (this.passSComparison(sField, inputString, section)) {
+			if (passSComparison(sField, inputString, section)) {
 				isFilteredSections.push(section);
 			}
 		}
 		return isFilteredSections;
 	}
 
-	private passSComparison(sField: string, inputString: string, section: InsightKind) {
-		const fieldValue = section[sField];
-		if (fieldValue === null || undefined) {
-			return false;
-		}
-		if (!inputString.includes("*")) {
-			return fieldValue === inputString;
-		}
-		if (inputString === "*") {
-			return true;
-		}
-		if (inputString.startsWith("*") && !inputString.endsWith("*")) {
-			return fieldValue.endsWith(inputString.substring(1, inputString.length));
-		}
-		if (!inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.startsWith(inputString.substring(0, inputString.length - 1));
-		}
-		if (inputString.startsWith("*") && inputString.endsWith("*")) {
-			return fieldValue.includes(inputString.substring(1, inputString.length - 1));
-		}
-		return false;
-	}
-
 	private filterNot(allSections: InsightKind[], notOp: any): InsightKind[] {
-		let notFilteredSections: InsightKind[] = [];
+		let notFilteredSections: InsightKind[];
 		notFilteredSections = this.filterWhere(allSections, notOp);
 		notFilteredSections = getDifference(allSections, notFilteredSections);
 		return notFilteredSections;
@@ -168,13 +151,104 @@ export class QueryEngine {
 		return ltFilteredSections;
 	}
 
-	/**
-	 * Puts InsightResult into the global field insightResults in the correct order.
-	 * @param {Section[]} filteredSections - an array of sections that are filtered by the WHERE conditions.
-	 * @param {object} options - the options object in the query.
-	 */
+	private handleTransformations(filteredSectionsOrRooms: InsightKind[], transformations: any) {
+		const groupedResults = this.groupResults(filteredSectionsOrRooms, transformations["GROUP"]);
+		this.handleApply(groupedResults,transformations["APPLY"]);
+	}
+
+	private groupResults(filteredSectionsOrRooms: InsightKind[], group: any): Map<string, InsightKind[]> {
+		const groupedMap = new Map<string, InsightKind[]>();
+		for (const sectionOrRoom of filteredSectionsOrRooms) {
+			// make a key for each section based on the group keys
+			let mapKey = "";
+			for(const groupKey of group) {
+				const field: string = groupKey.split("_")[1];
+				mapKey += field;
+			}
+			if (groupedMap.has(mapKey)) {
+				const arrayWithMapKey = groupedMap.get(mapKey) as InsightKind[];
+				arrayWithMapKey.push(sectionOrRoom);
+				groupedMap.set(mapKey, arrayWithMapKey);
+			} else {
+				groupedMap.set(mapKey,[sectionOrRoom]);
+			}
+		}
+		return groupedMap;
+	}
+
+	private handleApply(groupedResults: Map<string, InsightKind[]>, apply: any) {
+		for (const [key, value] of groupedResults.entries()) {
+			let insightResultNew: InsightResult = {};
+			for (let cKey of this.columnsArray) {
+				if (cKey.includes("_")) {
+					let fieldName = cKey.split("_")[1];
+					let fieldValue = value[0][fieldName];
+					if (fieldName === "uuid") {
+						insightResultNew[cKey] = fieldValue.toString();
+					} else {
+						insightResultNew[cKey] = fieldValue;
+					}
+				} else {
+					for (let item of apply) {
+						if (Object.keys(item)[0] === cKey) {
+							insightResultNew[cKey] = this.calculateApply(value, Object.values(item)[0]);
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private calculateApply(insightKindGroup: InsightKind[], applyTokenObject: any): number {
+		const applyToken = Object.keys(applyTokenObject)[0];
+		const applyKey = Object.values(applyTokenObject)[0] as string;
+		const applyField = applyKey.split("_")[1];
+		let max = Number.NEGATIVE_INFINITY;
+		let min = Number.POSITIVE_INFINITY;
+		let sum = 0;
+		let avg = 0;
+		let count = 0;
+		let uniqueFieldValueSet = new Set();
+		switch (applyToken) {
+			case "MAX":
+				for (let item of insightKindGroup) {
+					if (item[applyField] > max) {
+						max = item[applyField];
+					}
+				}
+				return max;
+			case "MIN":
+				for (let item of insightKindGroup) {
+					if (item[applyField] < min) {
+						min = item[applyField];
+					}
+				}
+				return min;
+			case "SUM":
+				for (let item of insightKindGroup) {
+					sum += item[applyField];
+				}
+				return Number(sum.toFixed(2));
+			case "AVG":
+				for (let item of insightKindGroup) {
+					sum += item[applyField];
+					count++;
+				}
+				avg = sum / count;
+				return Number(avg.toFixed(2));
+			case "COUNT":
+				for (let item of insightKindGroup) {
+					uniqueFieldValueSet.add(item[applyField]);
+				}
+				count = uniqueFieldValueSet.size;
+				return count;
+		}
+		return 0;
+	}
+
 	private handleOptions(filteredSections: InsightKind[], options: object) {
-		if ("COLUMNS" in options) {
+		if ("COLUMNS" in options && !this.hasTrans) {
 			this.handleColumns(options["COLUMNS"], filteredSections);
 		}
 		if ("ORDER" in options) {
@@ -200,8 +274,26 @@ export class QueryEngine {
 	}
 
 	private handleORDER(order: any) {
-		const orderString = order as string;
-		this.insightResults.sort((a: any, b: any) => a[orderString] - b[orderString]);
-		return;
+		if (isString(order)) {
+			const orderString = order as string;
+			this.insightResults.sort((a: any, b: any) => a[orderString] - b[orderString]);
+			return;
+		} else {
+			let direction = order["dir"];
+			let orderKeys = order["keys"];
+			const dNum = direction === "UP" ? 1 : -1;
+			for (const orderKey of orderKeys) {
+				this.insightResults.sort((a,b): number => {
+					if (a[orderKey] > b[orderKey] && direction === "UP"){
+						return dNum;
+					}
+					if (a[orderKey] < b[orderKey]) {
+						return -dNum;
+					} else {
+						return 0;
+					}
+				});
+			}
+		}
 	}
 }
