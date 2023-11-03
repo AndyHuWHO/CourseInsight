@@ -1,12 +1,11 @@
 import {InsightError} from "../controller/IInsightFacade";
 import {isArrayOfStrings, isObject, isString, validateInputString,
-	sKeyPattern, mKeyPattern, applyKeyPattern, applyTokens}
+	sKeyPattern, mKeyPattern, applyKeyPattern, applyTokens, checkForDuplicateKeys}
 	from "./QueryValidatorHelpers";
 
 export class QueryValidator {
 	public _idString: string = "";
 	private applyKeyList: string[] = [];
-
 	public validateQuery(query: unknown) {
 		if (!isObject(query)) {
 			throw new InsightError("query must be an object");
@@ -53,7 +52,6 @@ export class QueryValidator {
 			throw new InsightError("filter key must be a string");
 		}
 		const filterValue = Object.values(filter)[0];
-		// make sure that the key in where is a valid filter key
 		if (!["AND", "OR", "GT", "LT", "EQ", "IS", "NOT"].includes(filterKey)) {
 			throw new InsightError("invalid filter key");
 		}
@@ -196,8 +194,9 @@ export class QueryValidator {
 			if (order.dir !== "UP" && order.dir !== "DOWN") {
 				throw new InsightError("Invalid DIR");
 			}
-			if (!isArrayOfStrings(order.keys) || !order.keys.every((key) => columns.includes(key))) {
-				throw new InsightError("Order key must appear in columns");
+			if (!isArrayOfStrings(order.keys) || !order.keys.every((key) => columns.includes(key)) ||
+			order.keys.length === 0) {
+				throw new InsightError("Order keys must appear in columns and must not be empty array");
 			}
 		} else {
 			if (!isString(order)) {
@@ -258,6 +257,9 @@ export class QueryValidator {
 		const applyLength = apply.length;
 		if (applyLength === 0) {
 			throw new InsightError("Apply can't be an empty array");
+		}
+		if (checkForDuplicateKeys(apply)) {
+			throw new InsightError("Apply can't have duplicated keys");
 		}
 		for (let item of apply) {
 			this.validateApplyRule(item);

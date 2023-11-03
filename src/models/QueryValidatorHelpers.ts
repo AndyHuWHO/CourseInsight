@@ -35,17 +35,11 @@ export function isArrayOfStrings(variable: any): variable is string[] {
 }
 
 
-// if (this.applyKeyList.length !== 0 && !this.applyKeyList.includes(columns[i])) {
-// 	throw new InsightError("Keys in COLUMNS must be in GROUP or APPLY when TRANSFORMATIONS is present");
-// } else {
-// 	if (!(mKeyPattern.test(columns[i]) || sKeyPattern.test(columns[i]))) {
-// 		throw new InsightError("Columns keys must a valid m or s Key");
-// 	}
-// 	if (i === 0 && this._idString === "") {
-// 		this._idString = columns[i].split("_")[0];
-// 	} else {
-// 		if (columns[i].split("_")[0] !== this._idString) {
-// 			throw new InsightError("Columns have different idString");
-// 		}
-// 	}
-// }
+export function checkForDuplicateKeys(arrayOfObjects: any[]): boolean {
+	let keySet = new Set<string>();
+
+	for (let obj of arrayOfObjects) {
+		keySet.add(Object.keys(obj)[0]);
+	}
+	return keySet.size < arrayOfObjects.length;
+}
