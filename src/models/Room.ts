@@ -2,8 +2,8 @@ import {InsightDatasetKind} from "../controller/IInsightFacade";
 import {InsightKind} from "./InsightKind";
 // represents a section
 export default class Room implements InsightKind {
-	public readonly fullName: string; // full building name
-	public readonly shortName: string; // short building name
+	public readonly fullname: string; // full building name
+	public readonly shortname: string; // short building name
 	public readonly number: string; // room number
 	public readonly name: string; // rooms_shortname+rooms_number
 	public readonly address: string;
@@ -26,10 +26,10 @@ export default class Room implements InsightKind {
 		furniture: string,
 		href: string
 	) {
-		this.fullName = fullName;
-		this.shortName = shortname;
+		this.fullname = fullName;
+		this.shortname = shortname;
 		this.number = number;
-		this.name = this.shortName + "_" + this.number; // !!!
+		this.name = this.shortname + "_" + this.number; // !!!
 		this.address = address;
 		this.lat = lat;
 		this.lon = lon;
@@ -42,14 +42,14 @@ export default class Room implements InsightKind {
 	public equals(other: Room): boolean {
 		// Compare each property
 		return (
-			this.fullName === other.fullName &&
-			this.shortName === other.shortName &&
+			this.fullname === other.fullname &&
+			this.shortname === other.shortname &&
 			this.number === other.number &&
 			this.name === other.name &&
 			this.address === other.address &&
 			this.lat === other.lat &&
 			this.lon === other.lon &&
-			this.seats === other.setas &&
+			this.seats === other.seats &&
 			this.type === other.type &&
 			this.furniture === other.furniture &&
 			this.href === other.href
