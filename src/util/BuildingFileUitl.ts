@@ -77,9 +77,8 @@ export async function extractRoomsFromBuilding(unzipContent: JSZip, building: Bu
 
 	// extract room info from roomTable
 	const rooms = await extractRoomsFromBuildingTable(roomTable, building, geolocation);
-
-	console.log("finished traversing index.htm and building files, printing all the rooms");
-	console.log(rooms);
+	// console.log("finished traversing index.htm and building files, printing all the rooms");
+	// console.log(rooms);
 	return rooms;
 }
 

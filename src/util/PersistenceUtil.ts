@@ -38,7 +38,7 @@ export async function writeInsightKindsToFile(id: string, insightKinds: InsightK
 		// JSON string is a stringified representation of a JSON object used for transmitting the data as a string
 		await fsPromises.writeFile(outputPath, JSON.stringify(insightKinds));
 	} catch (error) {
-		console.error(`Failed to write sections to file: ${error}`);
+		// console.error(`Failed to write sections to file: ${error}`);
 		throw new InsightError("Error occurred while writing insightKinds to file.");
 	}
 }

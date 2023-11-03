@@ -34,7 +34,7 @@ export default class InsightFacade implements IInsightFacade {
 	private queryEngine: QueryEngine = new QueryEngine();
 
 	constructor() {
-		console.log("InsightFacadeImpl::init()");
+		// console.log("InsightFacadeImpl::init()");
 		this.datasets = [];
 		this.datasetsId = [];
 		this.isLoaded = false; // if false = datasets are not initialized (loaded) from file
@@ -81,9 +81,9 @@ export default class InsightFacade implements IInsightFacade {
 				// create a new Dataset and add it to the datasets array
 				newDataset = new Dataset(id, kind, sections.length, sections);
 			} else if (kind === InsightDatasetKind.Rooms) {
-				console.log("about to enter extraRoomsFromUnzip");
+				// console.log("about to enter extraRoomsFromUnzip");
 				const rooms = await IndexFileUtil.extractRoomsFromUnzip(zipContent);
-				console.log("just exited extraRoomsFromUnzip");
+				// console.log("just exited extraRoomsFromUnzip");
 				await PersistenceUtil.writeInsightKindsToFile(id, rooms);
 				newDataset = new Dataset(id, kind, rooms.length, rooms);
 			} else {
@@ -101,7 +101,7 @@ export default class InsightFacade implements IInsightFacade {
 
 			return this.datasetsId;
 		} catch (error) {
-			console.error("Error adding dataset:", error);
+			// console.error("Error adding dataset:", error);
 			throw new InsightError("Error occurred while adding dataset.");
 		}
 	}
@@ -153,7 +153,7 @@ export default class InsightFacade implements IInsightFacade {
 			await fs.promises.unlink(join(this.persistDir, fileToDelete));
 			return id;
 		} catch (error) {
-			console.error("Error removing dataset:", error);
+			// console.error("Error removing dataset:", error);
 			// If error is of type InsightError or NotFoundError, rethrow it to keep its message
 			// from chatGPT
 			if (error instanceof InsightError || error instanceof NotFoundError) {
@@ -221,8 +221,8 @@ export default class InsightFacade implements IInsightFacade {
 		// const dataFolderPath = join(__dirname, "..", "data");
 
 		// Check if the data folder exists before attempting to load datasets
-		console.log(this.persistDir);
-		console.log(fs.existsSync(this.persistDir));
+		// console.log(this.persistDir);
+		// console.log(fs.existsSync(this.persistDir));
 		if (fs.existsSync(this.persistDir)) {
 			// console.log("DATASET EXISTS");
 			await this.loadDatasets(this.persistDir);
@@ -274,7 +274,7 @@ export default class InsightFacade implements IInsightFacade {
 				this.datasetsId.push(id);
 			});
 		} catch (error) {
-			console.error(`Failed to load datasets: ${error}`);
+			// console.error(`Failed to load datasets: ${error}`);
 			throw new Error("loadDatasets failed.");
 		}
 	}

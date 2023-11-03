@@ -118,7 +118,7 @@ export async function loadRoomDatasetContent(filePath: string): Promise<Room[]> 
 				)
 		);
 	} catch (error) {
-		console.error(`Failed to reload dataset content from ${filePath}: ${error}`);
+		// console.error(`Failed to reload dataset content from ${filePath}: ${error}`);
 		throw new InsightError("Error occurred while reloading dataset content.");
 	}
 }

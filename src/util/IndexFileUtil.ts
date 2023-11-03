@@ -82,8 +82,8 @@ export async function extractRoomsFromUnzip(unzipContent: JSZip): Promise<Room[]
 	if (rooms.length === 0) {
 		throw new InsightError("dataset has no valid rooms");
 	}
-	console.log("printing all rooms");
-	console.log(rooms);
+	// console.log("printing all rooms");
+	// console.log(rooms);
 	return rooms;
 }
 

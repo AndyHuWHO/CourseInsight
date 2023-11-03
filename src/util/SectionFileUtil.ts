@@ -26,7 +26,7 @@ export async function unZipBase64(content: string): Promise<JSZip> {
 		// unzip using JSZip
 		return await new JSZip().loadAsync(buffer);
 	} catch (error) {
-		console.error("Error", error);
+		// console.error("Error", error);
 		return Promise.reject(new InsightError("Error occurred while unzipping dataset."));
 	}
 }

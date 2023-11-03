@@ -19,7 +19,7 @@ export default class ValidationUtil {
 		try {
 			buffer = Buffer.from(content, "base64");
 		} catch (error) {
-			console.error("Invalid Base64 string:", error);
+			// console.error("Invalid Base64 string:", error);
 			return false;
 		}
 		// check if decoded buffer is valid ZIP
@@ -27,7 +27,7 @@ export default class ValidationUtil {
 			const zip = new JSZip();
 			await zip.loadAsync(buffer);
 		} catch (error) {
-			console.error("Invalid ZIP data:", error);
+			// console.error("Invalid ZIP data:", error);
 			return false;
 		}
 		return true;
