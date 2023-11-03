@@ -34,7 +34,6 @@ export function isArrayOfStrings(variable: any): variable is string[] {
 	return variable.every((element) => typeof element === "string");
 }
 
-
 export function checkForDuplicateKeys(arrayOfObjects: any[]): boolean {
 	let keySet = new Set<string>();
 

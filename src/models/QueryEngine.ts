@@ -8,7 +8,7 @@ import {
 	getDifference,
 	passSComparison,
 	isString,
-	calculateApply
+	calculateApply,
 } from "./QueryEngineHelpers";
 
 export class QueryEngine {
@@ -29,7 +29,7 @@ export class QueryEngine {
 		this.insightResults = [];
 		this.columnsArray = query["OPTIONS"]["COLUMNS"];
 		const filteredSectionsOrRooms = this.filterWhere(this.sectionsOrRooms, query["WHERE"]);
-		if (filteredSectionsOrRooms.length > 5000  && !("TRANSFORMATIONS" in query)) {
+		if (filteredSectionsOrRooms.length > 5000 && !("TRANSFORMATIONS" in query)) {
 			return Promise.reject(new ResultTooLargeError("exceed 5000 results"));
 		}
 		if ("TRANSFORMATIONS" in query) {
@@ -161,7 +161,7 @@ export class QueryEngine {
 
 	private handleTransformations(filteredSectionsOrRooms: InsightKind[], transformations: any) {
 		const groupedResults = this.groupResults(filteredSectionsOrRooms, transformations["GROUP"]);
-		this.handleApply(groupedResults,transformations["APPLY"]);
+		this.handleApply(groupedResults, transformations["APPLY"]);
 	}
 
 	private groupResults(filteredSectionsOrRooms: InsightKind[], group: any): Map<string, InsightKind[]> {
@@ -169,7 +169,7 @@ export class QueryEngine {
 		for (const sectionOrRoom of filteredSectionsOrRooms) {
 			// make a key for each section based on the group keys
 			let mapKey = "";
-			for(const groupKey of group) {
+			for (const groupKey of group) {
 				const field: string = groupKey.split("_")[1];
 				mapKey += sectionOrRoom[field];
 			}
@@ -178,7 +178,7 @@ export class QueryEngine {
 				arrayWithMapKey.push(sectionOrRoom);
 				groupedMap.set(mapKey, arrayWithMapKey);
 			} else {
-				groupedMap.set(mapKey,[sectionOrRoom]);
+				groupedMap.set(mapKey, [sectionOrRoom]);
 			}
 		}
 		return groupedMap;
@@ -245,8 +245,8 @@ export class QueryEngine {
 			let orderKeys = order["keys"];
 			const dNum = direction === "UP" ? 1 : -1;
 			for (const orderKey of orderKeys) {
-				this.insightResults.sort((a,b): number => {
-					if (a[orderKey] > b[orderKey]){
+				this.insightResults.sort((a, b): number => {
+					if (a[orderKey] > b[orderKey]) {
 						return dNum;
 					}
 					if (a[orderKey] < b[orderKey]) {

@@ -56,7 +56,7 @@ export function calculateApply(insightKindGroup: InsightKind[], applyTokenObject
 	const applyField = applyKey.split("_")[1];
 	let max = Number.NEGATIVE_INFINITY;
 	let min = Number.POSITIVE_INFINITY;
-	let sum: Decimal = new  Decimal(0);
+	let sum: Decimal = new Decimal(0);
 	let avg = 0;
 	let decimalCount: Decimal = new Decimal(0);
 	let count = 0;
@@ -84,7 +84,6 @@ export function calculateApply(insightKindGroup: InsightKind[], applyTokenObject
 		case "AVG":
 			for (let item of insightKindGroup) {
 				sum = sum.add(new Decimal(item[applyField] as number));
-
 			}
 			avg = sum.toNumber() / insightKindGroup.length;
 			return Number(avg.toFixed(2));

@@ -1,7 +1,15 @@
 import {InsightError} from "../controller/IInsightFacade";
-import {isArrayOfStrings, isObject, isString, validateInputString,
-	sKeyPattern, mKeyPattern, applyKeyPattern, applyTokens, checkForDuplicateKeys}
-	from "./QueryValidatorHelpers";
+import {
+	isArrayOfStrings,
+	isObject,
+	isString,
+	validateInputString,
+	sKeyPattern,
+	mKeyPattern,
+	applyKeyPattern,
+	applyTokens,
+	checkForDuplicateKeys,
+} from "./QueryValidatorHelpers";
 
 export class QueryValidator {
 	public _idString: string = "";
@@ -191,8 +199,11 @@ export class QueryValidator {
 			if (order.dir !== "UP" && order.dir !== "DOWN") {
 				throw new InsightError("Invalid DIR");
 			}
-			if (!isArrayOfStrings(order.keys) || !order.keys.every((key) => columns.includes(key)) ||
-			order.keys.length === 0) {
+			if (
+				!isArrayOfStrings(order.keys) ||
+				!order.keys.every((key) => columns.includes(key)) ||
+				order.keys.length === 0
+			) {
 				throw new InsightError("Order keys must appear in columns and must not be empty array");
 			}
 		} else {
@@ -283,14 +294,14 @@ export class QueryValidator {
 		if (!applyTokens.includes(Object.keys(value)[0])) {
 			throw new InsightError("Invalid Apply Token");
 		}
-		if ((!mKeyPattern.test(Object.values(value)[0]) && Object.keys(value)[0] !== "COUNT")) {
+		if (!mKeyPattern.test(Object.values(value)[0]) && Object.keys(value)[0] !== "COUNT") {
 			throw new InsightError("MAX/MIN/AVG/SUM should only be requested for numeric keys.");
 		}
 		if (!(mKeyPattern.test(Object.values(value)[0]) || sKeyPattern.test(Object.values(value)[0]))) {
 			throw new InsightError("Value of ApplyToken must a valid m or s Key");
 		}
 		const datasetId: string = Object.values(value)[0].split("_")[0];
-		if(this._idString !== "" && datasetId !== this._idString) {
+		if (this._idString !== "" && datasetId !== this._idString) {
 			throw new InsightError("Apply cant query more than on datasets");
 		}
 		if (this._idString === "") {

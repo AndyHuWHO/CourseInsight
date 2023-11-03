@@ -188,8 +188,12 @@ function parseFileContent(content: any[]): Section[] {
 			) {
 				// if Section is "overall", set the year to 1900
 				const processedYear = section === "overall" ? 1900 : Number(year);
+				// ensure uuid is string
+				const stringUuid = String(uuid);
 				// if all fields are valid then new Section is instantiated and added to sections
-				sections.push(new Section(uuid, id, title, instructor, dept, processedYear, avg, pass, fail, audit));
+				sections.push(
+					new Section(stringUuid, id, title, instructor, dept, processedYear, avg, pass, fail, audit)
+				);
 			}
 		} catch (err) {
 			// Log and continue if a section failed parsing
