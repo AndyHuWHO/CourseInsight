@@ -105,8 +105,8 @@ export async function loadRoomDatasetContent(filePath: string): Promise<Room[]> 
 		return data.map(
 			(roomData: any) =>
 				new Room(
-					roomData.fullName,
-					roomData.shortName,
+					roomData.fullname,
+					roomData.shortname,
 					roomData.number,
 					roomData.address,
 					Number(roomData.lat),
