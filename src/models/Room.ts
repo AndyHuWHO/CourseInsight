@@ -15,7 +15,7 @@ export default class Room implements InsightKind {
 	public readonly href: string; // link to full details online
 
 	constructor(
-		fullName: string,
+		fullname: string,
 		shortname: string,
 		number: string,
 		address: string,
@@ -26,7 +26,7 @@ export default class Room implements InsightKind {
 		furniture: string,
 		href: string
 	) {
-		this.fullname = fullName;
+		this.fullname = fullname;
 		this.shortname = shortname;
 		this.number = number;
 		this.name = this.shortname + "_" + this.number; // !!!
