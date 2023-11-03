@@ -10,11 +10,8 @@ export class QueryValidator {
 		if (!isObject(query)) {
 			throw new InsightError("query must be an object");
 		}
-		if (!("WHERE" in query)) {
-			throw new InsightError("query is missing WHERE part");
-		}
-		if (!("OPTIONS" in query)) {
-			throw new InsightError("query is missing OPTIONS part");
+		if (!("WHERE" in query) || !("OPTIONS" in query)) {
+			throw new InsightError("query is missing WHERE or OPTIONS part");
 		}
 		if (Object.keys(query).length > 3) {
 			throw new InsightError("query have too many keys");
@@ -254,10 +251,6 @@ export class QueryValidator {
 		if (!Array.isArray(apply)) {
 			throw new InsightError("Apply must be an array");
 		}
-		const applyLength = apply.length;
-		if (applyLength === 0) {
-			throw new InsightError("Apply can't be an empty array");
-		}
 		if (checkForDuplicateKeys(apply)) {
 			throw new InsightError("Apply can't have duplicated keys");
 		}
@@ -295,6 +288,13 @@ export class QueryValidator {
 		}
 		if (!(mKeyPattern.test(Object.values(value)[0]) || sKeyPattern.test(Object.values(value)[0]))) {
 			throw new InsightError("Value of ApplyToken must a valid m or s Key");
+		}
+		const datasetId: string = Object.values(value)[0].split("_")[0];
+		if(this._idString !== "" && datasetId !== this._idString) {
+			throw new InsightError("Apply cant query more than on datasets");
+		}
+		if (this._idString === "") {
+			this._idString = datasetId;
 		}
 	}
 }

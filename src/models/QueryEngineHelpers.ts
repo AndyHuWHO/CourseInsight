@@ -24,7 +24,7 @@ export function getDifference(arr1: InsightKind[], arr2: InsightKind[]): any[] {
 }
 
 export function passSComparison(sField: string, inputString: string, section: InsightKind) {
-	const fieldValue = section[sField];
+	let fieldValue = section[sField];
 	if (fieldValue === null || undefined) {
 		return false;
 	}
