@@ -18,9 +18,6 @@ export class QueryEngine {
 	private columnsArray: string[] = [];
 	private hasTrans = false;
 	public queryDataset(dataset: Dataset, query: any): Promise<InsightResult[]> {
-		// if (dataset.kind !== InsightDatasetKind.Sections) {
-		// 	throw new InsightError("wrong dataset kind for query");
-		// }
 		this.numOfSectionsOrRooms = dataset.insightKindArray.length;
 		this.sectionsOrRooms = dataset.insightKindArray;
 		if (Object.keys(query["WHERE"]).length === 0 && !("TRANSFORMATIONS" in query)) {
@@ -28,6 +25,7 @@ export class QueryEngine {
 				return Promise.reject(new ResultTooLargeError("result too big"));
 			}
 		}
+		this.hasTrans = false;
 		this.insightResults = [];
 		this.columnsArray = query["OPTIONS"]["COLUMNS"];
 		const filteredSectionsOrRooms = this.filterWhere(this.sectionsOrRooms, query["WHERE"]);
