@@ -41,7 +41,7 @@ describe("InsightFacade", function () {
 		clearDisk();
 	});
 
-	describe.only("Add/Remove/List RoomDataset", function () {
+	describe("Add/Remove/List RoomDataset", function () {
 		before(function () {
 			console.info(`Before: ${this.test?.parent?.title}`);
 		});

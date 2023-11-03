@@ -5,6 +5,8 @@ import {join} from "path";
 import Section from "../models/Section";
 import Room from "../models/Room";
 import Building from "../models/Building";
+import * as http from "http";
+
 import {
 	findTableByTdClasses,
 	findAllElementsByTag,
@@ -164,20 +166,67 @@ interface Geolocation {
 	error?: string;
 }
 
+// async function getGeolocation(address: string): Promise<Geolocation> {
+// 	// encode address
+// 	const encodedAddress = encodeURIComponent(address);
+// 	// construct the URL
+// 	const url = `http://cs310.students.cs.ubc.ca:11316/api/v1/project_team${teamNumber}/${encodedAddress}`;
+// 	// console.log("printing url");
+// 	// console.log(url);
+// 	// make get request
+// 	const response = await fetch(url);
+//
+// 	// throw an error if response not ok
+// 	if (!response.ok) {
+// 		throw new InsightError("failed to fetch geolocation, invalid room");
+// 	}
+//
+// 	// handle the response (chatGPT help)
+// 	const data: Geolocation = await response.json();
+// 	return data;
+// }
+
+// help from chatGPT to change my fetch code to HTTP
 async function getGeolocation(address: string): Promise<Geolocation> {
-	// encode address
-	const encodedAddress = encodeURIComponent(address);
-	// construct the URL
-	const url = `http://cs310.students.cs.ubc.ca:11316/api/v1/project_team${teamNumber}/${encodedAddress}`;
-	// make get request
-	const response = await fetch(url);
+	return new Promise<Geolocation>((resolve, reject) => {
+		// encode address
+		const encodedAddress = encodeURIComponent(address);
+		// construct the URL path
+		const path = `/api/v1/project_team${teamNumber}/${encodedAddress}`;
+		const options: http.RequestOptions = {
+			hostname: "cs310.students.cs.ubc.ca",
+			port: 11316,
+			path: path,
+			method: "GET",
+		};
 
-	// throw an error if response not ok
-	if (!response.ok) {
-		throw new InsightError("failed to fetch geolocation, invalid room");
-	}
+		const req = http.request(options, (res) => {
+			let data = "";
 
-	// handle the response (chatGPT help)
-	const data: Geolocation = await response.json();
-	return data;
+			// a chunk of data received
+			res.on("data", (chunk) => {
+				data += chunk;
+			});
+
+			// whole response received
+			res.on("end", () => {
+				if (res.statusCode === 200) {
+					try {
+						const parsedData: Geolocation = JSON.parse(data);
+						resolve(parsedData);
+					} catch (e) {
+						reject(new InsightError("failed to parse geolocation data"));
+					}
+				} else {
+					reject(new InsightError(`failed to fetch geolocation with status code: ${res.statusCode}`));
+				}
+			});
+		});
+
+		req.on("error", (e) => {
+			reject(new InsightError(`problem with request: ${e.message}`));
+		});
+
+		req.end();
+	});
 }
