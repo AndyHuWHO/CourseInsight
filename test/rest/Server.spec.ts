@@ -49,11 +49,13 @@ describe("Facade D3", function () {
 				.set("Content-Type", "application/x-zip-compressed")
 				.then(function (res: Response) {
 					// some logging here please!
+					console.log("reached response of a success PUT request");
 					expect(res.status).to.be.equal(200);
 					expect(res.body).to.be.equal(["ubc"]);
 				})
 				.catch(function (err) {
 					// some logging here please!
+					console.error("error with success PUT request with error: " + err.message);
 					expect.fail();
 				});
 		} catch (err) {
