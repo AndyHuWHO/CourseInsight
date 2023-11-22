@@ -1,24 +1,26 @@
 import express, {Application, Request, Response} from "express";
 import * as http from "http";
 import cors from "cors";
+import InsightFacade from "../controller/InsightFacade";
+import {InsightDatasetKind, InsightError, NotFoundError} from "../controller/IInsightFacade";
+
 
 export default class Server {
 	private readonly port: number;
 	private express: Application;
-	private server: http.Server | undefined;
+	public server: http.Server | undefined;
 
 	constructor(port: number) {
 		console.info(`Server::<init>( ${port} )`);
 		this.port = port;
 		this.express = express();
-
 		this.registerMiddleware();
 		this.registerRoutes();
 
 		// NOTE: you can serve static frontend files in from your express server
 		// by uncommenting the line below. This makes files in ./frontend/public
 		// accessible at http://localhost:<port>/
-		this.express.use(express.static("./frontend/public"));
+		// this.express.use(express.static("./frontend/public"));
 	}
 
 	/**
@@ -85,7 +87,10 @@ export default class Server {
 		this.express.get("/echo/:msg", Server.echo);
 
 		// TODO: your other endpoints should go here
-
+		this.express.put("/dataset/:id/:kind", Server.putAddDataset);
+		this.express.delete("/dataset/:id", Server.deleteRemoveDataset);
+		this.express.post("/query", Server.postPerformQuery);
+		this.express.get("/datasets", Server.getListDataset);
 	}
 
 	// The next two methods handle the echo service.
@@ -106,6 +111,57 @@ export default class Server {
 			return `${msg}...${msg}`;
 		} else {
 			return "Message not provided";
+		}
+	}
+
+	private static async putAddDataset(req: Request, res: Response) {
+		const insightFacade = new InsightFacade();
+		try {
+			const {id, kind} = req.params;
+			const buffer = req.body as Buffer;
+			const insightKind = buffer.toString("base64");
+			const result = await insightFacade.addDataset(id, insightKind, kind as InsightDatasetKind);
+			res.status(200).json({result: result});
+		} catch (err) {
+			res.status(400).json({error: err});
+			console.log(err);
+		}
+	}
+
+	private static async deleteRemoveDataset(req: Request, res: Response) {
+		const insightFacade = new InsightFacade();
+		try {
+			const {id} = req.params;
+			const result = await insightFacade.removeDataset(id);
+			res.status(200).json({result: result});
+		} catch (err) {
+			if (err instanceof InsightError) {
+				res.status(400).json({error: err.message});
+			} else if (err instanceof NotFoundError) {
+				res.status(404).json({error: err.message});
+			} else {
+				res.status(400).json({error: "Internal Server Error"});
+			}
+		}
+	}
+
+	private static async postPerformQuery(req: Request, res: Response) {
+		const insightFacade = new InsightFacade();
+		try {
+			const result = await insightFacade.performQuery(req.body);
+			res.status(200).json({result: result});
+		} catch (err) {
+			res.status(400).json({error: err});
+		}
+	}
+
+	private static async getListDataset(req: Request, res: Response) {
+		const insightFacade = new InsightFacade();
+		try {
+			const result = await insightFacade.listDatasets();
+			res.status(200).json({result: result});
+		} catch (err) {
+			res.status(400).json({error: err});
 		}
 	}
 }
