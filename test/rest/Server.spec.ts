@@ -66,7 +66,7 @@ describe("Facade D3", function () {
 		}
 	});
 
-	it("PUT test for courses dataset success", function () {
+	it("PUT test for courses dataset success 2", function () {
 		try {
 			return request(server.server)
 				.put("/dataset/sections/sections")
