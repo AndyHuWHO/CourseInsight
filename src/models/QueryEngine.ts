@@ -77,12 +77,14 @@ export class QueryEngine {
 	private filterAnd(allSections: InsightKind[], andOp: []): InsightKind[] {
 		// initiate an empty result array
 		let andFilteredSections: InsightKind[] = [];
-		for (let item of andOp) {
+		let n = andOp.length;
+		for (let i = 0; i < n; i++) {
+			const item = andOp[i];
 			let filteredArray = this.filterWhere(allSections, item);
 			if (filteredArray.length === 0) {
 				return [];
 			}
-			if (andFilteredSections.length === 0) {
+			if (andFilteredSections.length === 0 && i === 0) {
 				andFilteredSections = filteredArray;
 			} else {
 				andFilteredSections = findIntersection(andFilteredSections, filteredArray);
