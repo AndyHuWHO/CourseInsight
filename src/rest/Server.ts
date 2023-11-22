@@ -21,6 +21,8 @@ export default class Server {
 		// by uncommenting the line below. This makes files in ./frontend/public
 		// accessible at http://localhost:<port>/
 		// this.express.use(express.static("./frontend/public"));
+		// questions with why test dont fail, why facaded initiated in routes?????  accidentally added react dependency
+		// in package.json
 	}
 
 	/**
