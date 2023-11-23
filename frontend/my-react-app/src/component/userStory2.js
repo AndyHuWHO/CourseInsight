@@ -32,7 +32,7 @@ function UserStory2() {
                             },
                             {
                                 "GT": {
-                                    "sections_year": 2013
+                                    "sections_year": 2010
                                 }
                             }
                         ]
@@ -119,7 +119,7 @@ function UserStory2() {
             ) : (
                 results && <p>
                     Your query generated 0 results.
-                    This is either due to either this professor didn't teach a course after 2013
+                    This is either due to either this professor didn't teach a course after 2010
                     or due to you have entered some professor's name that are not found in the dataset.</p>
             )}
         </div>

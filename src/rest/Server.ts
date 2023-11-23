@@ -9,6 +9,7 @@ export default class Server {
 	private readonly port: number;
 	private express: Application;
 	public server: http.Server | undefined;
+	private static insight = new InsightFacade();
 
 	constructor(port: number) {
 		console.info(`Server::<init>( ${port} )`);
