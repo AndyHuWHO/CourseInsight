@@ -9,7 +9,7 @@ export default class Server {
 	private readonly port: number;
 	private express: Application;
 	public server: http.Server | undefined;
-	private static insight = new InsightFacade();
+	private static insightFacade = new InsightFacade();
 
 	constructor(port: number) {
 		console.info(`Server::<init>( ${port} )`);
@@ -22,7 +22,6 @@ export default class Server {
 		// by uncommenting the line below. This makes files in ./frontend/public
 		// accessible at http://localhost:<port>/
 		// this.express.use(express.static("./frontend/public"));
-		// questions with why test dont fail, why facaded initiated in routes????? initialize dataset in react???
 	}
 
 	/**
@@ -117,12 +116,11 @@ export default class Server {
 	}
 
 	private static async putAddDataset(req: Request, res: Response) {
-		const insightFacade = new InsightFacade();
 		try {
 			const {id, kind} = req.params;
 			const buffer = req.body as Buffer;
 			const insightKind = buffer.toString("base64");
-			const result = await insightFacade.addDataset(id, insightKind, kind as InsightDatasetKind);
+			const result = await Server.insightFacade.addDataset(id, insightKind, kind as InsightDatasetKind);
 			res.status(200).json({result: result});
 		} catch (err) {
 			let error = err as Error;
@@ -132,10 +130,9 @@ export default class Server {
 	}
 
 	private static async deleteRemoveDataset(req: Request, res: Response) {
-		const insightFacade = new InsightFacade();
 		try {
 			const {id} = req.params;
-			const result = await insightFacade.removeDataset(id);
+			const result = await Server.insightFacade.removeDataset(id);
 			res.status(200).json({result: result});
 		} catch (err) {
 			let error = err as Error;
@@ -148,9 +145,8 @@ export default class Server {
 	}
 
 	private static async postPerformQuery(req: Request, res: Response) {
-		const insightFacade = new InsightFacade();
 		try {
-			const result = await insightFacade.performQuery(req.body);
+			const result = await Server.insightFacade.performQuery(req.body);
 			res.status(200).json({result: result});
 		} catch (err) {
 			let error = err as Error;
@@ -159,9 +155,8 @@ export default class Server {
 	}
 
 	private static async getListDataset(req: Request, res: Response) {
-		const insightFacade = new InsightFacade();
 		try {
-			const result = await insightFacade.listDatasets();
+			const result = await Server.insightFacade.listDatasets();
 			res.status(200).json({result: result});
 		} catch (err) {
 			let error = err as Error;
